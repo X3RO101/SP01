@@ -1,0 +1,9 @@
+﻿  console.cpp
+  timer.cpp
+  game.cpp
+  main.cpp
+  Generating code
+  All 165 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  SP1Framework.vcxproj -> D:\GitHub\SP01\Release\SP1Framework.exe
+  SP1Framework.vcxproj -> D:\GitHub\SP01\Release\SP1Framework.pdb (Full PDB)

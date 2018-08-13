@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include "levelgen.h"
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -17,7 +18,7 @@ EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
 // Console object
-Console g_Console(80, 25, "SP1 Framework");
+Console g_Console(87, 15, "SP1 Framework");
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -220,20 +221,24 @@ void renderGame()
 
 void renderMap()
 {
-    // Set up sample colours, and output shadings
+    //Set up sample colours, and output shadings
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
     COORD c;
-    for (int i = 0; i < 12; ++i)
+    for (int i = 0; i < 1; ++i)
     {
         c.X = 5 * i;
         c.Y = i + 1;
         colour(colors[i]);
-        g_Console.writeToBuffer(c, " °±²Û", colors[i]);
+        g_Console.writeToBuffer(c, levelgen(), colors[i]);
     }
+	
+
+	
+	
 }
 
 void renderCharacter()

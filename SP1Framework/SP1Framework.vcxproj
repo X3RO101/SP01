@@ -84,6 +84,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="levelgen.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tilemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="levelgen.h" />
+    <ClInclude Include="tilemanager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

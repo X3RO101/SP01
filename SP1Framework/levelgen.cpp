@@ -2,14 +2,28 @@
 
 string levelgen()
 {
-	ifstream testlevel;
-	testlevel.open("testmap.txt");
+	string filename;
+
+	int lvlclear = 0;
+
+	if (lvlclear == 0)
+	{
+		filename = "lvl1.txt";
+	}
+	else if (lvlclear == 1)
+	{
+		filename = "lvl2.txt";
+	}
+
+
+	ifstream currentlvl;
+	currentlvl.open(filename);
 
 	int width = 0;
 	int height = 0;
 	string widthinput, heightinput;
-	getline(testlevel, widthinput);
-	getline(testlevel, heightinput);
+	getline(currentlvl, widthinput);
+	getline(currentlvl, heightinput);
 	width = stoi(widthinput);
 	height = stoi(heightinput);
 	string result;
@@ -17,14 +31,14 @@ string levelgen()
 	{
 		string current;
 		char currentchar;
-		getline(testlevel, current);
+		getline(currentlvl, current);
 		for (int j = 0; j < width - 1; j++)
 		{
 			currentchar = current[j];
 			switch (currentchar)
 			{
 			case '#':
-				result += '/';
+				result += 219;
 				break;
 			case 'k':
 				result += 'k';

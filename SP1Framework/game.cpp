@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <sstream>
 #include "levelgen.h"
+#include "tilemanager.h"
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -18,7 +19,7 @@ EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
 // Console object
-Console g_Console(87, 15, "SP1 Framework");
+Console g_Console(87, 30, "SP1 Framework");
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -37,10 +38,10 @@ void init( void )
     g_eGameState = S_SPLASHSCREEN;
 
     g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
+    g_sChar.m_cLocation.Y = 6;
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
-    g_Console.setConsoleFont(0, 16, L"Consolas");
+    g_Console.setConsoleFont(16, 0, L"Consolas");
 }
 
 //--------------------------------------------------------------
@@ -150,25 +151,25 @@ void moveCharacter()
 
     // Updating the location of the character based on the key press
     // providing a beep sound whenver we shift the character
-    if (g_abKeyPressed[K_UP] && g_sChar.m_cLocation.Y > 0)
+    if (g_abKeyPressed[K_UP] && collision(getarray(), g_sChar.m_cLocation.Y - 1, g_sChar.m_cLocation.X) != true)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_LEFT] && g_sChar.m_cLocation.X > 0)
+   if (g_abKeyPressed[K_LEFT] && collision(getarray(), g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X - 1) != true)
     {
-        //Beep(1440, 30);
+       // Beep(1440, 30);
         g_sChar.m_cLocation.X--;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_DOWN] && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+    if (g_abKeyPressed[K_DOWN] && collision(getarray(), g_sChar.m_cLocation.Y + 1, g_sChar.m_cLocation.X) != true)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y++;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_RIGHT] && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+    if (g_abKeyPressed[K_RIGHT] && collision(getarray(), g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X + 1) != true)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X++;
@@ -207,10 +208,10 @@ void renderSplashScreen()  // renders the splash screen
     g_Console.writeToBuffer(c, "Labyrinthos Libertas", 0x03); //Title of the game here
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
+    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);//color to change to if space bar is pressed
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);//quit
 }
 
 void renderGame()
@@ -244,12 +245,12 @@ void renderMap()
 void renderCharacter()
 {
     // Draw the location of the character
-    WORD charColor = 0x0C;
-    if (g_sChar.m_bActive)
+    WORD charColor = 0x0C;//default color of character
+    if (g_sChar.m_bActive)//if spacebar is pressed, change the color of character
     {
         charColor = 0x0A;
     }
-    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
+    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);//send character printing details to the buffer
 }
 
 void renderFramerate()

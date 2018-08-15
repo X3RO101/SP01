@@ -2,7 +2,7 @@
 
 char **map;
 
-char** arraymaker(string levelgen())
+void arraymaker(string levelgen())
 {
 	char **mapptr = new char*[15];//2d array declared with pointers
 	for (int i = 0; i < 15; ++i)
@@ -32,17 +32,17 @@ char** arraymaker(string levelgen())
 		}
 	}
 	map = mapptr;
-	return mapptr;
+	
 }
 
-char **getarray(void)
+char** getarray(void)
 {
 	return map;
 }
 
-bool collision(char **array, int playerycoord, int playerxcoord)
+bool collision(char array[15][87], int playerycoord, int playerxcoord)
 {
-	if (array[playerycoord][playerxcoord] == 219)
+	if (array[playerycoord][playerxcoord] == (char)219)
 	{
 		return true;
 	}
@@ -50,5 +50,5 @@ bool collision(char **array, int playerycoord, int playerxcoord)
 	{
 		return false;
 	}
-}
+}	
 

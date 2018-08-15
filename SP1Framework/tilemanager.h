@@ -8,9 +8,9 @@
 
 using namespace std;
 
-char** arraymaker(string levelgen());
-bool collision(char **array, int playerycoord, int playerxcoord);
-char ** getarray(void);
+void arraymaker(string levelgen());
+bool collision(char array[15][87], int playerycoord, int playerxcoord);
+char** getarray(void);
 
 
 #endif

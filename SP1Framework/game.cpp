@@ -6,8 +6,11 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
+#include <string>
 #include "levelgen.h"
 #include "tilemanager.h"
+char map[15][87];
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -38,7 +41,7 @@ void init( void )
     g_eGameState = S_SPLASHSCREEN;
 
     g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-    g_sChar.m_cLocation.Y = 6;
+    g_sChar.m_cLocation.Y = 5;
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
@@ -151,25 +154,25 @@ void moveCharacter()
 
     // Updating the location of the character based on the key press
     // providing a beep sound whenver we shift the character
-    if (g_abKeyPressed[K_UP] && collision(getarray(), g_sChar.m_cLocation.Y - 1, g_sChar.m_cLocation.X) != true)
+    if ((g_abKeyPressed[K_UP] ) && (collision(map, (g_sChar.m_cLocation.Y - 1) , g_sChar.m_cLocation.X) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;
         bSomethingHappened = true;
     }
-   if (g_abKeyPressed[K_LEFT] && collision(getarray(), g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X - 1) != true)
+   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))
     {
        // Beep(1440, 30);
         g_sChar.m_cLocation.X--;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_DOWN] && collision(getarray(), g_sChar.m_cLocation.Y + 1, g_sChar.m_cLocation.X) != true)
+    if ((g_abKeyPressed[K_DOWN] ) && (collision(map, (g_sChar.m_cLocation.Y + 1) , g_sChar.m_cLocation.X) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y++;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_RIGHT] && collision(getarray(), g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X + 1) != true)
+    if ((g_abKeyPressed[K_RIGHT] ) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X++;
@@ -229,17 +232,112 @@ void renderMap()
     };
 
     COORD c;
-    for (int i = 0; i < 1; ++i)
-    {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        colour(colors[i]);
-        g_Console.writeToBuffer(c, levelgen(), colors[i]);
-    }
 	
+	colour(colors[0]);
+    
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
+	int lvlcleared = 0;
 
+	if (lvlcleared == 0)
+	{
+		filename += "lvl1.txt";
+	}
+
+	ifstream currentlvl;
+	currentlvl.open(filename);
+	getline(currentlvl, cols);
+	getline(currentlvl, rows);
+	y = stoi(rows);
+	x = stoi(cols);
+
+	for (int i = 0; i < y - 1; ++i)
+	{
+		string currentrow;
+		char currentchar;
+		getline(currentlvl, currentrow);
+		for (int j = 0; j < x - 1; ++j)
+		{
+			currentchar = currentrow[j];
+			c.X = j;
+			c.Y = i;
+			switch (currentchar)
+			{
+			case'#':
+				map[i][j] = (char)219;
+				g_Console.writeToBuffer(c, 219, colors[0]);
+				break;
+			default:
+				break;
+
+			}
+		}
+	}
+
+
+  
+	/*start here
+	string filename;
+
+	int lvlclear = 0;
+
+	if (lvlclear == 0)
+	{
+		filename = "lvl1.txt";
+	}
+	else if (lvlclear == 1)
+	{
+		filename = "lvl2.txt";
+	}
+
+
+	ifstream currentlvl;
+	currentlvl.open(filename);
+
+	int width = 0;
+	int height = 0;
+	string widthinput, heightinput;
+	getline(currentlvl, widthinput);
+	getline(currentlvl, heightinput);
+	width = stoi(widthinput);
+	height = stoi(heightinput);
+	string result;
+	for (int i = 0; i < height - 1; i++)
+	{
+		string current;
+		char currentchar;
+		getline(currentlvl, current);
+		
+
+		for (int j = 0; j < width - 1; j++)
+		{
+			currentchar = current[j];
+			switch (currentchar)
+			{
+			case '#':
+				g_Console.writeToBuffer(c, 219, colors[i]);
+				break;
+			case 'k':
+				g_Console.writeToBuffer(c, 'k', colors[i]);
+				break;
+			case 'o':
+				g_Console.writeToBuffer(c, 'o', colors[i]);
+				break;
+			case 'x':
+				g_Console.writeToBuffer(c, 'x', colors[i]);
+				break;
+			default:
+				g_Console.writeToBuffer(c, ' ', colors[i]);
+				break;
+			}
+		}
+		g_Console.writeToBuffer(c, '\n', colors[i]);
+	}
 	
-	
+	end here*/
 }
 
 void renderCharacter()

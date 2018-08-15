@@ -6,6 +6,12 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include "levelgen.h"
+#include "collision.h"
+#include "Levels.h"
+#include "RenderText.h"
+
+void textRender();
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -216,6 +222,7 @@ void renderGame()
 {
     renderMap();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
+	textRender();
 }
 
 void renderMap()
@@ -232,8 +239,22 @@ void renderMap()
         c.X = 5 * i;
         c.Y = i + 1;
         colour(colors[i]);
-        g_Console.writeToBuffer(c, " °±²Û", colors[i]);
+        g_Console.writeToBuffer(c, 'h', colors[i]);
     }
+
+}
+
+void textRender()
+{
+	const WORD colors[] = {
+		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+
+	COORD Text;
+	Text.X = 0;
+	Text.Y = 16;
+	g_Console.writeToBuffer(Text, WhichText('m'), colors[6]);
 }
 
 void renderCharacter()

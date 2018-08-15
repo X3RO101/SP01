@@ -6,11 +6,11 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include "levelgen.h"
 #include "collision.h"
-#include "Levels.h"
 #include "RenderText.h"
+#include "TextChanger.h"
 
+char map[15][87];
 void textRender();
 
 double  g_dElapsedTime;
@@ -82,6 +82,9 @@ void getInput( void )
     g_abKeyPressed[K_RIGHT]  = isKeyPressed(VK_RIGHT);
     g_abKeyPressed[K_SPACE]  = isKeyPressed(VK_SPACE);
     g_abKeyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
+	g_abKeyPressed[K_1]      = isKeyPressed(0x31);
+	g_abKeyPressed[K_2]      = isKeyPressed(0x32);
+	g_abKeyPressed[K_3]      = isKeyPressed(0x33);
 }
 
 //--------------------------------------------------------------
@@ -234,14 +237,65 @@ void renderMap()
     };
 
     COORD c;
-    for (int i = 0; i < 12; ++i)
-    {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        colour(colors[i]);
-        g_Console.writeToBuffer(c, 'h', colors[i]);
-    }
+	colour(colors[0]);
 
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
+	int lvlcleared = 1;
+
+	if (lvlcleared == 0)
+	{
+		filename += "lvl1.txt";
+	}
+	else if (lvlcleared == 1)
+	{
+		filename += "lvl2.txt";
+	}
+
+	ifstream currentlvl;
+	currentlvl.open(filename);
+	getline(currentlvl, cols);
+	getline(currentlvl, rows);
+	y = stoi(rows);
+	x = stoi(cols);
+
+	for (int i = 0; i < y - 1; ++i)
+	{
+		string currentrow;
+		char currentchar;
+		getline(currentlvl, currentrow);
+		for (int j = 0; j < x - 1; ++j)
+		{
+			currentchar = currentrow[j];
+			c.X = j;
+			c.Y = i;
+			switch (currentchar)
+			{
+			case'#':
+				map[i][j] = (char)219;
+				g_Console.writeToBuffer(c, 219, colors[0]);
+				break;
+			case'k':
+				map[i][j] = 'k';
+				g_Console.writeToBuffer(c, 'k', colors[0]);
+				break;
+			case'o':
+				map[i][j] = 'o';
+				g_Console.writeToBuffer(c, 'o', colors[0]);
+				break;
+			case'm':
+				map[i][j] = 'm';
+				g_Console.writeToBuffer(c, 'm', colors[0]);
+				break;
+			default:
+				break;
+
+			}
+		}
+	}
 }
 
 void textRender()
@@ -253,8 +307,8 @@ void textRender()
 
 	COORD Text;
 	Text.X = 0;
-	Text.Y = 16;
-	g_Console.writeToBuffer(Text, WhichText('m'), colors[6]);
+	Text.Y = 17;
+	g_Console.writeToBuffer(Text, WhichText(TextChanger('m')), colors[6]);
 }
 
 void renderCharacter()

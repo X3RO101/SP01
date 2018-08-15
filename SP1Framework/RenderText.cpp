@@ -14,6 +14,7 @@ string WhichText(char entity) // function called when mob/key/door is interacted
 		textToRender = "testline2.txt";
 		break;
 	default:
+		textToRender = "\0";
 		break;
 	}
 

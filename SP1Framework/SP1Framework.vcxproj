@@ -81,19 +81,19 @@
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="levelgen.cpp" />
-    <ClCompile Include="Levels.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderText.cpp" />
+    <ClCompile Include="TextChanger.cpp" />
+    <ClCompile Include="UserAnswer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="levelgen.h" />
-    <ClInclude Include="Levels.h" />
     <ClInclude Include="RenderText.h" />
+    <ClInclude Include="TextChanger.h" />
+    <ClInclude Include="UserAnswer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

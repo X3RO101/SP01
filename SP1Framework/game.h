@@ -51,4 +51,7 @@ void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 
+char health();				// health lowers if player takes damage
+void game_over();
+
 #endif // _GAME_H

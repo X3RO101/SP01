@@ -6,10 +6,21 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
+#include <string>
+
+using namespace std;
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
+
+bool isdead = false;
+bool killmob = false;
+int healthpoints = 3;
+int score = 0;
+int scoremultiplier = 1;
+bool dies = false;
 
 // Game specific variables here
 SGameChar   g_sChar;
@@ -17,7 +28,7 @@ EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
 // Console object
-Console g_Console(80, 25, "SP1 Framework");
+Console g_Console(80, 25, "Labyrinthos Libertas");
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -189,7 +200,10 @@ void processUserInput()
 {
     // quits the game if player hits the escape key
     if (g_abKeyPressed[K_ESCAPE])
-        g_bQuitGame = true;    
+        g_bQuitGame = true;
+
+	dies = true;
+	game_over();
 }
 
 void clearScreen()
@@ -269,4 +283,61 @@ void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
     g_Console.flushBufferToConsole();
+}
+
+char health()
+{
+	//Should the player's health turn to 0, the game will end, leading to the end screen
+	if (healthpoints = 0)
+	{
+		dies = true;
+		game_over();
+	}
+
+	//If the player loses, then bool(isdead) will be true
+	//The player will then lose 1 healthpoint, and then the bool will then return to being false
+	if (isdead = true)
+	{
+		scoremultiplier = 1;
+		healthpoints--;
+		isdead = false;
+	}
+
+	return healthpoints;
+}
+
+void game_over()
+{
+	//set a name to a string variable
+	//ifstream file(note: file should be in the same folder as the err solution)
+	//file.open(filename)
+	//use the writeToBuffer (check the framework)
+
+	if (dies == true)
+	{
+		string deathscreen;
+		ifstream deathscreenfile("game_over_screen.txt");
+		if (deathscreenfile.is_open())
+		{
+			struct _COORD x;
+			x.X = 0;
+			x.Y = 0;
+			while (getline(deathscreenfile, deathscreen))
+			{
+				g_Console.writeToBuffer(x, deathscreen, 0x09);
+				x.Y += 1;
+			}
+			deathscreenfile.close();
+		}
+	}
+}
+
+void scoresystem()
+{
+	if (killmob)
+	{
+		score++;
+		score += healthpoints;
+		killmob = false;
+	}
 }

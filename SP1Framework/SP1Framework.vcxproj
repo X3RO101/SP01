@@ -87,6 +87,9 @@
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="game_over_screen.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -74,6 +74,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -81,10 +82,12 @@
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="levelgen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderText.cpp" />
     <ClCompile Include="TextChanger.cpp" />
     <ClCompile Include="UserAnswer.cpp" />
+    <ClCompile Include="tilemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
@@ -94,6 +97,8 @@
     <ClInclude Include="RenderText.h" />
     <ClInclude Include="TextChanger.h" />
     <ClInclude Include="UserAnswer.h" />
+    <ClInclude Include="levelgen.h" />
+    <ClInclude Include="tilemanager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

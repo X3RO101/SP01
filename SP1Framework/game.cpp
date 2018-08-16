@@ -6,12 +6,20 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+<<<<<<< HEAD
 #include "collision.h"
 #include "RenderText.h"
 #include "TextChanger.h"
 
 char map[15][87];
 void textRender();
+=======
+#include <fstream>
+#include <string>
+#include "levelgen.h"
+#include "tilemanager.h"
+char map[15][87];
+>>>>>>> wallace
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -23,7 +31,7 @@ EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
 // Console object
-Console g_Console(80, 25, "SP1 Framework");
+Console g_Console(87, 30, "SP1 Framework");
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -42,10 +50,10 @@ void init( void )
     g_eGameState = S_SPLASHSCREEN;
 
     g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
+    g_sChar.m_cLocation.Y = 5;
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
-    g_Console.setConsoleFont(0, 16, L"Consolas");
+    g_Console.setConsoleFont(16, 0, L"Consolas");
 }
 
 //--------------------------------------------------------------
@@ -158,25 +166,25 @@ void moveCharacter()
 
     // Updating the location of the character based on the key press
     // providing a beep sound whenver we shift the character
-    if (g_abKeyPressed[K_UP] && g_sChar.m_cLocation.Y > 0)
+    if ((g_abKeyPressed[K_UP] ) && (collision(map, (g_sChar.m_cLocation.Y - 1) , g_sChar.m_cLocation.X) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_LEFT] && g_sChar.m_cLocation.X > 0)
+   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))
     {
-        //Beep(1440, 30);
+       // Beep(1440, 30);
         g_sChar.m_cLocation.X--;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_DOWN] && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+    if ((g_abKeyPressed[K_DOWN] ) && (collision(map, (g_sChar.m_cLocation.Y + 1) , g_sChar.m_cLocation.X) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y++;
         bSomethingHappened = true;
     }
-    if (g_abKeyPressed[K_RIGHT] && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+    if ((g_abKeyPressed[K_RIGHT] ) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X++;
@@ -212,13 +220,13 @@ void renderSplashScreen()  // renders the splash screen
     COORD c = g_Console.getConsoleSize();
     c.Y /= 3;
     c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
+    g_Console.writeToBuffer(c, "Labyrinthos Libertas", 0x03); //Title of the game here
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
+    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);//color to change to if space bar is pressed
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);//quit
 }
 
 void renderGame()
@@ -230,15 +238,21 @@ void renderGame()
 
 void renderMap()
 {
-    // Set up sample colours, and output shadings
+    //Set up sample colours, and output shadings
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
     COORD c;
+<<<<<<< HEAD
 	colour(colors[0]);
 
+=======
+	
+	colour(colors[0]);
+    
+>>>>>>> wallace
 	string rows;
 	string cols;
 	string filename;
@@ -250,10 +264,13 @@ void renderMap()
 	{
 		filename += "lvl1.txt";
 	}
+<<<<<<< HEAD
 	else if (lvlcleared == 1)
 	{
 		filename += "lvl2.txt";
 	}
+=======
+>>>>>>> wallace
 
 	ifstream currentlvl;
 	currentlvl.open(filename);
@@ -278,6 +295,7 @@ void renderMap()
 				map[i][j] = (char)219;
 				g_Console.writeToBuffer(c, 219, colors[0]);
 				break;
+<<<<<<< HEAD
 			case'k':
 				map[i][j] = 'k';
 				g_Console.writeToBuffer(c, 'k', colors[0]);
@@ -290,12 +308,15 @@ void renderMap()
 				map[i][j] = 'm';
 				g_Console.writeToBuffer(c, 'm', colors[0]);
 				break;
+=======
+>>>>>>> wallace
 			default:
 				break;
 
 			}
 		}
 	}
+<<<<<<< HEAD
 }
 
 void textRender()
@@ -309,17 +330,81 @@ void textRender()
 	Text.X = 0;
 	Text.Y = 17;
 	g_Console.writeToBuffer(Text, WhichText(TextChanger('m')), colors[6]);
+=======
+
+
+  
+	/*start here
+	string filename;
+
+	int lvlclear = 0;
+
+	if (lvlclear == 0)
+	{
+		filename = "lvl1.txt";
+	}
+	else if (lvlclear == 1)
+	{
+		filename = "lvl2.txt";
+	}
+
+
+	ifstream currentlvl;
+	currentlvl.open(filename);
+
+	int width = 0;
+	int height = 0;
+	string widthinput, heightinput;
+	getline(currentlvl, widthinput);
+	getline(currentlvl, heightinput);
+	width = stoi(widthinput);
+	height = stoi(heightinput);
+	string result;
+	for (int i = 0; i < height - 1; i++)
+	{
+		string current;
+		char currentchar;
+		getline(currentlvl, current);
+		
+
+		for (int j = 0; j < width - 1; j++)
+		{
+			currentchar = current[j];
+			switch (currentchar)
+			{
+			case '#':
+				g_Console.writeToBuffer(c, 219, colors[i]);
+				break;
+			case 'k':
+				g_Console.writeToBuffer(c, 'k', colors[i]);
+				break;
+			case 'o':
+				g_Console.writeToBuffer(c, 'o', colors[i]);
+				break;
+			case 'x':
+				g_Console.writeToBuffer(c, 'x', colors[i]);
+				break;
+			default:
+				g_Console.writeToBuffer(c, ' ', colors[i]);
+				break;
+			}
+		}
+		g_Console.writeToBuffer(c, '\n', colors[i]);
+	}
+	
+	end here*/
+>>>>>>> wallace
 }
 
 void renderCharacter()
 {
     // Draw the location of the character
-    WORD charColor = 0x0C;
-    if (g_sChar.m_bActive)
+    WORD charColor = 0x0C;//default color of character
+    if (g_sChar.m_bActive)//if spacebar is pressed, change the color of character
     {
         charColor = 0x0A;
     }
-    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
+    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);//send character printing details to the buffer
 }
 
 void renderFramerate()

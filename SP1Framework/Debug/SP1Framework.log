@@ -1,4 +1,41 @@
-﻿  game.cpp
-c:\github\.vs\sp01t11\sp1framework\game.cpp(279): warning C4309: 'argument': truncation of constant value
-  SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe
-  SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.pdb (Full PDB)
+﻿  tilemanager.cpp
+  UserAnswer.cpp
+  TextChanger.cpp
+  RenderText.cpp
+c:\github\.vs\sp01t11\sp1framework\rendertext.cpp(38): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+  levelgen.cpp
+c:\github\.vs\sp01t11\sp1framework\levelgen.cpp(41): warning C4309: 'argument': truncation of constant value
+  game.cpp
+c:\github\.vs\sp01t11\sp1framework\game.cpp(9): error C2059: syntax error: '<<'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(16): error C2059: syntax error: '=='
+c:\github\.vs\sp01t11\sp1framework\game.cpp(21): error C2086: 'char map[15][87]': redefinition
+  c:\github\.vs\sp01t11\sp1framework\game.cpp(14): note: see declaration of 'map'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(22): error C2059: syntax error: '>>'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(46): error C2065: 'g_dElapsedTime': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(115): error C2065: 'g_dElapsedTime': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(150): error C2065: 'g_dElapsedTime': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(164): error C2065: 'g_dElapsedTime': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(202): error C2065: 'g_dElapsedTime': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(248): error C2059: syntax error: '<<'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(251): error C2059: syntax error: '=='
+c:\github\.vs\sp01t11\sp1framework\game.cpp(255): error C2059: syntax error: '>>'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(267): error C2059: syntax error: '<<'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(269): error C2143: syntax error: missing ';' before '{'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(272): error C2059: syntax error: '=='
+c:\github\.vs\sp01t11\sp1framework\game.cpp(276): error C2065: 'currentlvl': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(276): error C2228: left of '.open' must have class/struct/union
+  c:\github\.vs\sp01t11\sp1framework\game.cpp(276): note: type is 'unknown-type'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(277): error C2065: 'currentlvl': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(278): error C2065: 'currentlvl': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(278): error C2065: 'rows': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(279): error C2065: 'rows': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(286): error C2065: 'currentlvl': undeclared identifier
+c:\github\.vs\sp01t11\sp1framework\game.cpp(296): warning C4309: 'argument': truncation of constant value
+c:\github\.vs\sp01t11\sp1framework\game.cpp(298): error C2059: syntax error: '<<'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(311): error C2059: syntax error: '=='
+c:\github\.vs\sp01t11\sp1framework\game.cpp(319): error C2059: syntax error: '<<'
+c:\github\.vs\sp01t11\sp1framework\game.cpp(333): error C2059: syntax error: '=='
+c:\github\.vs\sp01t11\sp1framework\game.cpp(423): error C2065: 'g_dElapsedTime': undeclared identifier
+  collision.cpp
+  Generating Code...

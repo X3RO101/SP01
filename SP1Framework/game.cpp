@@ -6,6 +6,8 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include<random>
+#include<ctime>
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -247,6 +249,28 @@ void renderCharacter()
     g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
 }
 
+void renderMob()
+{
+	//Take coordinates from the Mob_Spawn function
+	//Use location to convert it into the coordinate system used
+	//Using the coordinate system, spawn 4 mobs
+	//=====================
+	//Spawning Mobs (random)
+	//=====================
+	//assign each mobs to a number in a struct(in the header file)
+	//random 4 numbers ( use seed, meaning srand() and rand() % 12 + 1
+	//spawn the 4 mobs with the location, whichever is chosen first will be "spawned first", then next second, then third, then last but not least the fourth
+
+	//definition
+	int maxMob;
+	//maxMob = /*pass in from another function*/
+
+	//rng
+	srand(time(nullptr));
+
+	int RNG = rand() % maxMob + 1; //RNG from range 1 to maxMob
+
+}
 void renderFramerate()
 {
     COORD c;

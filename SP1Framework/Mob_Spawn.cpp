@@ -2,6 +2,26 @@
 
 char** MapLocation()
 {
+	//================
+	//Function's purpose:
+	//Take the given 8 1D arrays, then convert them into 4 2D arrays
+	//return the 4 2D arrays to the render section of game.cpp become the location
+	
+	//definition
+	char ArraySet[4][4];
+	char *xMapLocation[4];
+	char *yMapLocation[4];
+
+	SetLocation(yMapLocation[4], xMapLocation[4]);
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			ArraySet[i][j] = *xMapLocation[j];
+			ArraySet[i][j] = *yMapLocation[i];
+		}
+	}
 	return 0;
 }
 
@@ -11,8 +31,8 @@ char SetLocation(char ySet[4], char xSet[4])
 	srand(time(nullptr));
 
 	//random position
-	char xPos = rand() % 87 + 1;
-	char yPos = rand() % 15 + 1;
+	char xPos = (rand() % 78 + 1) + (rand() % 10);
+	char yPos = (rand() % 9 + 1) + (rand() % 6);
 
 	//definition
 	bool AvailabilityCheck;

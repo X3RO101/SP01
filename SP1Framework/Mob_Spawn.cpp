@@ -8,7 +8,7 @@ char** MapLocation()
 	//return the 4 2D arrays to the render section of game.cpp become the location
 	
 	//definition
-	char ArraySet[4][4];
+	char **ArraySet[4][4];
 	char *xMapLocation[4];
 	char *yMapLocation[4];
 
@@ -18,11 +18,11 @@ char** MapLocation()
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			ArraySet[i][j] = *xMapLocation[j];
-			ArraySet[i][j] = *yMapLocation[i];
+			**ArraySet[i][j] = *xMapLocation[j];
+			**ArraySet[i][j] = *yMapLocation[i];
 		}
 	}
-	return 0;
+	return **ArraySet; // returns location
 }
 
 char SetLocation(char ySet[4], char xSet[4])

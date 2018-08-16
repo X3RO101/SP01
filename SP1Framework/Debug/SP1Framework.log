@@ -1,13 +1,1 @@
-﻿  Mob_Spawn.cpp
-c:\users\benis\documents\github\sp01t11\sp1framework\mob_spawn.cpp(31): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\benis\documents\github\sp01t11\sp1framework\mob_spawn.cpp(38): warning C4101: 'AvailabilityCheck': unreferenced local variable
-  main.cpp
-  game.cpp
-c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(269): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  timer.cpp
-  console.cpp
-  Generating Code...
-c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(271): warning C4700: uninitialized local variable 'maxMob' used
-c:\users\benis\documents\github\sp01t11\sp1framework\mob_spawn.cpp(82): warning C4715: 'LocationCheck': not all control paths return a value
-  SP1Framework.vcxproj -> C:\Users\benis\Documents\GitHub\SP01T11\Debug\SP1Framework.exe
-  SP1Framework.vcxproj -> C:\Users\benis\Documents\GitHub\SP01T11\Debug\SP1Framework.pdb (Full PDB)
+﻿

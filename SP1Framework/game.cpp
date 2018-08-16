@@ -244,7 +244,7 @@ void renderMap()
 	string filename;
 	int y;
 	int x;
-	int lvlcleared = 1;
+	int lvlcleared = 0;
 
 	if (lvlcleared == 0)
 	{

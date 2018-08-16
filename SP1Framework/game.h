@@ -51,7 +51,9 @@ void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 
-char health();				// health lowers if player takes damage
-void game_over();
+char health();				// health lowers if player takes damage and when player dies, screen goes to game over screen
+void game_over();			// shows the game over screen if the player dies
+void main_menu();			// the basic main menu screen when the player starts the game
+void scoresystem();			// function that increases the score when the player kills a mob
 
 #endif // _GAME_H

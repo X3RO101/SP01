@@ -49,5 +49,11 @@
     <Text Include="game_over_screen.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="main_menu_frame_1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="main_menu_frame_2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -15,12 +15,14 @@ double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
 
-bool isdead = false;
-bool killmob = false;
-int healthpoints = 3;
-int score = 0;
-int scoremultiplier = 1;
-bool dies = false;
+bool isdead = false;				// bool when player loses to the mob once
+bool killmob = false;				// bool for when player kills the mob
+int healthpoints = 3;				// number of lives player has
+int score = 0;						// player score
+bool dies = false;					// when the player loses all healthpoints
+bool main_menu_screen = true;		// to check if player is in the main menu
+bool main_menu_screen_1 = true;		// frame 1 of main menu, to ensure which page of the main menu player is at
+bool main_menu_screen_2 = false;	//frame 2 of main menu
 
 // Game specific variables here
 SGameChar   g_sChar;
@@ -214,16 +216,16 @@ void clearScreen()
 
 void renderSplashScreen()  // renders the splash screen
 {
-    COORD c = g_Console.getConsoleSize();
-    c.Y /= 3;
-    c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+	COORD c = g_Console.getConsoleSize();
+	c.Y /= 3;
+	c.X = c.X / 2 - 9;
+	g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
+	c.Y += 1;
+	c.X = g_Console.getConsoleSize().X / 2 - 20;
+	g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
+	c.Y += 1;
+	c.X = g_Console.getConsoleSize().X / 2 - 9;
+	g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
 }
 
 void renderGame()
@@ -298,7 +300,6 @@ char health()
 	//The player will then lose 1 healthpoint, and then the bool will then return to being false
 	if (isdead = true)
 	{
-		scoremultiplier = 1;
 		healthpoints--;
 		isdead = false;
 	}
@@ -334,10 +335,56 @@ void game_over()
 
 void scoresystem()
 {
-	if (killmob)
+	if (killmob) //When a mob is killed, the bool killmob becomes true, then the score increasese by the health the player has left
 	{
 		score++;
 		score += healthpoints;
 		killmob = false;
+	}
+
+}
+
+void main_menu()
+{
+	while (main_menu_screen == true)
+	{
+		if (g_abKeyPressed[K_UP])
+		{
+			main_menu_screen_1 = true;
+			main_menu_screen_2 = false;
+			string mainmenu1;
+			ifstream mainmenufile1("main_menu_frame_1.txt");
+			if (mainmenufile1.is_open())
+			{
+				struct _COORD x;
+				x.X = 0;
+				x.Y = 0;
+				while (getline(mainmenufile1, mainmenu1))
+				{
+					g_Console.writeToBuffer(x, mainmenu1, 0x09);
+					x.Y += 1;
+				}
+				mainmenufile1.close();
+			}
+		}
+		if (g_abKeyPressed[K_DOWN])
+		{
+			main_menu_screen_1 = false;
+			main_menu_screen_2 = true;
+			string mainmenu2;
+			ifstream mainmenufile2("main_menu_frame_1.txt");
+			if (mainmenufile2.is_open())
+			{
+				struct _COORD x;
+				x.X = 0;
+				x.Y = 0;
+				while (getline(mainmenufile2, mainmenu2))
+				{
+					g_Console.writeToBuffer(x, mainmenu2, 0x09);
+					x.Y += 1;
+				}
+				mainmenufile2.close();
+			}
+		}
 	}
 }

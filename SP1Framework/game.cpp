@@ -11,6 +11,7 @@
 #include "levelgen.h"
 #include "tilemanager.h"
 char map[15][87];
+int lvlcleared = 0;
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -159,6 +160,18 @@ void moveCharacter()
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;
         bSomethingHappened = true;
+		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for monster
+		}
+		else if(touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for key
+		}
+		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+		}
     }
    if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))
     {
@@ -240,11 +253,15 @@ void renderMap()
 	string filename;
 	int y;
 	int x;
-	int lvlcleared = 0;
+	
 
 	if (lvlcleared == 0)
 	{
 		filename += "lvl1.txt";
+	}
+	else if (lvlcleared == 1)
+	{
+		filename += "lvl2.txt";
 	}
 
 	ifstream currentlvl;
@@ -269,6 +286,18 @@ void renderMap()
 			case'#':
 				map[i][j] = (char)219;
 				g_Console.writeToBuffer(c, 219, colors[0]);
+				break;
+			case'k':
+				map[i][j] = 'k';
+				g_Console.writeToBuffer(c, 'k', colors[0]);
+				break;
+			case'o':
+				map[i][j] = 'o';
+				g_Console.writeToBuffer(c, 'o', colors[0]);
+				break;
+			case'm':
+				map[i][j] = 'm';
+				g_Console.writeToBuffer(c, 'm', colors[0]);
 				break;
 			default:
 				break;

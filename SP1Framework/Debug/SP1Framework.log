@@ -1,4 +1,12 @@
-﻿  game.cpp
-d:\github\sp01\sp1framework\game.cpp(275): warning C4309: 'argument': truncation of constant value
-  SP1Framework.vcxproj -> D:\GitHub\SP01\Debug\SP1Framework.exe
-  SP1Framework.vcxproj -> D:\GitHub\SP01\Debug\SP1Framework.pdb (Full PDB)
+﻿  tilemanager.cpp
+  main.cpp
+  levelgen.cpp
+c:\github\.vs\sp01t11\sp1framework\levelgen.cpp(41): warning C4309: 'argument': truncation of constant value
+  game.cpp
+c:\github\.vs\sp01t11\sp1framework\game.cpp(288): warning C4309: 'argument': truncation of constant value
+  timer.cpp
+  console.cpp
+  collision.cpp
+  Generating Code...
+  SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe
+  SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.pdb (Full PDB)

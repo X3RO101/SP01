@@ -8,6 +8,6 @@
 
 using namespace std;
 
-void timefreeze(string answer, )
+void timefreeze(string answer);
 
 #endif

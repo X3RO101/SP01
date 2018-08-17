@@ -184,6 +184,9 @@ void moveCharacter()
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
 			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
 		}
         bSomethingHappened = true;
 		
@@ -209,6 +212,9 @@ void moveCharacter()
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
 			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
 		}
         bSomethingHappened = true;
     }
@@ -232,6 +238,9 @@ void moveCharacter()
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
 			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
 		}
         bSomethingHappened = true;
     }
@@ -253,6 +262,9 @@ void moveCharacter()
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
 			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
 		}
         bSomethingHappened = true;
     }
@@ -265,7 +277,7 @@ void moveCharacter()
     if (bSomethingHappened)
     {
         // set the bounce time to some time in the future to prevent accidental triggers
-        g_dBounceTime = g_dElapsedTime + 0.125; // 125ms should be enough
+        g_dBounceTime = g_dElapsedTime + 0.015; // 125ms should be enough
     }
 }
 void processUserInput()
@@ -318,13 +330,7 @@ void renderMap()
 	string filename;
 	int y;
 	int x;
-	int repeatreadcheck = 0;
-
 	
-	if (lvlcleared != changeinlvl)
-	{
-		repeatreadcheck = 0;
-	}
 
 	if (lvlcleared == 0)
 	{
@@ -334,15 +340,29 @@ void renderMap()
 	{
 		filename += "lvl2.txt";
 	}
+	else if (lvlcleared == 2)
+	{
+		filename += "lvl3.txt";
+	}
+	else if (lvlcleared == 3)
+	{
+		filename += "lvl4.txt";
+	}
+	else if (lvlcleared == 4)
+	{
+		filename += "lvl5.txt";
+	}
 
-	ifstream currentlvl;
-	currentlvl.open(filename);
-	getline(currentlvl, cols);
-	getline(currentlvl, rows);
-	y = stoi(rows);
-	x = stoi(cols);
+
 	if (lvlcleared == changeinlvl)
 	{
+		ifstream currentlvl;
+		currentlvl.open(filename);
+		getline(currentlvl, cols);
+		getline(currentlvl, rows);
+		y = stoi(rows);
+		x = stoi(cols);
+
 		for (int i = 0; i < y - 1; ++i)
 		{
 			string currentrow;
@@ -357,20 +377,24 @@ void renderMap()
 				{
 				case'#':
 					map[i][j] = (char)219;
-					g_Console.writeToBuffer(c, map[i][j], colors[0]);
+				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'k':
 					map[i][j] = 'k';
-					g_Console.writeToBuffer(c, map[i][j], colors[0]);
+				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'o':
 					map[i][j] = 'o';
-					g_Console.writeToBuffer(c, map[i][j], colors[0]);
+				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'm':
 					map[i][j] = 'm';
-					g_Console.writeToBuffer(c, map[i][j], colors[0]);
+				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
+				case ' ':
+					map[i][j] = ' ';
+				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
+
 				default:
 					break;
 
@@ -378,12 +402,13 @@ void renderMap()
 			}
 		}
 		changeinlvl++;
+		currentlvl.close();
 	}
 	else
 	{
-		for (int i = 0; i < y - 1; ++i)
+		for (int i = 0; i < 15; ++i)
 		{
-			for (int j = 0; j < x - 1; ++j)
+			for (int j = 0; j < 87; ++j)
 			{
 				c.X = j;
 				c.Y = i;
@@ -391,7 +416,7 @@ void renderMap()
 			}
 		}
 	}
-  
+
 	/*start here
 	string filename;
 
@@ -451,6 +476,8 @@ void renderMap()
 	}
 	
 	end here*/
+	
+
 }
 
 void renderCharacter()

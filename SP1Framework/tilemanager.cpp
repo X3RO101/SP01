@@ -40,9 +40,15 @@ char** getarray(void)
 	return map;
 }
 
+<<<<<<< HEAD
 bool collision(char array[15][87], int playerycoord, int playerxcoord)
 {
 	if (array[playerycoord][playerxcoord] == (char)219)
+=======
+bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks if player encounters a wall
+{
+	if (array[playerycoord][playerxcoord] == (char)219)//up
+>>>>>>> wallace
 	{
 		return true;
 	}
@@ -52,3 +58,41 @@ bool collision(char array[15][87], int playerycoord, int playerxcoord)
 	}
 }	
 
+<<<<<<< HEAD
+=======
+bool touchmonster(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a monster
+{
+	if (array[playerycoord][playerxcoord] == 'm')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool touchkey(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a key
+{
+	if (array[playerycoord][playerxcoord] == 'k')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool touchend(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters the end of the level
+{
+	if (array[playerycoord][playerxcoord] == 'o')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+>>>>>>> wallace

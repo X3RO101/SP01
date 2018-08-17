@@ -13,6 +13,7 @@ string ansChecker(Text * Mob)
 	}
 	else if (g_abKeyPressed[K_3] == Mob->correctAns)
 	{
-		//print congrats 
+		//print congrats
 	}
+	return 0;
 }

@@ -33,9 +33,6 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UserAnswer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,6 +46,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TimeFreeze.cpp">
+    <ClCompile Include="levelgen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tilemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,13 +75,14 @@
     <ClInclude Include="levelgen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tilemanager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TextStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TimeFreeze.h">
+    <ClInclude Include="levelgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tilemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

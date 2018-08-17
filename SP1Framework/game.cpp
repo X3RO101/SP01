@@ -6,12 +6,20 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+<<<<<<< HEAD
 #include "collision.h"
 #include "TextStore.h"
+=======
+>>>>>>> wallace
 #include <fstream>
 #include <string>
 #include "levelgen.h"
 #include "tilemanager.h"
+<<<<<<< HEAD
+=======
+char map[15][87];
+int lvlcleared = 0;
+>>>>>>> wallace
 
 
 char map[15][87];
@@ -75,6 +83,7 @@ void init( void )
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
+<<<<<<< HEAD
 	textBank(&Monster1, &mobInfo);
 	textBank(&Monster2, &mobInfo);
 	textBank(&Monster3, &mobInfo);
@@ -97,6 +106,8 @@ void init( void )
 	{
 		bArray[i] = true;
 	}
+=======
+>>>>>>> wallace
 }
 
 //--------------------------------------------------------------
@@ -214,6 +225,18 @@ void moveCharacter()
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;
         bSomethingHappened = true;
+		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for monster
+		}
+		else if(touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for key
+		}
+		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+		}
     }
    if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))
     {
@@ -281,20 +304,34 @@ void renderGame()
 
 void renderMap()
 {
+<<<<<<< HEAD
     //Set up sample colours, and *output shadings
+=======
+    //Set up sample colours, and output shadings
+>>>>>>> wallace
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
     COORD c;
+<<<<<<< HEAD
 	colour(colors[0]);
+=======
+	
+	colour(colors[0]);
+    
+>>>>>>> wallace
 	string rows;
 	string cols;
 	string filename;
 	int y;
 	int x;
+<<<<<<< HEAD
 	int lvlcleared = 0;
+=======
+	
+>>>>>>> wallace
 
 	if (lvlcleared == 0)
 	{
@@ -346,6 +383,7 @@ void renderMap()
 			}
 		}
 	}
+<<<<<<< HEAD
 }
 
 void textRender()
@@ -359,6 +397,70 @@ void textRender()
 	Text.X = 0;
 	Text.Y = 17;
 	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
+=======
+
+
+  
+	/*start here
+	string filename;
+
+	int lvlclear = 0;
+
+	if (lvlclear == 0)
+	{
+		filename = "lvl1.txt";
+	}
+	else if (lvlclear == 1)
+	{
+		filename = "lvl2.txt";
+	}
+
+
+	ifstream currentlvl;
+	currentlvl.open(filename);
+
+	int width = 0;
+	int height = 0;
+	string widthinput, heightinput;
+	getline(currentlvl, widthinput);
+	getline(currentlvl, heightinput);
+	width = stoi(widthinput);
+	height = stoi(heightinput);
+	string result;
+	for (int i = 0; i < height - 1; i++)
+	{
+		string current;
+		char currentchar;
+		getline(currentlvl, current);
+		
+
+		for (int j = 0; j < width - 1; j++)
+		{
+			currentchar = current[j];
+			switch (currentchar)
+			{
+			case '#':
+				g_Console.writeToBuffer(c, 219, colors[i]);
+				break;
+			case 'k':
+				g_Console.writeToBuffer(c, 'k', colors[i]);
+				break;
+			case 'o':
+				g_Console.writeToBuffer(c, 'o', colors[i]);
+				break;
+			case 'x':
+				g_Console.writeToBuffer(c, 'x', colors[i]);
+				break;
+			default:
+				g_Console.writeToBuffer(c, ' ', colors[i]);
+				break;
+			}
+		}
+		g_Console.writeToBuffer(c, '\n', colors[i]);
+	}
+	
+	end here*/
+>>>>>>> wallace
 }
 
 void renderCharacter()

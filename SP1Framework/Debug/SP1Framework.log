@@ -1,4 +1,11 @@
-﻿  game.cpp
+﻿  tilemanager.cpp
+  main.cpp
+  game.cpp
 c:\github\.vs\sp01t11\sp1framework\game.cpp(329): warning C4309: 'argument': truncation of constant value
+  UserAnswer.cpp
+  TimeFreeze.cpp
+  TextStore.cpp
+  Generating Code...
+  LINK : C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe not found or not built by the last incremental link; performing full link
   SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe
   SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.pdb (Full PDB)

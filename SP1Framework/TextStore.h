@@ -14,7 +14,7 @@ struct Text
 	string ans1;
 	string ans2;
 	string ans3;
-	int correctAns;
+	char correctAns;
 };
 
 void textBank(Text * text, ifstream * mobInfo);

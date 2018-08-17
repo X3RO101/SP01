@@ -1,36 +1,24 @@
 #include "UserAnswer.h"
 
-
-void answerChecker(char mobQn, string ans)
+string ansChecker(Text * Mob)
 {
-	CStopWatch time;
-	time.startTimer();
-	double durationPassed = time.getElapsedTime();
-
-	/*auto start = std::chrono::system_clock::now();
-	std::chrono::time_point<std::chrono::system_clock> startPoint = start;
-	std::chrono::duration<int> elapsedTime;*/
-	while (true)
+	bool g_abKeyPressed[K_COUNT];
+	if (g_abKeyPressed[K_1] == Mob->correctAns)
 	{
-		durationPassed += time.getElapsedTime();
-		if (durationPassed > 10.0)
-		{
-			//game over screen
-			break;
-		}
-		if (true)//ans correct
-		{
-			//point += 100;
-			break;
-		}
-		if (true)// ans wrong
-		{
-			//HP -= 1;
-		}
+		//print congrats
 	}
-}
+	else if (g_abKeyPressed[K_2] == Mob->correctAns)
+	{
+		//print congrats
+	}
+	else if (g_abKeyPressed[K_3] == Mob->correctAns)
+	{
+		//print congrats BITCH
+	}
 
-string ansInput(string input)
-{
-	return 0;
+	switch ()
+	{
+	default:
+		break;
+	}
 }

@@ -1,6 +1,6 @@
 #include "TimeFreeze.h"
 
-bool timeFreeze( Text * Mob) // run infinitely until timer runs out
+bool timeFreeze( Text * Mob /*, int * HP  */) // run infinitely until timer runs out
 {
 	CStopWatch time; // this makes a stopwatch
 	time.startTimer(); //start stopwatch
@@ -8,17 +8,17 @@ bool timeFreeze( Text * Mob) // run infinitely until timer runs out
 	durationPassed += time.getElapsedTime(); // keeps updating the time passed
 	if ( durationPassed > 10.0)
 	{
-		//HP--;
-		//x = false
+		//*HP--;
+		//x = false;
 	}
-    if (/*userInput == */ Mob->correctAns)
+    if (/*userInput == */ Mob->correctAns) // when player gets it correct
 	{
+		//x = false;
 		//change gamestate back
-		//x = false
 	}
 	else if (/*userInput != */ Mob->correctAns) //when they input wrong answer
 	{
-		//HP--;
+		//*HP--;
 	}
 	//return x;
 	return true;

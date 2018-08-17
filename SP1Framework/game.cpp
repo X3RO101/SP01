@@ -627,3 +627,15 @@ access text relating to mob1
 render text of mob1
 after finish clean textbox
 */
+
+
+void combat()
+{
+
+}
+
+//when enter combat
+//gamestate change to combat
+//frame freeze
+//run function for anser input
+//take in user input

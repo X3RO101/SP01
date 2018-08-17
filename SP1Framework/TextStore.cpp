@@ -10,5 +10,5 @@ void textBank(Text * mob, ifstream * mobInfo)
 	getline(*mobInfo, mob->ans2);
 	getline(*mobInfo, mob->ans3);
 	getline(*mobInfo, ansr);
-	mob->correctAns = stoi(ansr);
+	mob->correctAns = ansr[0];
 }

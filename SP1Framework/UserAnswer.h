@@ -6,11 +6,12 @@
 #include "Framework/timer.h"
 #include <chrono>
 #include <ctime>
+#include "game.h"
+#include "TextStore.h"
+#include "Framework/console.h"
 
 using namespace std;
 
-void answerChecker(char mobQn, string ans);
-
-string ansInput(string input);
+string ansChecker(Text *Mob);
 
 #endif // !USER_ANSWER_H

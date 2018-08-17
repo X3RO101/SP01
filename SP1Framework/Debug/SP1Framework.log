@@ -1,4 +1,2 @@
-﻿  game.cpp
-d:\github\sp01\sp1framework\game.cpp(275): warning C4309: 'argument': truncation of constant value
-  SP1Framework.vcxproj -> D:\GitHub\SP01\Debug\SP1Framework.exe
-  SP1Framework.vcxproj -> D:\GitHub\SP01\Debug\SP1Framework.pdb (Full PDB)
+﻿  SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe
+  SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.pdb (Full PDB)

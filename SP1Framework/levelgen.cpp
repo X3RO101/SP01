@@ -1,10 +1,10 @@
 #include "levelgen.h"
 
-string levelgen()
+string levelgen(int lvlcleared)
 {
 	string filename;
 
-	int lvlclear = 0;
+	int lvlclear = lvlcleared;
 
 	if (lvlclear == 0)
 	{
@@ -14,7 +14,6 @@ string levelgen()
 	{
 		filename = "lvl2.txt";
 	}
-
 
 	ifstream currentlvl;
 	currentlvl.open(filename);
@@ -27,6 +26,7 @@ string levelgen()
 	width = stoi(widthinput);
 	height = stoi(heightinput);
 	string result;
+	
 	for (int i = 0; i < height - 1; i++)
 	{
 		string current;

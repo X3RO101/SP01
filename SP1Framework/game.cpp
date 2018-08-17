@@ -6,27 +6,48 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-<<<<<<< HEAD
 #include "collision.h"
-#include "RenderText.h"
-#include "TextChanger.h"
-
-char map[15][87];
-void textRender();
-=======
+#include "TextStore.h"
 #include <fstream>
 #include <string>
 #include "levelgen.h"
 #include "tilemanager.h"
-char map[15][87];
->>>>>>> wallace
 
+
+char map[15][87];
+void textRender();
+bool bArray[18];
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
 
 // Game specific variables here
 SGameChar   g_sChar;
+//  MOB Text copy
+Text Monster1;
+Text Monster2;
+Text Monster3;
+Text Monster4;
+Text Monster5;
+Text Monster6;
+Text Monster7;
+Text Monster8;
+Text Monster9;
+Text Monster10;
+Text Monster11;
+Text Monster12;
+Text Monster13;
+Text Monster14;
+Text Monster15;
+Text Monster16;
+Text Monster17;
+Text Monster18;
+ifstream mobInfo("MobsFinal.txt");
+// MOB Text copy
+
+string texty;
+string whichText(string *output, bool *boolArray);
+
 EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
@@ -38,11 +59,11 @@ Console g_Console(87, 30, "SP1 Framework");
 //            Initialize variables, allocate memory, load data from file, etc. 
 //            This is called once before entering into your main loop
 // Input    : void
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 void init( void )
 {
-    // Set precision for floating point output
+    // Set precision for floating point *output
     g_dElapsedTime = 0.0;
     g_dBounceTime = 0.0;
 
@@ -54,6 +75,28 @@ void init( void )
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
+	textBank(&Monster1, &mobInfo);
+	textBank(&Monster2, &mobInfo);
+	textBank(&Monster3, &mobInfo);
+	textBank(&Monster4, &mobInfo);
+	textBank(&Monster5, &mobInfo);
+	textBank(&Monster6, &mobInfo);
+	textBank(&Monster7, &mobInfo);
+	textBank(&Monster8, &mobInfo);
+	textBank(&Monster9, &mobInfo);
+	textBank(&Monster10, &mobInfo);
+	textBank(&Monster11, &mobInfo);
+	textBank(&Monster12, &mobInfo);
+	textBank(&Monster13, &mobInfo);
+	textBank(&Monster14, &mobInfo);
+	textBank(&Monster15, &mobInfo);
+	textBank(&Monster16, &mobInfo);
+	textBank(&Monster17, &mobInfo);
+	textBank(&Monster18, &mobInfo);      
+	for (int i = 0; i < sizeof(bArray); i++)  // for the mobs' text
+	{
+		bArray[i] = true;
+	}
 }
 
 //--------------------------------------------------------------
@@ -61,7 +104,7 @@ void init( void )
 //            Do your clean up of memory here
 //            This is called once just before the game exits
 // Input    : Void
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 void shutdown( void )
 {
@@ -80,7 +123,7 @@ void shutdown( void )
 //            To get other VK key defines, right click on the VK define (e.g. VK_UP) and choose "Go To Definition" 
 //            For Alphanumeric keys, the values are their ascii values (uppercase).
 // Input    : Void
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 void getInput( void )
 {    
@@ -107,7 +150,7 @@ void getInput( void )
 //            If your game has multiple states, you should determine the current state, and call the relevant function here.
 //
 // Input    : dt = deltatime
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 void update(double dt)
 {
@@ -129,7 +172,7 @@ void update(double dt)
 //            Just draw it!
 //            To get an idea of the values for colours, look at console.h and the URL listed there
 // Input    : void
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 void render()
 {
@@ -238,21 +281,14 @@ void renderGame()
 
 void renderMap()
 {
-    //Set up sample colours, and output shadings
+    //Set up sample colours, and *output shadings
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
     COORD c;
-<<<<<<< HEAD
 	colour(colors[0]);
-
-=======
-	
-	colour(colors[0]);
-    
->>>>>>> wallace
 	string rows;
 	string cols;
 	string filename;
@@ -264,13 +300,10 @@ void renderMap()
 	{
 		filename += "lvl1.txt";
 	}
-<<<<<<< HEAD
 	else if (lvlcleared == 1)
 	{
 		filename += "lvl2.txt";
 	}
-=======
->>>>>>> wallace
 
 	ifstream currentlvl;
 	currentlvl.open(filename);
@@ -295,7 +328,6 @@ void renderMap()
 				map[i][j] = (char)219;
 				g_Console.writeToBuffer(c, 219, colors[0]);
 				break;
-<<<<<<< HEAD
 			case'k':
 				map[i][j] = 'k';
 				g_Console.writeToBuffer(c, 'k', colors[0]);
@@ -308,15 +340,12 @@ void renderMap()
 				map[i][j] = 'm';
 				g_Console.writeToBuffer(c, 'm', colors[0]);
 				break;
-=======
->>>>>>> wallace
 			default:
 				break;
 
 			}
 		}
 	}
-<<<<<<< HEAD
 }
 
 void textRender()
@@ -329,71 +358,7 @@ void textRender()
 	COORD Text;
 	Text.X = 0;
 	Text.Y = 17;
-	g_Console.writeToBuffer(Text, WhichText(TextChanger('m')), colors[6]);
-=======
-
-
-  
-	/*start here
-	string filename;
-
-	int lvlclear = 0;
-
-	if (lvlclear == 0)
-	{
-		filename = "lvl1.txt";
-	}
-	else if (lvlclear == 1)
-	{
-		filename = "lvl2.txt";
-	}
-
-
-	ifstream currentlvl;
-	currentlvl.open(filename);
-
-	int width = 0;
-	int height = 0;
-	string widthinput, heightinput;
-	getline(currentlvl, widthinput);
-	getline(currentlvl, heightinput);
-	width = stoi(widthinput);
-	height = stoi(heightinput);
-	string result;
-	for (int i = 0; i < height - 1; i++)
-	{
-		string current;
-		char currentchar;
-		getline(currentlvl, current);
-		
-
-		for (int j = 0; j < width - 1; j++)
-		{
-			currentchar = current[j];
-			switch (currentchar)
-			{
-			case '#':
-				g_Console.writeToBuffer(c, 219, colors[i]);
-				break;
-			case 'k':
-				g_Console.writeToBuffer(c, 'k', colors[i]);
-				break;
-			case 'o':
-				g_Console.writeToBuffer(c, 'o', colors[i]);
-				break;
-			case 'x':
-				g_Console.writeToBuffer(c, 'x', colors[i]);
-				break;
-			default:
-				g_Console.writeToBuffer(c, ' ', colors[i]);
-				break;
-			}
-		}
-		g_Console.writeToBuffer(c, '\n', colors[i]);
-	}
-	
-	end here*/
->>>>>>> wallace
+	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
 }
 
 void renderCharacter()
@@ -430,3 +395,235 @@ void renderToScreen()
     // Writes the buffer to the console, hence you will see what you have written
     g_Console.flushBufferToConsole();
 }
+
+string whichText(string *output, bool *BoolArray)
+{
+	bool done = true;
+	while (done)
+	{
+		int a = rand() % 18 + 1;
+		if (bArray[a - 1])
+		{
+			switch (a)
+			{
+			case 1:
+			{
+				*output += Monster1.monsterName;
+				*output += ' ';
+				*output += Monster1.monsterQn;
+				*output += ' ';
+				*output += Monster1.ans1;
+				*output += ' ';
+				*output += Monster1.ans2;
+				*output += ' ';
+				*output += Monster1.ans3;
+
+			}
+			break;
+			case 2:
+				*output += Monster2.monsterName;
+				*output += ' ';
+				*output += Monster2.monsterQn;
+				*output += ' ';
+				*output += Monster2.ans1;
+				*output += ' ';
+				*output += Monster2.ans2;
+				*output += ' ';
+				*output += Monster2.ans3;
+				break;
+			case 3:
+				*output += Monster3.monsterName;
+				*output += ' ';
+				*output += Monster3.monsterQn;
+				*output += ' ';
+				*output += Monster3.ans1;
+				*output += ' ';
+				*output += Monster3.ans2;
+				*output += ' ';
+				*output += Monster3.ans3;
+				break;
+			case 4:
+				*output += Monster4.monsterName;
+				*output += ' ';
+				*output += Monster4.monsterQn;
+				*output += ' ';
+				*output += Monster4.ans1;
+				*output += ' ';
+				*output += Monster4.ans2;
+				*output += ' ';
+				*output += Monster4.ans3;
+				break;
+			case 5:
+				*output += Monster5.monsterName;
+				*output += ' ';
+				*output += Monster5.monsterQn;
+				*output += ' ';
+				*output += Monster5.ans1;
+				*output += ' ';
+				*output += Monster5.ans2;
+				*output += ' ';
+				*output += Monster5.ans3;
+				break;
+			case 6:
+				*output += Monster6.monsterName;
+				*output += ' ';
+				*output += Monster6.monsterQn;
+				*output += ' ';
+				*output += Monster6.ans1;
+				*output += ' ';
+				*output += Monster6.ans2;
+				*output += ' ';
+				*output += Monster6.ans3;
+				break;
+			case 7:
+				*output += Monster7.monsterName;
+				*output += ' ';
+				*output += Monster7.monsterQn;
+				*output += ' ';
+				*output += Monster7.ans1;
+				*output += ' ';
+				*output += Monster7.ans2;
+				*output += ' ';
+				*output += Monster7.ans3;
+				break;
+			case 8:
+				*output += Monster8.monsterName;
+				*output += ' ';
+				*output += Monster8.monsterQn;
+				*output += ' ';
+				*output += Monster8.ans1;
+				*output += ' ';
+				*output += Monster8.ans2;
+				*output += ' ';
+				*output += Monster8.ans3;
+				break;
+			case 9:
+				*output += Monster9.monsterName;
+				*output += ' ';
+				*output += Monster9.monsterQn;
+				*output += ' ';
+				*output += Monster9.ans1;
+				*output += ' ';
+				*output += Monster9.ans2;
+				*output += ' ';
+				*output += Monster9.ans3;
+				break;
+			case 10:
+				*output += Monster10.monsterName;
+				*output += ' ';
+				*output += Monster10.monsterQn;
+				*output += ' ';
+				*output += Monster10.ans1;
+				*output += ' ';
+				*output += Monster10.ans2;
+				*output += ' ';
+				*output += Monster10.ans3;
+				break;
+			case 11:
+				*output += Monster11.monsterName;
+				*output += ' ';
+				*output += Monster11.monsterQn;
+				*output += ' ';
+				*output += Monster11.ans1;
+				*output += ' ';
+				*output += Monster11.ans2;
+				*output += ' ';
+				*output += Monster11.ans3;
+				break;
+			case 12:
+				*output += Monster12.monsterName;
+				*output += ' ';
+				*output += Monster12.monsterQn;
+				*output += ' ';
+				*output += Monster12.ans1;
+				*output += ' ';
+				*output += Monster12.ans2;
+				*output += ' ';
+				*output += Monster12.ans3;
+				break;
+			case 13:
+				*output += Monster13.monsterName;
+				*output += ' ';
+				*output += Monster13.monsterQn;
+				*output += ' ';
+				*output += Monster13.ans1;
+				*output += ' ';
+				*output += Monster13.ans2;
+				*output += ' ';
+				*output += Monster13.ans3;
+				break;
+			case 14:
+				*output += Monster14.monsterName;
+				*output += ' ';
+				*output += Monster14.monsterQn;
+				*output += ' ';
+				*output += Monster14.ans1;
+				*output += ' ';
+				*output += Monster14.ans2;
+				*output += ' ';
+				*output += Monster14.ans3;
+				break;
+			case 15:
+				*output += Monster15.monsterName;
+				*output += ' ';
+				*output += Monster15.monsterQn;
+				*output += ' ';
+				*output += Monster15.ans1;
+				*output += ' ';
+				*output += Monster15.ans2;
+				*output += ' ';
+				*output += Monster15.ans3;
+				break;
+			case 16:
+				*output += Monster16.monsterName;
+				*output += ' ';
+				*output += Monster16.monsterQn;
+				*output += ' ';
+				*output += Monster16.ans1;
+				*output += ' ';
+				*output += Monster16.ans2;
+				*output += ' ';
+				*output += Monster16.ans3;
+				break;
+			case 17:
+				*output += Monster17.monsterName;
+				*output += ' ';
+				*output += Monster17.monsterQn;
+				*output += ' ';
+				*output += Monster17.ans1;
+				*output += ' ';
+				*output += Monster17.ans2;
+				*output += ' ';
+				*output += Monster17.ans3;
+				break;
+			case 18:
+				*output += Monster18.monsterName;
+				*output += ' ';
+				*output += Monster18.monsterQn;
+				*output += ' ';
+				*output += Monster18.ans1;
+				*output += ' ';
+				*output += Monster18.ans2;
+				*output += ' ';
+				*output += Monster18.ans3;
+				break;
+			default:
+				break;
+			}
+
+			bArray[a - 1] = false;
+		}
+		done = false;
+	}
+	return *output;
+}
+
+/*
+what happens when the player runs into an entity?
+the game checks which entity they ran into and render the corresponding text
+eg: run into mob1
+check that player run into mob1
+access text relating to mob1
+render text of mob1
+after finish clean textbox
+*/

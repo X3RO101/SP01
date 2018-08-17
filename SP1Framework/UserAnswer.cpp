@@ -13,12 +13,6 @@ string ansChecker(Text * Mob)
 	}
 	else if (g_abKeyPressed[K_3] == Mob->correctAns)
 	{
-		//print congrats BITCH
-	}
-
-	switch ()
-	{
-	default:
-		break;
+		//print congrats 
 	}
 }

@@ -23,6 +23,7 @@ enum EGAMESTATES
 {
     S_SPLASHSCREEN,
     S_GAME,
+	S_COMBAT,
     S_COUNT
 };
 
@@ -50,5 +51,6 @@ void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
+void combat();//runs comabt functions
 
 #endif // _GAME_H

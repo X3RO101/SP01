@@ -10,10 +10,12 @@
 #include "TextStore.h"
 #include <fstream>
 #include <string>
-#include "levelgen.h"
 #include "tilemanager.h"
+
+
 char map[15][87];
-int lvlcleared = 0;
+int lvlcleared = 1;
+int changeinlvl = 1;
 
 void textRender();
 bool bArray[18];
@@ -164,6 +166,7 @@ void update(double dt)
             break;
         case S_GAME: gameplay(); // gameplay logic when we are in the game
             break;
+		//case S_COMBAT :
     }
 }
 //--------------------------------------------------------------
@@ -203,6 +206,13 @@ void gameplay()            // gameplay logic
 
 void moveCharacter()
 {
+	COORD c;
+
+	const WORD colors[] = {
+		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+
     bool bSomethingHappened = false;
     if (g_dBounceTime > g_dElapsedTime)
         return;
@@ -213,36 +223,102 @@ void moveCharacter()
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;
-        bSomethingHappened = true;
 		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
 			//run text for monster
 		}
-		else if(touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
+			c.Y = g_sChar.m_cLocation.Y;
+			c.X = g_sChar.m_cLocation.X;
 			//run text for key
+			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
 			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
 		}
+        bSomethingHappened = true;
+		
     }
-   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))
+   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
     {
+	   g_Console.writeToBuffer(c, "Hello", colors[0]);
        // Beep(1440, 30);
         g_sChar.m_cLocation.X--;
+		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for monster
+		}
+		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			c.Y = g_sChar.m_cLocation.Y;
+			c.X = g_sChar.m_cLocation.X;
+			//run text for key
+			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+
+			
+		}
+		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
+		}
         bSomethingHappened = true;
     }
     if ((g_abKeyPressed[K_DOWN] ) && (collision(map, (g_sChar.m_cLocation.Y + 1) , g_sChar.m_cLocation.X) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y++;
+		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for monster
+		}
+		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			c.Y = g_sChar.m_cLocation.Y;
+			c.X = g_sChar.m_cLocation.X;
+			//run text for key
+			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+
+		
+		}
+		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
+		}
         bSomethingHappened = true;
     }
     if ((g_abKeyPressed[K_RIGHT] ) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X++;
+		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for monster
+		}
+		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			c.Y = g_sChar.m_cLocation.Y;
+			c.X = g_sChar.m_cLocation.X;
+			//run text for key
+			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+		}
+		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+		{
+			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+			lvlcleared++;
+			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+			g_sChar.m_cLocation.Y = 5;
+		}
         bSomethingHappened = true;
     }
     if (g_abKeyPressed[K_SPACE])
@@ -254,7 +330,7 @@ void moveCharacter()
     if (bSomethingHappened)
     {
         // set the bounce time to some time in the future to prevent accidental triggers
-        g_dBounceTime = g_dElapsedTime + 0.125; // 125ms should be enough
+        g_dBounceTime = g_dElapsedTime + 0.015; // 125ms should be enough
     }
 }
 void processUserInput()
@@ -293,7 +369,6 @@ void renderGame()
 
 void renderMap()
 {
-    //Set up sample colours, and *output shadings
     //Set up sample colours, and output shadings
 
     const WORD colors[] = {
@@ -304,9 +379,6 @@ void renderMap()
     COORD c;
 
 	colour(colors[0]);
-
-	
-	colour(colors[0]);
     
 
 	string rows;
@@ -315,56 +387,87 @@ void renderMap()
 	int y;
 	int x;
 
-	int lvlcleared = 0;
 
 
-	if (lvlcleared == 0)
+	if (lvlcleared == 1)
 	{
 		filename += "lvl1.txt";
 	}
-	else if (lvlcleared == 1)
+	else if (lvlcleared == 2)
 	{
 		filename += "lvl2.txt";
 	}
-
-	ifstream currentlvl;
-	currentlvl.open(filename);
-	getline(currentlvl, cols);
-	getline(currentlvl, rows);
-	y = stoi(rows);
-	x = stoi(cols);
-
-	for (int i = 0; i < y - 1; ++i)
+	else if (lvlcleared == 3)
 	{
-		string currentrow;
-		char currentchar;
-		getline(currentlvl, currentrow);
-		for (int j = 0; j < x - 1; ++j)
-		{
-			currentchar = currentrow[j];
-			c.X = j;
-			c.Y = i;
-			switch (currentchar)
-			{
-			case'#':
-				map[i][j] = (char)219;
-				g_Console.writeToBuffer(c, 219, colors[0]);
-				break;
-			case'k':
-				map[i][j] = 'k';
-				g_Console.writeToBuffer(c, 'k', colors[0]);
-				break;
-			case'o':
-				map[i][j] = 'o';
-				g_Console.writeToBuffer(c, 'o', colors[0]);
-				break;
-			case'm':
-				map[i][j] = 'm';
-				g_Console.writeToBuffer(c, 'm', colors[0]);
-				break;
-			default:
-				break;
+		filename += "lvl3.txt";
+	}
+	else if (lvlcleared == 4)
+	{
+		filename += "lvl4.txt";
+	}
+	else if (lvlcleared == 5)
+	{
+		filename += "lvl5.txt";
+	}
 
+
+	if (lvlcleared == changeinlvl)
+	{
+		ifstream currentlvl;
+		currentlvl.open(filename);
+		getline(currentlvl, cols);
+		getline(currentlvl, rows);
+		y = stoi(rows);
+		x = stoi(cols);
+
+		for (int i = 0; i < y - 1; ++i)
+		{
+			string currentrow;
+			char currentchar;
+			getline(currentlvl, currentrow);
+			for (int j = 0; j < x - 1; ++j)
+			{
+				currentchar = currentrow[j];
+				switch (currentchar)
+				{
+				case'#':
+					map[i][j] = (char)219;
+				
+					break;
+				case'k':
+					map[i][j] = 'k';
+				
+					break;
+				case'o':
+					map[i][j] = 'o';
+				
+					break;
+				case'm':
+					map[i][j] = 'm';
+				
+					break;
+				case ' ':
+					map[i][j] = ' ';
+				
+
+				default:
+					break;
+
+				}
+			}
+		}
+		changeinlvl++;
+		currentlvl.close();
+	}
+	else
+	{
+		for (int i = 0; i < 15; ++i)
+		{
+			for (int j = 0; j < 87; ++j)
+			{
+				c.X = j;
+				c.Y = i;
+				g_Console.writeToBuffer(c, map[i][j], colors[0]);
 			}
 		}
 	}
@@ -383,10 +486,9 @@ void textRender()
 	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
 
 
-
-  
 	/*start here
-	string filename;
+	
+	filename;
 
 	int lvlclear = 0;
 
@@ -481,6 +583,7 @@ void renderToScreen()
     // Writes the buffer to the console, hence you will see what you have written
     g_Console.flushBufferToConsole();
 }
+
 
 string whichText(string *output, bool *BoolArray)
 {
@@ -715,13 +818,10 @@ after finish clean textbox
 */
 
 
-void combat()
-{
-
-}
 
 //when enter combat
 //gamestate change to combat
 //frame freeze
 //run function for anser input
 //take in user input
+

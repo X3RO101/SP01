@@ -1,6 +1,6 @@
-﻿  tilemanager.cpp
-  game.cpp
-c:\users\marcdonald\documents\github\sp01t11\sp1framework\game.cpp(351): warning C4309: 'argument': truncation of constant value
+﻿  game.cpp
+  combat.cpp
   Generating Code...
+  LINK : C:\Users\marcdonald\Documents\GitHub\SP01T11\Debug\SP1Framework.exe not found or not built by the last incremental link; performing full link
   SP1Framework.vcxproj -> C:\Users\marcdonald\Documents\GitHub\SP01T11\Debug\SP1Framework.exe
   SP1Framework.vcxproj -> C:\Users\marcdonald\Documents\GitHub\SP01T11\Debug\SP1Framework.pdb (Full PDB)

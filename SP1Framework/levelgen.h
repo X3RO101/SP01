@@ -8,6 +8,6 @@
 
 using namespace std;
 
-string levelgen();
+string levelgen(int lvlcleared);
 
 #endif

@@ -11,6 +11,9 @@
 #include <fstream>
 #include <string>
 #include "tilemanager.h"
+#include "Keys.h"
+#include <ctime>
+#include <random>
 
 
 char map[15][87];
@@ -18,7 +21,9 @@ int lvlcleared = 1;
 int changeinlvl = 1;
 
 void textRender();
-bool bArray[18];
+bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
+bool kArray[10]; // bool array for random DUMMY KEYs so they dont spawn twice (number inside [] tbd)
+
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
@@ -46,6 +51,9 @@ Text Monster17;
 Text Monster18;
 ifstream mobInfo("MobsFinal.txt");
 // MOB Text copy
+// KEY TEXT
+Key L1K1;
+// KEY TEXT
 
 string texty;
 string whichText(string *output, bool *boolArray);
@@ -95,9 +103,13 @@ void init( void )
 	textBank(&Monster16, &mobInfo);
 	textBank(&Monster17, &mobInfo);
 	textBank(&Monster18, &mobInfo);      
-	for (int i = 0; i < sizeof(bArray); i++)  // for the mobs' text
+	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
 	{
 		bArray[i] = true;
+	}
+	for (int i = 0; i < sizeof(kArray); i++)  // same goes for the keys
+	{
+		kArray[i] = true;
 	}
 }
 
@@ -587,6 +599,7 @@ void renderToScreen()
 
 string whichText(string *output, bool *BoolArray)
 {
+	srand(time(nullptr));
 	bool done = true;
 	while (done)
 	{

@@ -40,15 +40,9 @@ char** getarray(void)
 	return map;
 }
 
-<<<<<<< HEAD
-bool collision(char array[15][87], int playerycoord, int playerxcoord)
-{
-	if (array[playerycoord][playerxcoord] == (char)219)
-=======
 bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks if player encounters a wall
 {
 	if (array[playerycoord][playerxcoord] == (char)219)//up
->>>>>>> wallace
 	{
 		return true;
 	}
@@ -58,8 +52,6 @@ bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks 
 	}
 }	
 
-<<<<<<< HEAD
-=======
 bool touchmonster(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a monster
 {
 	if (array[playerycoord][playerxcoord] == 'm')
@@ -95,4 +87,3 @@ bool touchend(char array[15][87], int playerycoord, int playerxcoord)//checks if
 		return false;
 	}
 }
->>>>>>> wallace

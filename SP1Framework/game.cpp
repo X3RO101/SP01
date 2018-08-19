@@ -6,23 +6,15 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-<<<<<<< HEAD
 #include "collision.h"
 #include "TextStore.h"
-=======
->>>>>>> wallace
 #include <fstream>
 #include <string>
 #include "levelgen.h"
 #include "tilemanager.h"
-<<<<<<< HEAD
-=======
 char map[15][87];
 int lvlcleared = 0;
->>>>>>> wallace
 
-
-char map[15][87];
 void textRender();
 bool bArray[18];
 double  g_dElapsedTime;
@@ -83,7 +75,6 @@ void init( void )
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
-<<<<<<< HEAD
 	textBank(&Monster1, &mobInfo);
 	textBank(&Monster2, &mobInfo);
 	textBank(&Monster3, &mobInfo);
@@ -106,8 +97,6 @@ void init( void )
 	{
 		bArray[i] = true;
 	}
-=======
->>>>>>> wallace
 }
 
 //--------------------------------------------------------------
@@ -304,34 +293,30 @@ void renderGame()
 
 void renderMap()
 {
-<<<<<<< HEAD
     //Set up sample colours, and *output shadings
-=======
     //Set up sample colours, and output shadings
->>>>>>> wallace
+
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
     COORD c;
-<<<<<<< HEAD
+
 	colour(colors[0]);
-=======
+
 	
 	colour(colors[0]);
     
->>>>>>> wallace
+
 	string rows;
 	string cols;
 	string filename;
 	int y;
 	int x;
-<<<<<<< HEAD
+
 	int lvlcleared = 0;
-=======
-	
->>>>>>> wallace
+
 
 	if (lvlcleared == 0)
 	{
@@ -383,7 +368,6 @@ void renderMap()
 			}
 		}
 	}
-<<<<<<< HEAD
 }
 
 void textRender()
@@ -397,7 +381,7 @@ void textRender()
 	Text.X = 0;
 	Text.Y = 17;
 	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
-=======
+
 
 
   
@@ -460,7 +444,7 @@ void textRender()
 	}
 	
 	end here*/
->>>>>>> wallace
+
 }
 
 void renderCharacter()

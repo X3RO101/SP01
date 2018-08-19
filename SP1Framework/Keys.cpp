@@ -12,7 +12,7 @@ void DummyKeys(ifstream * DummyKeys, Key * KeyItem) //Dummy Keys
 
 string WhichKey(string * keyGiven, bool *kArray) // for the dummy keys
 {
-	srand(time(nullptr));
+	srand(time(nullptr)); // so that each playthrough wil lhave different dummy keys
 	bool doneGiven; // make sure that the key is not repeated
 	while (doneGiven)
 	{
@@ -36,4 +36,16 @@ string WhichKey(string * keyGiven, bool *kArray) // for the dummy keys
 	2.switch case for the level to get the levels correct password from text file
 	3.SEPERATE TEXT FILE for dummy key passwords
 	4.Make an array similar to the random mob gen for the dummy keys
+	5.Initialise all the keys/dummy keys
+	6.Make a function so that each level will choose a set of keys and question for the door
+	6.5 Basically call this function when u enter a level
+
+	OTHER THINGS TO NOTE:
+	How to connect the keys and mobs to wallace's mobs and key gen?
+	well:
+	1.Make counters for keys and mobs that reset each level < --- safety measure
+	2.Check if the counter is less than the amount of the entity(keys for now) in the level when they run into a key
+	3.Flip a coin(aka random numbner between 1 and 2) to see if its the correct password or a dummy password
+	4.Afterwards increase counter and print out the text
+	4.5 Make sure that the frame freezes i guess another gamestate to let the player read the key password
 */

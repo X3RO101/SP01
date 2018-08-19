@@ -52,9 +52,13 @@ Text Monster18;
 ifstream mobInfo("MobsFinal.txt");
 // MOB Text copy
 // KEY TEXT
+ifstream CorrectPass("CorrectPasswords.txt");
 Key L1K1;
 // KEY TEXT
-
+// DUMMY KEYS
+ifstream CorrectPass("DummyKeys.txt");
+Key Dummy1;
+// DUMMY KEYS
 string texty;
 string whichText(string *output, bool *boolArray);
 

@@ -11,7 +11,7 @@ using namespace std;
 
 void KeyStore(ifstream * KeyFile, Key * KeyItem);
 void DummyKeys(ifstream * DummeyKeys, Key * KeyItem);
-string WhichKey(string keyGiven, bool *kArray);
+string WhichKey(string * keyGiven, bool *kArray);
 
 
 struct Key

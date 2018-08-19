@@ -55,5 +55,8 @@
     <Text Include="main_menu_frame_2.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Controls.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #define _GAME_H
 
 #include "Framework\timer.h"
+#include <stdio.h>
 
 extern CStopWatch g_swTimer;
 extern bool g_bQuitGame;
@@ -22,8 +23,10 @@ enum EKEYS
 enum EGAMESTATES
 {
     S_SPLASHSCREEN,
+	S_CONTROLS,
     S_GAME,
-    S_COUNT
+    S_COUNT,
+	S_DEATH
 };
 
 // struct for the game character
@@ -51,9 +54,12 @@ void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 
-char health();				// health lowers if player takes damage and when player dies, screen goes to game over screen
+void health();				// health lowers if player takes damage and when player dies, screen goes to game over screen
 void game_over();			// shows the game over screen if the player dies
 void main_menu();			// the basic main menu screen when the player starts the game
 void scoresystem();			// function that increases the score when the player kills a mob
+void main_menu_option();	// function that changes between the start button and controls button in the main menu
+void control_screen();		// screen that shows the controls
+void control_screen_back();	// function to go back to main menu
 
 #endif // _GAME_H

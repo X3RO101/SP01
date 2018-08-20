@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 // Purpose  : Constructor, We will set the timer intervals here
 // Input    : Void
-// Output   : Nil
+// *output   : Nil
 //--------------------------------------------------------------
 CStopWatch::CStopWatch( void )
 {    
@@ -27,7 +27,7 @@ CStopWatch::CStopWatch( void )
 //--------------------------------------------------------------
 // Purpose  : Destructor
 // Input    : Void
-// Output   : Nil
+// *output   : Nil
 //--------------------------------------------------------------
 CStopWatch::~CStopWatch( void )
 {
@@ -39,7 +39,7 @@ CStopWatch::~CStopWatch( void )
 //--------------------------------------------------------------
 // Purpose  : Convert the time to seconds
 // Input    : Long integer
-// Output   : Double
+// *output   : Double
 //--------------------------------------------------------------
 double CStopWatch::LiToSecs( LARGE_INTEGER & liInput) {
      return ((double)liInput.QuadPart /(double)m_liFrequency.QuadPart) ;
@@ -48,7 +48,7 @@ double CStopWatch::LiToSecs( LARGE_INTEGER & liInput) {
 //--------------------------------------------------------------
 // Purpose  : Start the timer by getting current time and store
 // Input    : void
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 void CStopWatch::startTimer( void )
 {
@@ -59,7 +59,7 @@ void CStopWatch::startTimer( void )
 // Purpose  : Get the elapsed time by getting current time 
 //            and minus stored value
 // Input    : void
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 double CStopWatch::getElapsedTime( void ) 
 {
@@ -76,7 +76,7 @@ double CStopWatch::getElapsedTime( void )
 //--------------------------------------------------------------
 // Purpose  : Sleep the system till llTime has reached
 // Input    : time to sleep (long long)
-// Output   : void
+// *output   : void
 //--------------------------------------------------------------
 void CStopWatch::waitUntil(long long llTime)
 {

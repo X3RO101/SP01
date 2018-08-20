@@ -8,6 +8,9 @@
 
 using namespace std;
 
-void timefreeze(string answer);
+
+
+
+string whichtext(string *output, bool *BoolArray);
 
 #endif

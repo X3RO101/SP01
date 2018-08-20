@@ -15,9 +15,9 @@
 char map[15][87];
 int lvlcleared = 1;
 int changeinlvl = 1;
+bool bArray[18];
 
 void textRender();
-bool bArray[18];
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
@@ -76,6 +76,7 @@ void init( void )
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
+
 	textBank(&Monster1, &mobInfo);
 	textBank(&Monster2, &mobInfo);
 	textBank(&Monster3, &mobInfo);
@@ -165,7 +166,8 @@ void update(double dt)
             break;
         case S_GAME: gameplay(); // gameplay logic when we are in the game
             break;
-		//case S_COMBAT :
+		case S_COMBAT: combat(); //combat phase when player encounters a monster
+			break;
     }
 }
 //--------------------------------------------------------------
@@ -245,7 +247,6 @@ void moveCharacter()
     }
    if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
     {
-	   g_Console.writeToBuffer(c, "Hello", colors[0]);
        // Beep(1440, 30);
         g_sChar.m_cLocation.X--;
 		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
@@ -369,10 +370,10 @@ void renderGame()
 void renderMap()
 {
 
-    //Set up sample colours, and output shadings
+    //Set up sample colours, and *output shadings
 
     const WORD colors[] = {
-        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+        0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
@@ -485,66 +486,7 @@ void textRender()
 	Text.Y = 17;
 	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
 
-	/*start here
 	
-	filename;
-
-	int lvlclear = 0;
-
-	if (lvlclear == 0)
-	{
-		filename = "lvl1.txt";
-	}
-	else if (lvlclear == 1)
-	{
-		filename = "lvl2.txt";
-	}
-
-
-	ifstream currentlvl;
-	currentlvl.open(filename);
-
-	int width = 0;
-	int height = 0;
-	string widthinput, heightinput;
-	getline(currentlvl, widthinput);
-	getline(currentlvl, heightinput);
-	width = stoi(widthinput);
-	height = stoi(heightinput);
-	string result;
-	for (int i = 0; i < height - 1; i++)
-	{
-		string current;
-		char currentchar;
-		getline(currentlvl, current);
-		
-
-		for (int j = 0; j < width - 1; j++)
-		{
-			currentchar = current[j];
-			switch (currentchar)
-			{
-			case '#':
-				g_Console.writeToBuffer(c, 219, colors[i]);
-				break;
-			case 'k':
-				g_Console.writeToBuffer(c, 'k', colors[i]);
-				break;
-			case 'o':
-				g_Console.writeToBuffer(c, 'o', colors[i]);
-				break;
-			case 'x':
-				g_Console.writeToBuffer(c, 'x', colors[i]);
-				break;
-			default:
-				g_Console.writeToBuffer(c, ' ', colors[i]);
-				break;
-			}
-		}
-		g_Console.writeToBuffer(c, '\n', colors[i]);
-	}
-	
-	end here*/
 }
 
 void renderCharacter()

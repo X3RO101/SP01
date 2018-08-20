@@ -30,7 +30,7 @@ void colour(WORD attrib);
 
 
 // Clears the screen for this console handle
-// If no console handle is supplied, then we take the STDOUTPUT console
+// If no console handle is supplied, then we take the STD*output console
 void cls( HANDLE hConsole = 0);
 
 //=============================================================================

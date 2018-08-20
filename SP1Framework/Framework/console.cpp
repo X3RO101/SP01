@@ -8,7 +8,7 @@
 //--------------------------------------------------------------
 // Purpose  : Setting position of the console cursor
 // Input    : Coord (x and y are short)
-// Output   : Nil
+// *output   : Nil
 //--------------------------------------------------------------
 void gotoXY(COORD c)
 {
@@ -18,7 +18,7 @@ void gotoXY(COORD c)
 //--------------------------------------------------------------
 // Purpose  : Setting position of the console cursor using int
 // Input    : int, int
-// Output   : Nil
+// *output   : Nil
 //--------------------------------------------------------------
 void gotoXY(SHORT iX, SHORT iY)
 {
@@ -29,7 +29,7 @@ void gotoXY(SHORT iX, SHORT iY)
 //--------------------------------------------------------------
 // Purpose  : Setting colour of the console text
 // Input    : WORD (2 bytes data type)
-// Output   : Nil
+// *output   : Nil
 //--------------------------------------------------------------
 void colour(WORD wAttrib)
 {    
@@ -40,7 +40,7 @@ void colour(WORD wAttrib)
 //--------------------------------------------------------------
 // Purpose  : Clear Sreen
 // Input    : Console handler
-// Output   : Nil
+// *output   : Nil
 //--------------------------------------------------------------
 void cls( HANDLE hConsole )
 {
@@ -65,7 +65,7 @@ void cls( HANDLE hConsole )
 
     bSuccess = FillConsoleOutputCharacter( hConsole, (TCHAR) ' ',
         dwConSize, coordScreen, &cCharsWritten );
-    PERR( bSuccess, "FillConsoleOutputCharacter" );
+    PERR( bSuccess, "FillConsole*outputCharacter" );
 
     /* get the current text attribute */ 
 
@@ -76,7 +76,7 @@ void cls( HANDLE hConsole )
 
     bSuccess = FillConsoleOutputAttribute( hConsole, csbi.wAttributes,
         dwConSize, coordScreen, &cCharsWritten );
-    PERR( bSuccess, "FillConsoleOutputAttribute" );
+    PERR( bSuccess, "FillConsole*outputAttribute" );
 
     /* put the cursor at (0, 0) */ 
 
@@ -88,7 +88,7 @@ void cls( HANDLE hConsole )
 //--------------------------------------------------------------
 // Purpose  : Check for key press status of specific key
 // Input    : Key to check (Short)
-// Output   : Nil
+// *output   : Nil
 //--------------------------------------------------------------
 bool isKeyPressed(unsigned short ushKey)
 {
@@ -178,7 +178,7 @@ void Console::setConsoleWindowSize()
 	SMALL_RECT windowSize = {0, 0, m_cConsoleSize.X-1, m_cConsoleSize.Y-1};
     COORD buffSize = {m_cConsoleSize.X, m_cConsoleSize.Y};
 
-    HANDLE hConsole = m_hScreenBuffer;//GetStdHandle( STD_OUTPUT_HANDLE );
+    HANDLE hConsole = m_hScreenBuffer;//GetStdHandle( STD_*output_HANDLE );
 
 	BOOL bSuccess;
 
@@ -259,6 +259,6 @@ void Console::writeToConsole(const CHAR_INFO* lpBuffer)
 {
     COORD c = {0,0};
 	SMALL_RECT WriteRegion = {0, 0, m_cConsoleSize.X-1, m_cConsoleSize.Y-1};
-    // WriteConsoleOutputA for ASCII text
+    // WriteConsole*outputA for ASCII text
 	WriteConsoleOutputA(m_hScreenBuffer, lpBuffer, m_cConsoleSize, c, &WriteRegion);
 }

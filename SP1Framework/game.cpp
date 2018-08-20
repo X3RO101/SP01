@@ -38,10 +38,14 @@ int healthpoints = 3;				// number of lives player has
 int score = 0;						// player score
 bool main_menu_1 = true;			// to check if player is choosing the start option
 bool main_menu_2 = false;			// to check if player is choosing the controls option
+bool main_menu_3 = false;
 bool pause_1 = true;				// to check if player is choosing continue
 bool pause_2 = false;				// to check if player is choosing to go to main menu
 bool pause_3 = false;				// to check if player is choosing to exit game
 int keycount = 0;
+bool difficulty_option = true;
+bool difficulty1 = true;
+bool difficulty2 = false;
 
 // Game specific variables here
 SGameChar   g_sChar;
@@ -204,6 +208,8 @@ void update(double dt)
 			break;
 		case S_PAUSE: pause_select();
 			break;
+		case S_DIFFICULTY:
+			break;
 		//case S_COMBAT :
     }
 }
@@ -229,6 +235,8 @@ void render()
 		case S_DEATH: game_over();
 			break;
 		case S_PAUSE: pause_screen();
+			break;
+		case S_DIFFICULTY:
 			break;
     }
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
@@ -336,8 +344,6 @@ void moveCharacter()
 			//run text for key
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 			keycount++;
-
-		
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
@@ -850,7 +856,9 @@ void main_menu()
 {
 	string main_menu_frame1[15];
 	string main_menu_frame2[15];
+	string main_menu_frame3[15];
 	char currentchar;
+	string difficulty_line_1, difficulty_line_2;
 
 	main_menu_frame1[0] = "112     111112 1111112 112   1121111112 1121112   112111111112112  112 1111112 11111112";
 	main_menu_frame1[1] = "113    11755112117551124112 11761175511211311112  113455117556113  11311755511211755556";
@@ -865,8 +873,8 @@ void main_menu()
 	main_menu_frame1[10] = "             111111121131111117611111112113  113   113   113  11311111113              ";
 	main_menu_frame1[11] = "             455555564564555556 45555556456  456   456   456  45645555556              ";
 	main_menu_frame1[12] = "                                                                                       ";
-	main_menu_frame1[13] = "                             8 Start                                                   ";
-	main_menu_frame1[14] = "	                             Controls                                                 ";
+	main_menu_frame1[13] = "                                        8 Start                                        ";
+	main_menu_frame1[14] = "                                        Controls                                       ";
 
 	main_menu_frame2[0] = "112     111112 1111112 112   1121111112 1121112   112111111112112  112 1111112 11111112";
 	main_menu_frame2[1] = "113    11755112117551124112 11761175511211311112  113455117556113  11311755511211755556";
@@ -881,8 +889,27 @@ void main_menu()
 	main_menu_frame2[10] = "             111111121131111117611111112113  113   113   113  11311111113              ";
 	main_menu_frame2[11] = "             455555564564555556 45555556456  456   456   456  45645555556              ";
 	main_menu_frame2[12] = "                                                                                       ";
-	main_menu_frame2[13] = "                               Start                                                   ";
-	main_menu_frame2[14] = "	                           8 Controls                                                 ";
+	main_menu_frame2[13] = "                                          Start                                        ";
+	main_menu_frame2[14] = "                                      8 Controls                                       ";
+
+	main_menu_frame3[0] = "112     111112 1111112 112   1121111112 1121112   112111111112112  112 1111112 11111112";
+	main_menu_frame3[1] = "113    11755112117551124112 11761175511211311112  113455117556113  11311755511211755556";
+	main_menu_frame3[2] = "113    1111111311111176 4111176 11111176113117112 113   113   11111113113   11311111112";
+	main_menu_frame3[3] = "113    1175511311755112  41176  117551121131134112113   113   11755113113   11345555113";
+	main_menu_frame3[4] = "1111112113  11311111176   113   113  113113113 411113   113   113  11341111117611111113";
+	main_menu_frame3[5] = "4555556456  4564555556    456   456  456456456  45556   456   456  456 4555556 45555556";
+	main_menu_frame3[6] = "             112     1121111112 111111121111112 111111112 111112 11111112              ";
+	main_menu_frame3[7] = "             113     1131175511211755556117551124551175561175511211755556              ";
+	main_menu_frame3[8] = "             113     11311111176111112  11111176   113   1111111311111112              ";
+	main_menu_frame3[9] = "             113     11311755112117556  11755112   113   1175511345555113              ";
+	main_menu_frame3[10] = "             111111121131111117611111112113  113   113   113  11311111113              ";
+	main_menu_frame3[11] = "             455555564564555556 45555556456  456   456   456  45645555556              ";
+	main_menu_frame3[12] = "                                                                                       ";
+	main_menu_frame3[13] = "                                          Start                                        ";
+	main_menu_frame3[14] = "                                        Controls                                       ";
+
+	difficulty_line_1 = "                                       Difficulty                                      ";
+	difficulty_line_2 = "                                     8 Difficulty                                      ";
 
 	COORD x;
 
@@ -968,6 +995,76 @@ void main_menu()
 
 		}
 	}
+	if (main_menu_3 == true)
+	{
+		for (int i = 0; i < 15; ++i)
+		{
+			for (int a = 0; a < 87; ++a)
+			{
+				x.X = a;
+				x.Y = i + 1;
+				currentchar = main_menu_frame3[i][a];
+				switch (currentchar)
+				{
+				case('1'):
+					currentchar = 219;
+					break;
+				case('2'):
+					currentchar = 187;
+					break;
+				case('3'):
+					currentchar = 186;
+					break;
+				case('4'):
+					currentchar = 200;
+					break;
+				case('5'):
+					currentchar = 205;
+					break;
+				case('6'):
+					currentchar = 188;
+					break;
+				case('7'):
+					currentchar = 201;
+					break;
+				case('8'):
+					currentchar = 62;
+					break;
+				}
+				g_Console.writeToBuffer(x, currentchar, 0x1A);
+			}
+
+		}
+	}
+
+	if (difficulty_option == true)
+	{
+		x.Y = 16;
+		if (difficulty1 == true)
+		{
+			for (int i = 0; i < 87; ++i)
+			{
+				x.X = i;
+				currentchar = difficulty_line_1[i];
+				g_Console.writeToBuffer(x, currentchar, 0x1A);
+			}
+		}
+		if (difficulty2 == true)
+		{
+			for (int i = 0; i < 87; ++i)
+			{
+				x.X = i;
+				currentchar = difficulty_line_2[i];
+				switch (currentchar)
+				{
+				case('8'):
+					currentchar = 62;
+					break;
+				}
+				g_Console.writeToBuffer(x, currentchar, 0x1A);
+			}
+		}
+	}
 }
 
 void game_over()
@@ -1028,7 +1125,7 @@ void main_menu_option()
 			bSomethingHappened = true;
 		}
 	}
-	if (main_menu_2 == true)
+	else if (main_menu_2 == true)
 	{
 		if (g_abKeyPressed[K_UP])
 		{
@@ -1039,6 +1136,29 @@ void main_menu_option()
 		if (g_abKeyPressed[K_SPACE])
 		{
 			g_eGameState = S_CONTROLS;
+			bSomethingHappened = true;
+		}
+		if (g_abKeyPressed[K_DOWN])
+		{
+			if (difficulty_option == true)
+			{
+				main_menu_2 = false;
+				main_menu_3 = true;
+				difficulty1 = false;
+				difficulty2 = true;
+				bSomethingHappened = true;
+			}
+
+		}
+	}
+	else if (difficulty2 == true && difficulty_option == true)
+	{
+		if (g_abKeyPressed[K_UP])
+		{
+			main_menu_2 = true;
+			main_menu_3 = false;
+			difficulty1 = true;
+			difficulty2 = false;
 			bSomethingHappened = true;
 		}
 	}

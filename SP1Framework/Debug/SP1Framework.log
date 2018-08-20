@@ -1,19 +1,19 @@
 ﻿  game.cpp
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(287): warning C4018: '<': signed/unsigned mismatch
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(418): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(421): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(424): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(427): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(430): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(433): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(436): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(459): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(462): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(465): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(468): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(471): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(474): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(477): warning C4309: '=': truncation of constant value
-  main.cpp
-  Generating Code...
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(475): warning C4018: '<': signed/unsigned mismatch
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(485): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(795): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(798): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(801): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(804): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(807): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(810): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(813): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(836): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(839): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(842): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(845): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(848): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(851): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(854): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(1173): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   SP1Framework.vcxproj -> C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Debug\SP1Framework.exe

@@ -6,38 +6,12 @@
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Keys.cpp" />
     <ClCompile Include="levelgen.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TimeFreeze.cpp" />
-    <ClCompile Include="UserAnswer.cpp" />
+    <ClCompile Include="TextStore.cpp" />
     <ClCompile Include="tilemanager.cpp" />
-    <ClCompile Include="TextStore.cpp">
-      <Filter>TextStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Keys.cpp">
-      <Filter>TextStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UserAnswer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tilemanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextStore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeFreeze.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="levelgen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="combat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="consoleHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
@@ -45,45 +19,10 @@
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="TimeFreeze.h" />
-    <ClInclude Include="UserAnswer.h" />
+    <ClInclude Include="Keys.h" />
+    <ClInclude Include="TextStore.h" />
     <ClInclude Include="levelgen.h" />
     <ClInclude Include="tilemanager.h" />
-    <ClInclude Include="TextStore.h">
-      <Filter>TextStuff</Filter>
-    <ClInclude Include="Framework\console.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\timer.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UserAnswer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="levelgen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextStore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeFreeze.h">
-    <ClInclude Include="levelgen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="combat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Keys.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="TextStuff">
-      <UniqueIdentifier>{4c2201b0-d369-4bd5-af9f-4a203b98db4c}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="consoleHolder.h" />
   </ItemGroup>
 </Project>

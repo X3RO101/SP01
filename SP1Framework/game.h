@@ -2,6 +2,13 @@
 #define _GAME_H
 
 #include "Framework\timer.h"
+#include "combat.h"
+#include "tilemanager.h"
+#include "Keys.h"
+#include "levelgen.h"
+#include "collision.h"
+#include "TextStore.h"
+#include "consoleHolder.h"
 
 extern CStopWatch g_swTimer;
 extern bool g_bQuitGame;
@@ -22,14 +29,6 @@ enum EKEYS
 };
 
 // Enumeration for the different screen states
-enum EGAMESTATES
-{
-    S_SPLASHSCREEN,
-    S_GAME,
-    S_COUNT,
-	S_COMBAT,
-
-};
 
 // struct for the game character
 struct SGameChar
@@ -55,7 +54,6 @@ void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
-
 
 
 #endif // _GAME_H

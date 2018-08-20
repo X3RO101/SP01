@@ -6,7 +6,6 @@
 #include "Framework/timer.h"
 #include <chrono>
 #include <ctime>
-#include "game.h"
 #include "TextStore.h"
 #include "Framework/console.h"
 

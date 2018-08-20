@@ -9,7 +9,7 @@ bool timeFreeze( Text * Mob /*, int * HP  */) // run infinitely until timer runs
 	if ( durationPassed > 10.0)
 	{
 		//*HP--;
-		//x = false;
+		return false;
 	}
     if (/*userInput == */ Mob->correctAns) // when player gets it correct
 	{

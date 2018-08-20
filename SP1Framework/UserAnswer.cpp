@@ -1,4 +1,4 @@
-#include "UserAnswer.h"
+/*#include "UserAnswer.h"
 
 string ansChecker(Text * Mob)
 {
@@ -16,4 +16,4 @@ string ansChecker(Text * Mob)
 		//print congrats
 	}
 	return 0;
-}
+}*/

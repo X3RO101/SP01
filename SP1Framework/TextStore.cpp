@@ -1,5 +1,4 @@
 #include "TextStore.h"
-#include "game.h"
 
 void textBank(Text * mob, ifstream * mobInfo)
 {

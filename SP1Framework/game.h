@@ -2,6 +2,21 @@
 #define _GAME_H
 
 #include "Framework\timer.h"
+#include "Framework\console.h"
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include "TextStore.h"
+#include <fstream>
+#include <string>
+#include "tilemanager.h"
+
+static char map[15][87];
+static int lvlcleared = 1;
+static int changeinlvl = 1;
+static int keycounter = 0;
+static int keysneeded;
+
 
 extern CStopWatch g_swTimer;
 extern bool g_bQuitGame;
@@ -55,6 +70,8 @@ void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 void combat();
+bool disablemovement(EGAMESTATES g_eGameState);
+
 
 
 #endif // _GAME_H

@@ -7,7 +7,6 @@
 #include <chrono>
 #include <ctime>
 #include "Framework/timer.h"
-#include "game.h"
 #include "TextStore.h"
 
 using namespace std;

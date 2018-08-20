@@ -2,19 +2,7 @@
 //
 //
 #include "game.h"
-#include "Framework\console.h"
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include "collision.h"
-#include "TextStore.h"
-#include <fstream>
-#include <string>
-#include "tilemanager.h"
 
-char map[15][87];
-int lvlcleared = 1;
-int changeinlvl = 1;
 bool bArray[18];
 
 void textRender();
@@ -24,7 +12,8 @@ bool    g_abKeyPressed[K_COUNT];
 
 // Game specific variables here
 SGameChar   g_sChar;
-//  MOB Text copy
+ifstream mobInfo("MobsFinal.txt");
+// MOB Text copy
 Text Monster1;
 Text Monster2;
 Text Monster3;
@@ -43,11 +32,20 @@ Text Monster15;
 Text Monster16;
 Text Monster17;
 Text Monster18;
-ifstream mobInfo("MobsFinal.txt");
-// MOB Text copy
 
 string texty;
-string whichText(string *output, bool *boolArray);
+//string whichText(string *output, bool *boolArray);
+bool disablemovement(EGAMESTATES g_eGameState)
+{
+	if (g_eGameState == S_COMBAT)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
@@ -99,6 +97,7 @@ void init( void )
 	{
 		bArray[i] = true;
 	}
+	
 }
 
 //--------------------------------------------------------------
@@ -220,7 +219,7 @@ void moveCharacter()
 
     // Updating the location of the character based on the key press
     // providing a beep sound whenver we shift the character
-    if ((g_abKeyPressed[K_UP] ) && (collision(map, (g_sChar.m_cLocation.Y - 1) , g_sChar.m_cLocation.X) != true))
+    if ((g_abKeyPressed[K_UP] ) && (collision(map, (g_sChar.m_cLocation.Y - 1) , g_sChar.m_cLocation.X) != true) && (disablemovement (g_eGameState) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;
@@ -232,7 +231,7 @@ void moveCharacter()
 		{
 			c.Y = g_sChar.m_cLocation.Y;
 			c.X = g_sChar.m_cLocation.X;
-			//run text for key
+			keycounter++;
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
@@ -245,22 +244,20 @@ void moveCharacter()
         bSomethingHappened = true;
 		
     }
-   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
+   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true) && (disablemovement (g_eGameState) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
     {
        // Beep(1440, 30);
         g_sChar.m_cLocation.X--;
 		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
-			//run text for monster
+			g_eGameState = S_COMBAT;
 		}
 		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
 			c.Y = g_sChar.m_cLocation.Y;
 			c.X = g_sChar.m_cLocation.X;
-			//run text for key
+			keycounter++;
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-
-			
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
@@ -271,7 +268,7 @@ void moveCharacter()
 		}
         bSomethingHappened = true;
     }
-    if ((g_abKeyPressed[K_DOWN] ) && (collision(map, (g_sChar.m_cLocation.Y + 1) , g_sChar.m_cLocation.X) != true))
+    if ((g_abKeyPressed[K_DOWN] ) && (collision(map, (g_sChar.m_cLocation.Y + 1) , g_sChar.m_cLocation.X) != true) && (disablemovement (g_eGameState) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y++;
@@ -283,7 +280,7 @@ void moveCharacter()
 		{
 			c.Y = g_sChar.m_cLocation.Y;
 			c.X = g_sChar.m_cLocation.X;
-			//run text for key
+			keycounter++;
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 
 		
@@ -297,7 +294,7 @@ void moveCharacter()
 		}
         bSomethingHappened = true;
     }
-    if ((g_abKeyPressed[K_RIGHT] ) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
+    if ((g_abKeyPressed[K_RIGHT] ) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true) && (disablemovement (g_eGameState) != true))
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X++;
@@ -309,15 +306,18 @@ void moveCharacter()
 		{
 			c.Y = g_sChar.m_cLocation.Y;
 			c.X = g_sChar.m_cLocation.X;
-			//run text for key
+			keycounter++;
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
+			if (keycounter == keysneeded)
+			{
+				keysneeded = 0;
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+			}
 		}
         bSomethingHappened = true;
     }
@@ -384,6 +384,7 @@ void renderMap()
 
 	string rows;
 	string cols;
+	string keys;
 	string filename;
 	int y;
 	int x;
@@ -418,8 +419,12 @@ void renderMap()
 		currentlvl.open(filename);
 		getline(currentlvl, cols);
 		getline(currentlvl, rows);
+		getline(currentlvl, keys);
+
 		y = stoi(rows);
 		x = stoi(cols);
+		keysneeded = stoi(keys);
+		
 
 		for (int i = 0; i < y - 1; ++i)
 		{
@@ -433,27 +438,21 @@ void renderMap()
 				{
 				case'#':
 					map[i][j] = (char)219;
-				
 					break;
 				case'k':
 					map[i][j] = 'k';
-				
 					break;
 				case'o':
 					map[i][j] = 'o';
-				
 					break;
 				case'm':
 					map[i][j] = 'm';
-				
 					break;
 				case ' ':
 					map[i][j] = ' ';
-				
-
+					break;
 				default:
 					break;
-
 				}
 			}
 		}
@@ -483,8 +482,8 @@ void textRender()
 
 	COORD Text;
 	Text.X = 0;
-	Text.Y = 17;
-	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
+	Text.Y = 18;
+	//g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
 
 	
 }
@@ -527,6 +526,24 @@ void renderToScreen()
 void combat()
 {
 
+}
+
+string ansChecker(Text * Mob)
+{
+	bool g_abKeyPressed[K_COUNT];
+	if (g_abKeyPressed[K_1] == Mob->correctAns)
+	{
+		//print congrats
+	}
+	else if (g_abKeyPressed[K_2] == Mob->correctAns)
+	{
+		//print congrats
+	}
+	else if (g_abKeyPressed[K_3] == Mob->correctAns)
+	{
+		//print congrats
+	}
+	return 0;
 }
 
 string whichText(string *output, bool *BoolArray)

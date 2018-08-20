@@ -52,7 +52,6 @@ bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks 
 	}
 }	
 
-
 bool touchmonster(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a monster
 {
 	if (array[playerycoord][playerxcoord] == 'm')
@@ -88,3 +87,4 @@ bool touchend(char array[15][87], int playerycoord, int playerxcoord)//checks if
 		return false;
 	}
 }
+

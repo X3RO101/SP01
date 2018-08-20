@@ -58,4 +58,5 @@ void combat();
 //runs comabt functions
 
 
+
 #endif // _GAME_H

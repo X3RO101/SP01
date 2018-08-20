@@ -11,17 +11,20 @@
 #include <fstream>
 #include <string>
 #include "tilemanager.h"
+#include "Keys.h"
+#include <ctime>
+#include <random>
 
+int lvlcleared = 1;
+int changeinlvl = 1;
 
 char map[15][87];
-int lvlcleared = 1;
-
-
-int changeinlvl = 1;
 
 
 void textRender();
-bool bArray[18];
+bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
+bool kArray[10]; // bool array for random DUMMY KEYs so they dont spawn twice (number inside [] tbd)
+
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
@@ -49,7 +52,14 @@ Text Monster17;
 Text Monster18;
 ifstream mobInfo("MobsFinal.txt");
 // MOB Text copy
-
+// KEY TEXT
+ifstream CorrectPass("CorrectPasswords.txt");
+Key L1K1;
+// KEY TEXT
+// DUMMY KEYS
+ifstream DummyFile("DummyKeys.txt");
+Key Dummy1;
+// DUMMY KEYS
 string texty;
 string whichText(string *output, bool *boolArray);
 
@@ -98,9 +108,14 @@ void init( void )
 	textBank(&Monster16, &mobInfo);
 	textBank(&Monster17, &mobInfo);
 	textBank(&Monster18, &mobInfo);      
-	for (int i = 0; i < sizeof(bArray); i++)  // for the mobs' text
+	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
 	{
 		bArray[i] = true;
+	}
+
+	for (int i = 0; i < sizeof(kArray); i++)  // same goes for the keys
+	{
+		kArray[i] = true;
 	}
 }
 
@@ -372,9 +387,6 @@ void renderGame()
 
 void renderMap()
 {
-
-    //Set up sample colours, and *output shadings
-
     //Set up sample colours, and output shadings
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
@@ -382,16 +394,14 @@ void renderMap()
     };
 
     COORD c;
-	colour(colors[0]);
 	
 	colour(colors[0]);
-    
+
 	string rows;
 	string cols;
 	string filename;
 	int y;
 	int x;
-	
 
 	if (lvlcleared == 1)
 	{
@@ -432,12 +442,15 @@ void renderMap()
 			for (int j = 0; j < x - 1; ++j)
 			{
 				currentchar = currentrow[j];
+
 				c.X = j;
 				c.Y = i;
+
 				switch (currentchar)
 				{
 				case'#':
 					map[i][j] = (char)219;
+
 				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'k':
@@ -454,7 +467,8 @@ void renderMap()
 					break;
 				case ' ':
 					map[i][j] = ' ';
-				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
+				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);			
+					break;				
 
 				default:
 					break;
@@ -492,7 +506,8 @@ void textRender()
 	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
 
 	/*start here
-	string filename;
+	
+	filename;
 
 	int lvlclear = 0;
 
@@ -550,7 +565,6 @@ void textRender()
 	}
 	
 	end here*/
-	
 
 }
 
@@ -589,8 +603,10 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
+
 string whichText(string *output, bool *BoolArray)
 {
+	srand(time(nullptr));
 	bool done = true;
 	while (done)
 	{
@@ -822,10 +838,6 @@ after finish clean textbox
 */
 
 
-void combat()
-{
-
-}
 
 //when enter combat
 //gamestate change to combat

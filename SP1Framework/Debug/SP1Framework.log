@@ -1,1 +1,6 @@
-﻿
+﻿  game.cpp
+c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(290): warning C4309: 'argument': truncation of constant value
+c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(402): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(404): warning C4700: uninitialized local variable 'maxMob' used
+  SP1Framework.vcxproj -> C:\Users\benis\Documents\GitHub\SP01T11\Debug\SP1Framework.exe
+  SP1Framework.vcxproj -> C:\Users\benis\Documents\GitHub\SP01T11\Debug\SP1Framework.pdb (Full PDB)

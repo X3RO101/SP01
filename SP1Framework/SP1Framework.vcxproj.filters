@@ -34,6 +34,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mob_Spawn.cpp">
+    <ClCompile Include="levelgen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tilemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,6 +55,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mob_Spawn.h">
+    <ClInclude Include="levelgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tilemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

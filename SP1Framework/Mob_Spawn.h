@@ -5,12 +5,11 @@
 #include<random>
 #include<ctime>
 #include<string>
-#include<cmath>
+#include<fstream>
 
 using namespace std;
 
 char SetLocation(char ySet[4], char xSet[4]);
-char** MapLocation();
-bool LocationCheck(char(*CheckArray)[4][4]);
+bool LocationCheck(bool ReturnChecking);
 
 #endif /* MOB_SPAWN_H */

@@ -6,20 +6,13 @@
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Keys.cpp" />
     <ClCompile Include="levelgen.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TextStore.cpp" />
     <ClCompile Include="TimeFreeze.cpp" />
     <ClCompile Include="UserAnswer.cpp" />
     <ClCompile Include="tilemanager.cpp" />
-    <ClCompile Include="TextStore.cpp">
-      <Filter>TextStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Keys.cpp">
-      <Filter>TextStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="combat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
@@ -27,45 +20,20 @@
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="Keys.h" />
+    <ClInclude Include="TextStore.h" />
     <ClInclude Include="TimeFreeze.h" />
     <ClInclude Include="UserAnswer.h" />
     <ClInclude Include="levelgen.h" />
     <ClInclude Include="tilemanager.h" />
-    <ClInclude Include="TextStore.h">
-      <Filter>TextStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="combat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Keys.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="TextStuff">
-      <UniqueIdentifier>{4c2201b0-d369-4bd5-af9f-4a203b98db4c}</UniqueIdentifier>
-    </Filter>
->>>>>>> 30c11f296886f39966b82468a2b9b9227b8ceea0
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="game_over_screen.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="main_menu_frame_1.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="main_menu_frame_2.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="Controls.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="pause_screen_1.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="pause_screen_2.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="pause_screen_3.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
+    <Text Include="game_over_screen.txt" />
+    <Text Include="main_menu_frame_1.txt" />
+    <Text Include="main_menu_frame_2.txt" />
+    <Text Include="Controls.txt" />
+    <Text Include="pause_screen_1.txt" />
+    <Text Include="pause_screen_2.txt" />
+    <Text Include="pause_screen_3.txt" />
   </ItemGroup>
 </Project>

@@ -58,7 +58,7 @@ void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
-void combat();
+// void combat();
 //runs combat functions
 
 
@@ -70,7 +70,7 @@ void scoresystem();			// function that increases the score when the player kills
 void main_menu_option();	// function that changes between the start button and controls button in the main menu
 void control_screen();		// screen that shows the controls
 void control_screen_back();	// function to go back to main menu
-void pause_select();		// WIP pause
-void pause_screen();		// WIP pause screen
+void pause_select();		// 
+void pause_screen();		// 
 
 #endif // _GAME_H

@@ -1,16 +1,19 @@
 ﻿  game.cpp
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(376): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(379): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(382): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(385): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(388): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(391): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(394): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(417): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(420): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(423): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(426): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(429): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(432): warning C4309: '=': truncation of constant value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(435): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(287): warning C4018: '<': signed/unsigned mismatch
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(418): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(421): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(424): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(427): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(430): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(433): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(436): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(459): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(462): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(465): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(468): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(471): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(474): warning C4309: '=': truncation of constant value
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(477): warning C4309: '=': truncation of constant value
+  main.cpp
+  Generating Code...
   SP1Framework.vcxproj -> C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Debug\SP1Framework.exe

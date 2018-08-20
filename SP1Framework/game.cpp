@@ -22,6 +22,9 @@ int healthpoints = 3;				// number of lives player has
 int score = 0;						// player score
 bool main_menu_1 = true;			// to check if player is choosing the start option
 bool main_menu_2 = false;			// to check if player is choosing the controls option
+bool pause_1 = true;				// to check if player is choosing continue
+bool pause_2 = false;				// to check if player is choosing to go to main menu
+bool pause_3 = false;				// to check if player is choosing to exit game
 
 // Game specific variables here
 SGameChar   g_sChar;
@@ -120,6 +123,8 @@ void update(double dt)
 			break;
 		case S_CONTROLS: control_screen_back();
 			break;
+		case S_PAUSE: pause_select();
+			break;
     }
 }
 //--------------------------------------------------------------
@@ -142,6 +147,8 @@ void render()
 		case S_CONTROLS: control_screen();
 			break;
 		case S_DEATH: game_over();
+			break;
+		case S_PAUSE: pause_screen();
 			break;
     }
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
@@ -211,7 +218,8 @@ void processUserInput()
 {
     // quits the game if player hits the escape key
     if (g_abKeyPressed[K_ESCAPE])
-        g_bQuitGame = true;
+   /*     g_bQuitGame = true; */
+		g_eGameState = S_PAUSE;
 }
 
 void clearScreen()
@@ -247,6 +255,40 @@ void renderMap()
         colour(colors[i]);
         g_Console.writeToBuffer(c, " °±²Û", colors[i]);
     }
+
+	string healthtext = "Health : ";
+	COORD x;
+	char currentchar;
+	currentchar = 3;
+	x.X = 1;
+	x.Y = 13;
+	for (int i = 0; i < 9; ++i)
+	{
+		g_Console.writeToBuffer(x, healthtext[i], 0x09);
+		x.X++;
+	}
+	for (int i = 0; i < healthpoints; ++i)
+	{
+		g_Console.writeToBuffer(x, currentchar, 0x09);
+		x.X++;
+	}
+
+	x.X = 1;
+	x.Y = 14;
+	string pointstext = "Score : ";
+	ostringstream str1;
+	str1 << score;
+	string scorestr = str1.str();
+	for (int i = 0; i < 8; ++i)
+	{
+		g_Console.writeToBuffer(x, pointstext[i], 0x09);
+		x.X++;
+	}
+	for (int i = 0; i < scorestr.length(); ++i)
+	{
+		g_Console.writeToBuffer(x, scorestr[i], 0x09);
+		x.X++;
+	}
 }
 
 void renderCharacter()
@@ -565,4 +607,58 @@ void scoresystem() // Do this in the weekend
 		score += healthpoints;
 		killmob = false;
 	}
+}
+
+void pause_select()
+{
+	if (pause_1 == true)
+	{
+		if (g_abKeyPressed[K_DOWN])
+		{
+			pause_1 = false;
+			pause_2 = true;
+			pause_3 = false;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			g_eGameState = S_GAME;
+		}
+	}
+	if (pause_2 == true)
+	{
+		if (g_abKeyPressed[K_UP])
+		{
+			pause_1 = true;
+			pause_2 = false;
+			pause_3 = false;
+		}
+		if (g_abKeyPressed[K_DOWN])
+		{
+			pause_1 = false;
+			pause_2 = false;
+			pause_3 = true;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			g_eGameState = S_SPLASHSCREEN;
+		}
+	}
+	if (pause_3 == true)
+	{
+		if (g_abKeyPressed[K_UP])
+		{
+			pause_1 = false;
+			pause_2 = true;
+			pause_3 = false;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			g_bQuitGame = true;
+		}
+	}
+}
+
+void pause_screen()
+{
+
 }

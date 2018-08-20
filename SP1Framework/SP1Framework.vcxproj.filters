@@ -58,5 +58,14 @@
     <Text Include="Controls.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="pause_screen_1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="pause_screen_2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="pause_screen_3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

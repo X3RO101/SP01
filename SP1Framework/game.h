@@ -26,7 +26,8 @@ enum EGAMESTATES
 	S_CONTROLS,
     S_GAME,
     S_COUNT,
-	S_DEATH
+	S_DEATH,
+	S_PAUSE
 };
 
 // struct for the game character
@@ -61,5 +62,7 @@ void scoresystem();			// function that increases the score when the player kills
 void main_menu_option();	// function that changes between the start button and controls button in the main menu
 void control_screen();		// screen that shows the controls
 void control_screen_back();	// function to go back to main menu
+void pause_select();		// WIP pause
+void pause_screen();		// WIP pause screen
 
 #endif // _GAME_H

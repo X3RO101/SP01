@@ -12,6 +12,6 @@
 
 using namespace std;
 
-bool timeFreeze(Text * Mob);
+bool timeFreeze(EGAMESTATES g_eGameState/*, int * HP  */);
 
 #endif // !TIME_FREEZE_H

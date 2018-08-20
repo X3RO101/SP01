@@ -5,9 +5,17 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+#include "game.h"
+#include "Framework/timer.h"
 
 using namespace std;
 
-void timefreeze(string answer);
+void combat(EGAMESTATES * GameState,double deltaTime);
+void processAnsInput();
+void duration(double elapsed, EGAMESTATES *GameState);
+bool disableMove(EGAMESTATES * GameState);
+void renderText(string *mobText);
+void renderCombat();
+
 
 #endif

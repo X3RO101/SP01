@@ -15,6 +15,7 @@
 #include <ctime>
 #include <random>
 #include "levelgen.h"
+#include "combat.h"
 
 
 char map[15][87];
@@ -185,6 +186,7 @@ void update(double dt)
     {
         case S_SPLASHSCREEN : splashScreenWait(); // game logic for the splash screen
             break;
+		case S_COMBAT: combat(&g_eGameState, dt);
         case S_GAME: gameplay(); // gameplay logic when we are in the game
             break;
 		//case S_COMBAT :
@@ -207,6 +209,8 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
+		case S_COMBAT: renderCombat();
+			break;
     }
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
@@ -215,14 +219,16 @@ void render()
 void splashScreenWait()    // waits for time to pass in splash screen
 {
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
-        g_eGameState = S_GAME;
+        g_eGameState = S_COMBAT;
 }
 
 void gameplay()            // gameplay logic
 {
-    processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
-    moveCharacter();    // moves the character, collision detection, physics, etc
-                        // sound can be played here too.
+    processUserInput();// checks if you should change states or do something else with the game, e.g. pause, exit
+	if (g_eGameState == S_GAME)
+	{
+		moveCharacter();    // moves the character, collision detection, physics, etc
+	}                   // sound can be played here too.
 }
 
 void moveCharacter()
@@ -246,6 +252,7 @@ void moveCharacter()
         g_sChar.m_cLocation.Y--;
 		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
+			//change gamestate to combat
 			//run text for monster
 		}
 		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
@@ -385,7 +392,6 @@ void renderGame()
 {
     renderMap();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
-	textRender();
 }
 
 void renderMap()

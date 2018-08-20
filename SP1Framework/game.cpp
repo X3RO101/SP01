@@ -14,17 +14,19 @@
 #include "Keys.h"
 #include <ctime>
 #include <random>
+#include "levelgen.h"
+
+
+char map[15][87];
+
+bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
+bool kArray[10]; // bool array for random DUMMY KEYs so they dont spawn twice (number inside [] tbd)
+
 
 int lvlcleared = 1;
 int changeinlvl = 1;
 
-char map[15][87];
-
-
 void textRender();
-bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
-bool kArray[10]; // bool array for random DUMMY KEYs so they dont spawn twice (number inside [] tbd)
-
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
@@ -60,6 +62,7 @@ Key L1K1;
 ifstream DummyFile("DummyKeys.txt");
 Key Dummy1;
 // DUMMY KEYS
+
 string texty;
 string whichText(string *output, bool *boolArray);
 
@@ -392,9 +395,7 @@ void renderMap()
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
-
     COORD c;
-	
 	colour(colors[0]);
 
 	string rows;
@@ -450,7 +451,6 @@ void renderMap()
 				{
 				case'#':
 					map[i][j] = (char)219;
-
 				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'k':
@@ -604,9 +604,9 @@ void renderToScreen()
 }
 
 
+
 string whichText(string *output, bool *BoolArray)
 {
-	srand(time(nullptr));
 	bool done = true;
 	while (done)
 	{

@@ -17,6 +17,24 @@
     <ClCompile Include="Keys.cpp">
       <Filter>TextStuff</Filter>
     </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserAnswer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tilemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextStore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeFreeze.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="levelgen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="combat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -33,18 +51,39 @@
     <ClInclude Include="tilemanager.h" />
     <ClInclude Include="TextStore.h">
       <Filter>TextStuff</Filter>
+    <ClInclude Include="Framework\console.h">
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
-<<<<<<< HEAD
+    <ClInclude Include="Framework\timer.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserAnswer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="levelgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextStore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeFreeze.h">
+    <ClInclude Include="levelgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="combat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-=======
     <ClInclude Include="Keys.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TextStuff">
       <UniqueIdentifier>{4c2201b0-d369-4bd5-af9f-4a203b98db4c}</UniqueIdentifier>
     </Filter>
->>>>>>> 30c11f296886f39966b82468a2b9b9227b8ceea0
   </ItemGroup>
 </Project>

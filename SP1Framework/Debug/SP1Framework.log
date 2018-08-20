@@ -1,6 +1,48 @@
 ﻿  game.cpp
-c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(290): warning C4309: 'argument': truncation of constant value
-c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(402): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\benis\documents\github\sp01t11\sp1framework\game.cpp(404): warning C4700: uninitialized local variable 'maxMob' used
-  SP1Framework.vcxproj -> C:\Users\benis\Documents\GitHub\SP01T11\Debug\SP1Framework.exe
-  SP1Framework.vcxproj -> C:\Users\benis\Documents\GitHub\SP01T11\Debug\SP1Framework.pdb (Full PDB)
+  Generating Code...
+  Compiling...
+  main.cpp
+  UserAnswer.cpp
+c:\users\benis\documents\github\sp01t11\sp1framework\useranswer.cpp(6): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+c:\users\benis\documents\github\sp01t11\sp1framework\useranswer.cpp(10): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+c:\users\benis\documents\github\sp01t11\sp1framework\useranswer.cpp(14): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+  TimeFreeze.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  game.h
+  TextStore.cpp
+  Mob_Spawn.cpp
+Debug\collision.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\combat.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\console.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\timer.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\game.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\levelgen.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\Mob_Spawn.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\TextStore.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\TimeFreeze.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\UserAnswer.obj : warning LNK4042: object specified more than once; extras ignored
+Debug\tilemanager.obj : warning LNK4042: object specified more than once; extras ignored
+game.obj : error LNK2019: unresolved external symbol "bool __cdecl isKeyPressed(unsigned short)" (?isKeyPressed@@YA_NG@Z) referenced in function "void __cdecl getInput(void)" (?getInput@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: __thiscall Console::Console(short,short,char const *)" (??0Console@@QAE@FFPBD@Z) referenced in function "void __cdecl `dynamic initializer for 'g_Console''(void)" (??__Eg_Console@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: __thiscall Console::~Console(void)" (??1Console@@QAE@XZ) referenced in function "void __cdecl `dynamic atexit destructor for 'g_Console''(void)" (??__Fg_Console@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: void __thiscall Console::setConsoleFont(short,short,wchar_t const *)" (?setConsoleFont@Console@@QAEXFFPB_W@Z) referenced in function "void __cdecl init(void)" (?init@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: void __thiscall Console::flushBufferToConsole(void)" (?flushBufferToConsole@Console@@QAEXXZ) referenced in function "void __cdecl renderToScreen(void)" (?renderToScreen@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: void __thiscall Console::clearBuffer(unsigned short)" (?clearBuffer@Console@@QAEXG@Z) referenced in function "void __cdecl clearScreen(void)" (?clearScreen@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: void __thiscall Console::writeToBuffer(struct _COORD,char const *,unsigned short)" (?writeToBuffer@Console@@QAEXU_COORD@@PBDG@Z) referenced in function "void __cdecl moveCharacter(void)" (?moveCharacter@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: void __thiscall Console::writeToBuffer(struct _COORD,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &,unsigned short)" (?writeToBuffer@Console@@QAEXU_COORD@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@G@Z) referenced in function "void __cdecl renderFramerate(void)" (?renderFramerate@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "public: void __thiscall Console::writeToBuffer(struct _COORD,char,unsigned short)" (?writeToBuffer@Console@@QAEXU_COORD@@DG@Z) referenced in function "void __cdecl renderCharacter(void)" (?renderCharacter@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "bool __cdecl collision(char (* const)[87],int,int)" (?collision@@YA_NQAY0FH@DHH@Z) referenced in function "void __cdecl moveCharacter(void)" (?moveCharacter@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "bool __cdecl touchmonster(char (* const)[87],int,int)" (?touchmonster@@YA_NQAY0FH@DHH@Z) referenced in function "void __cdecl moveCharacter(void)" (?moveCharacter@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "bool __cdecl touchkey(char (* const)[87],int,int)" (?touchkey@@YA_NQAY0FH@DHH@Z) referenced in function "void __cdecl moveCharacter(void)" (?moveCharacter@@YAXXZ)
+game.obj : error LNK2019: unresolved external symbol "bool __cdecl touchend(char (* const)[87],int,int)" (?touchend@@YA_NQAY0FH@DHH@Z) referenced in function "void __cdecl moveCharacter(void)" (?moveCharacter@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall CStopWatch::CStopWatch(void)" (??0CStopWatch@@QAE@XZ) referenced in function "void __cdecl `dynamic initializer for 'g_Timer''(void)" (??__Eg_Timer@@YAXXZ)
+TimeFreeze.obj : error LNK2001: unresolved external symbol "public: __thiscall CStopWatch::CStopWatch(void)" (??0CStopWatch@@QAE@XZ)
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall CStopWatch::~CStopWatch(void)" (??1CStopWatch@@QAE@XZ) referenced in function "void __cdecl `dynamic atexit destructor for 'g_Timer''(void)" (??__Fg_Timer@@YAXXZ)
+TimeFreeze.obj : error LNK2001: unresolved external symbol "public: __thiscall CStopWatch::~CStopWatch(void)" (??1CStopWatch@@QAE@XZ)
+main.obj : error LNK2019: unresolved external symbol "public: void __thiscall CStopWatch::startTimer(void)" (?startTimer@CStopWatch@@QAEXXZ) referenced in function "void __cdecl mainLoop(void)" (?mainLoop@@YAXXZ)
+TimeFreeze.obj : error LNK2001: unresolved external symbol "public: void __thiscall CStopWatch::startTimer(void)" (?startTimer@CStopWatch@@QAEXXZ)
+main.obj : error LNK2019: unresolved external symbol "public: double __thiscall CStopWatch::getElapsedTime(void)" (?getElapsedTime@CStopWatch@@QAENXZ) referenced in function "void __cdecl mainLoop(void)" (?mainLoop@@YAXXZ)
+TimeFreeze.obj : error LNK2001: unresolved external symbol "public: double __thiscall CStopWatch::getElapsedTime(void)" (?getElapsedTime@CStopWatch@@QAENXZ)
+main.obj : error LNK2019: unresolved external symbol "public: void __thiscall CStopWatch::waitUntil(__int64)" (?waitUntil@CStopWatch@@QAEX_J@Z) referenced in function "void __cdecl mainLoop(void)" (?mainLoop@@YAXXZ)
+C:\Users\benis\Documents\GitHub\SP01T11\Debug\SP1Framework.exe : fatal error LNK1120: 18 unresolved externals

@@ -79,23 +79,32 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="collision.cpp" />
+    <ClCompile Include="combat.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="levelgen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mob_Spawn.cpp" />
+    <ClCompile Include="TextStore.cpp" />
+    <ClCompile Include="TimeFreeze.cpp" />
+    <ClCompile Include="UserAnswer.cpp" />
     <ClCompile Include="tilemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="collision.h" />
-    <ClInclude Include="Framework\console.h" />
-    <ClInclude Include="Framework\timer.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="Mob_Spawn.h" />
-    <ClInclude Include="levelgen.h" />
-    <ClInclude Include="tilemanager.h" />
+    <ClCompile Include="collision.h" />
+    <ClCompile Include="combat.h" />
+    <ClCompile Include="Framework\console.h" />
+    <ClCompile Include="Framework\timer.h" />
+    <ClCompile Include="game.h" />
+    <ClCompile Include="levelgen.h" />
+    <ClCompile Include="Mob_Spawn.h" />
+    <ClCompile Include="TextStore.h" />
+    <ClCompile Include="TimeFreeze.h" />
+    <ClCompile Include="UserAnswer.h" />
+    <ClCompile Include="tilemanager.h" />
   </ItemGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

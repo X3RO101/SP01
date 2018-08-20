@@ -1,5 +1,4 @@
 #include"Mob_Spawn.h"
-#include"game.h"
 
 
 // set 4 random locations

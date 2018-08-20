@@ -34,6 +34,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mob_Spawn.cpp">
+    <ClCompile Include="UserAnswer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="levelgen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tilemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextStore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeFreeze.cpp">
+      <Filter>Source Files </Filter>
+    </ClCompile>
     <ClCompile Include="levelgen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,8 +58,20 @@
     <ClCompile Include="tilemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="combat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Framework\console.h">
+    <ClInclude Include="Framework\timer.h">
+    <ClInclude Include="game.h">
+    <ClInclude Include="Mob_Spawn.h">
+    <ClInclude Include="levelgen.h">
+    <ClInclude Include="TextStore.h">
+    <ClInclude Include="TimeFreeze.h">
+    <ClInclude Include="combat.h">
+      <Filter>TextStuff</Filter>
     <ClInclude Include="Framework\console.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
@@ -55,6 +82,20 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mob_Spawn.h">
+      <Filter>Header Files</Filter>
+    <ClInclude Include="UserAnswer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="levelgen.h">
+    <ClCompile Include="tilemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextStore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeFreeze.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="levelgen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -62,6 +103,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tilemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="combat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

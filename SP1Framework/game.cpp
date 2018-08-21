@@ -8,30 +8,46 @@
 #include <fstream>
 #include <string>
 #include <stdio.h>
-#include "TextStore.h"
-#include "tilemanager.h"
 #include <ctime>
 #include <random>
 
 using namespace std;
 
 char map[15][87];
-
+// for mobs
 bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
+ifstream initMobs("MobsFinal.txt");
+ifstream mobAns("mobAns.txt");
+Text mob1;
+Text mob2;
+Text mob3;
+Text mob4;
+Text mob5;
+Text mob6;
+Text mob7;
+Text mob8;
+Text mob9;
+Text mob10;
+Text mob11;
+Text mob12;
+Text mob13;
+Text mob14;
+Text mob15;
+Text mob16;
+Text mob17;
+Text mob18;
 
+string continueRender;
+string mobAnswers;
+
+int ansPasser; // for the answer checker
+
+int g = 0;
+int h = 0;
 //important
-/*
-void duration(double elapsed, EGAMESTATES *GameState);
-void duration(double elapsed, EGAMESTATES *GameState)
-{
-	totalTime += elapsed;
+double totalTime = 0;
 
-	if (totalTime > 3.0)
-	{
-		*GameState = S_GAME;
-	}
-}*/
-
+bool moveAllow = true;
 //important
 
 int lvlcleared = 1;
@@ -58,15 +74,11 @@ bool difficulty2 = false;
 
 // Game specific variables here
 SGameChar   g_sChar;
-//  MOB Text copy
-
-ifstream mobInfo("MobsFinal.txt");
-// MOB Text copy
 
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
 // Console object
-EGAMESTATES g_eGameState = S_SPLASHSCREEN;
+EGAMESTATES g_eGameState;
 
 Console g_Console(87, 30, "                                                             Labyrinthos Libertas");
 
@@ -80,6 +92,32 @@ Console g_Console(87, 30, "                                                     
 //--------------------------------------------------------------
 void init( void )
 {
+	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
+	{
+		bArray[i] = true;
+	}
+	//initialise all the mob info
+	initMobText(&mob1, &initMobs);
+	initMobText(&mob2, &initMobs);
+	initMobText(&mob3, &initMobs);
+	initMobText(&mob4, &initMobs);
+	initMobText(&mob5, &initMobs);
+	initMobText(&mob6, &initMobs);
+	initMobText(&mob7, &initMobs);
+	initMobText(&mob8, &initMobs);
+	initMobText(&mob9, &initMobs);
+	initMobText(&mob10, &initMobs);
+	initMobText(&mob11, &initMobs);
+	initMobText(&mob12, &initMobs);
+	initMobText(&mob13, &initMobs);
+	initMobText(&mob14, &initMobs);
+	initMobText(&mob15, &initMobs);
+	initMobText(&mob16, &initMobs);
+	initMobText(&mob17, &initMobs);
+	initMobText(&mob18, &initMobs);
+	// initialise answers for mobs
+	initAns(&mobAns, &mobAnswers); 
+
     // Set precision for floating point *output
     g_dElapsedTime = 0.0;
     g_dBounceTime = 0.0;
@@ -92,10 +130,6 @@ void init( void )
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
-	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
-	{
-		bArray[i] = true;
-	}
 
 }
 
@@ -162,7 +196,8 @@ void update(double dt)
     {
 	case S_SPLASHSCREEN: main_menu_option(); // game logic for the splash screen
             break;
-		case S_COMBAT:// combat(g_eGameState, dt);
+		case S_COMBAT: gameplay();
+			duration(&g_eGameState, dt);
 			break;
         case S_GAME: gameplay(); // gameplay logic when we are in the game
             break;
@@ -194,7 +229,9 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
-		case S_COMBAT:// renderCombat(&bArray[18] , g_Console);
+		case S_COMBAT: renderGame();
+			COMBAT();
+			break;
 		case S_CONTROLS: control_screen();
 			break;
 		case S_DEATH: game_over();
@@ -243,126 +280,134 @@ void moveCharacter()
 
     // Updating the location of the character based on the key press
     // providing a beep sound whenver we shift the character
-    if ((g_abKeyPressed[K_UP] ) && (collision(map, (g_sChar.m_cLocation.Y - 1) , g_sChar.m_cLocation.X) != true))
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//change gamestate to combat
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			++keycount;
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-		}
-        bSomethingHappened = true;
-		
-    }
-   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
-    {
-	   g_Console.writeToBuffer(c, "Hello", colors[0]);
-       // Beep(1440, 30);
-        g_sChar.m_cLocation.X--;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			keycount++;
+	if (moveAllow)
+	{
 
-			
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-		}
-        bSomethingHappened = true;
-    }
-    if ((g_abKeyPressed[K_DOWN] ) && (collision(map, (g_sChar.m_cLocation.Y + 1) , g_sChar.m_cLocation.X) != true))
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y++;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			keycount++;
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-		}
-        bSomethingHappened = true;
-    }
-    if ((g_abKeyPressed[K_RIGHT] ) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.X++;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			keycount++;
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-		}
-        bSomethingHappened = true;
-    }
-    if (g_abKeyPressed[K_SPACE])
-    {
-        g_sChar.m_bActive = !g_sChar.m_bActive;
-        bSomethingHappened = true;
-    }
 
-    if (bSomethingHappened)
-    {
-        // set the bounce time to some time in the future to prevent accidental triggers
-        g_dBounceTime = g_dElapsedTime + 0.015; // 125ms should be enough
-    }
+		if ((g_abKeyPressed[K_UP]) && (collision(map, (g_sChar.m_cLocation.Y - 1), g_sChar.m_cLocation.X) != true))
+		{
+			//Beep(1440, 30);
+			g_sChar.m_cLocation.Y--;
+			if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				++keycount;
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+
+		}
+		if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
+		{
+			g_Console.writeToBuffer(c, "Hello", colors[0]);
+			// Beep(1440, 30);
+			g_sChar.m_cLocation.X--;
+			if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				keycount++;
+
+
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+		}
+		if ((g_abKeyPressed[K_DOWN]) && (collision(map, (g_sChar.m_cLocation.Y + 1), g_sChar.m_cLocation.X) != true))
+		{
+			//Beep(1440, 30);
+			g_sChar.m_cLocation.Y++;
+			if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				keycount++;
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+		}
+		if ((g_abKeyPressed[K_RIGHT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
+		{
+			//Beep(1440, 30);
+			g_sChar.m_cLocation.X++;
+			if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				keycount++;
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			g_sChar.m_bActive = !g_sChar.m_bActive;
+			bSomethingHappened = true;
+		}
+
+		if (bSomethingHappened)
+		{
+			// set the bounce time to some time in the future to prevent accidental triggers
+			g_dBounceTime = g_dElapsedTime + 0.015; // 125ms should be enough
+		}
+	}
 }
 void processUserInput()
 {
@@ -1265,3 +1310,150 @@ access text relating to mob1
 render text of mob1
 after finish clean textbox
 */
+
+
+//COMBAT RENDERING STUFF and changing of gamestate
+void duration(EGAMESTATES * gameState, double dt) // timer for the combat
+{
+	totalTime += dt;
+	if (totalTime > 10.0)
+	{
+		h = 0;
+		moveAllow = true;
+		*gameState = S_GAME;
+	}
+}
+
+bool ansChecker(int passer, string str)
+{
+	char input = 0;
+	char correct;
+	correct = str[passer];
+	if (g_abKeyPressed[K_1])
+	{
+		input = 49;
+	}
+	if (g_abKeyPressed[K_2])
+	{
+		input = 50;
+	}
+	if (g_abKeyPressed[K_3])
+	{
+		input = 51;
+	}
+
+	if (input == correct)
+	{
+		g_eGameState = S_GAME;
+		return true;
+	}
+	else
+	{
+		g_eGameState = S_SPLASHSCREEN;
+		return false;
+	}
+}
+
+void COMBAT() // runs when gamestate is in combat
+{
+
+	if (h == g)
+	{
+		textPicker(&continueRender, &bArray[18], &ansPasser); // ansPasser is for the array for answers
+		h++;
+	}
+	spamPrint(continueRender);
+}
+
+
+void spamPrint(string input)
+{
+	const WORD colors[] = {
+		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+
+	COORD textCoord;
+	textCoord.X = 0;
+	textCoord.Y = 18;
+
+
+	g_Console.writeToBuffer(textCoord, input, colors[0]);
+}
+
+void initAns(ifstream * mobans, string * ansStr)
+{
+	getline(*mobans, *ansStr);
+}
+
+void textPicker(string * continueRender, bool * boolarray, int * passer) // randomly picks a mob text to print
+{
+	srand(time(nullptr));
+	*passer = rand() % 18 + 1;
+	if (!boolarray[*passer - 1])
+	{
+		switch (*passer)
+		{
+		case 1:
+			*continueRender = mob1.monsterQn;
+			break;
+		case 2:
+			*continueRender = mob2.monsterQn;
+			break;
+		case 3:
+			*continueRender = mob3.monsterQn;
+			break;
+		case 4:
+			*continueRender = mob4.monsterQn;
+			break;
+		case 5:
+			*continueRender = mob5.monsterQn;
+			break;
+		case 6:
+			*continueRender = mob6.monsterQn;
+			break;
+		case 7:
+			*continueRender = mob7.monsterQn;
+			break;
+		case 8:
+			*continueRender = mob8.monsterQn;
+			break;
+		case 9:
+			*continueRender = mob9.monsterQn;
+			break;
+		case 10:
+			*continueRender = mob10.monsterQn;
+			break;
+		case 11:
+			*continueRender = mob11.monsterQn;
+			break;
+		case 12:
+			*continueRender = mob12.monsterQn;
+			break;
+		case 13:
+			*continueRender = mob13.monsterQn;
+			break;
+		case 14:
+			*continueRender = mob14.monsterQn;
+			break;
+		case 15:
+			*continueRender = mob15.monsterQn;
+			break;
+		case 16:
+			*continueRender = mob16.monsterQn;
+			break;
+		case 17:
+			*continueRender = mob17.monsterQn;
+			break;
+		case 18:
+			*continueRender = mob18.monsterQn;
+			break;
+		default:
+			*continueRender = "test";
+			break;
+		}
+		boolarray[*passer - 1] = false;
+	}
+}
+
+//END OF COMBAT RENDERING

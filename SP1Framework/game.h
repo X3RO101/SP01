@@ -5,7 +5,7 @@
 #include "tilemanager.h"
 #include "Framework/console.h"
 #include "Framework/timer.h"
-
+#include "combatRender.h"
 #include <stdio.h>
 
 
@@ -79,4 +79,9 @@ void control_screen_back();	// function to go back to main menu
 void pause_select();		// 
 void pause_screen();		// 
 
+
+// combat rendering/changing of gamestate
+
+void duration(EGAMESTATES * gameState, double dt); // timer for the mob encounters
+void COMBAT();
 #endif // _GAME_H

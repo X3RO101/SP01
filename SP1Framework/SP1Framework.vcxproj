@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="combatRender.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
@@ -87,6 +88,7 @@
     <ClCompile Include="tilemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="combatRender.h" />
     <ClInclude Include="consoleHolder.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />

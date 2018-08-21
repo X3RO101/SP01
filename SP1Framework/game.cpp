@@ -2,27 +2,34 @@
 //
 //
 #include "game.h"
-#include "Framework\console.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include "collision.h"
-#include "TextStore.h"
 #include <fstream>
 #include <string>
-#include "tilemanager.h"
-#include "Keys.h"
 #include <ctime>
 #include <random>
-#include "levelgen.h"
 
 
 
 char map[15][87];
 
 bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
-bool kArray[10]; // bool array for random DUMMY KEYs so they dont spawn twice (number inside [] tbd)
 
+//important
+/*
+void duration(double elapsed, EGAMESTATES *GameState);
+void duration(double elapsed, EGAMESTATES *GameState)
+{
+	totalTime += elapsed;
+
+	if (totalTime > 3.0)
+	{
+		*GameState = S_GAME;
+	}
+}*/
+
+//important
 
 int lvlcleared = 1;
 int changeinlvl = 1;
@@ -37,21 +44,12 @@ SGameChar   g_sChar;
 
 ifstream mobInfo("MobsFinal.txt");
 // MOB Text copy
-// KEY TEXT
-ifstream CorrectPass("CorrectPasswords.txt");
-Key L1K1;
-// KEY TEXT
-// DUMMY KEYS
-ifstream DummyFile("DummyKeys.txt");
-Key Dummy1;
-// DUMMY KEYS
-
 
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
 // Console object
-
-
+Console g_Console(87, 30, "SP1 Framework");
+EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
 //            Initialize variables, allocate memory, load data from file, etc. 
@@ -73,33 +71,11 @@ void init( void )
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
-	textBank(&Monster1, &mobInfo); // initialise all the mobs
-	textBank(&Monster2, &mobInfo);
-	textBank(&Monster3, &mobInfo);
-	textBank(&Monster4, &mobInfo);
-	textBank(&Monster5, &mobInfo);
-	textBank(&Monster6, &mobInfo);
-	textBank(&Monster7, &mobInfo);
-	textBank(&Monster8, &mobInfo);
-	textBank(&Monster9, &mobInfo);
-	textBank(&Monster10, &mobInfo);
-	textBank(&Monster11, &mobInfo);
-	textBank(&Monster12, &mobInfo);
-	textBank(&Monster13, &mobInfo);
-	textBank(&Monster14, &mobInfo);
-	textBank(&Monster15, &mobInfo);
-	textBank(&Monster16, &mobInfo);
-	textBank(&Monster17, &mobInfo);
-	textBank(&Monster18, &mobInfo);      
 	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
 	{
 		bArray[i] = true;
 	}
 
-	for (int i = 0; i < sizeof(kArray); i++)  // same goes for the keys
-	{
-		kArray[i] = true;
-	}
 }
 
 //--------------------------------------------------------------
@@ -165,7 +141,7 @@ void update(double dt)
     {
         case S_SPLASHSCREEN : splashScreenWait(); // game logic for the splash screen
             break;
-		case S_COMBAT: combat(g_eGameState, dt);
+		case S_COMBAT:// combat(g_eGameState, dt);
 			break;
         case S_GAME: gameplay(); // gameplay logic when we are in the game
             break;
@@ -189,7 +165,7 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
-		case S_COMBAT: renderCombat(&bArray[18] , g_Console);
+		case S_COMBAT:// renderCombat(&bArray[18] , g_Console);
 			break;
     }
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
@@ -199,7 +175,7 @@ void render()
 void splashScreenWait()    // waits for time to pass in splash screen
 {
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
-        g_eGameState = S_COMBAT;
+        g_eGameState = S_GAME;
 }
 
 void gameplay()            // gameplay logic

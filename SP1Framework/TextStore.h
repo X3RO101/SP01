@@ -17,7 +17,7 @@ struct Text
 	char correctAns;
 };
 
-void textBank(Text * text, ifstream * mobInfo);
+void textBank(Text text, ifstream * mobInfo);
 
 
 #endif // !TEXT_STORE_H

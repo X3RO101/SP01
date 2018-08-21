@@ -5,18 +5,11 @@
 #include<iostream>
 #include<string>
 #include<fstream>
-#include "Framework/timer.h"
 #include "TextStore.h"
-#include "consoleHolder.h"
+#include "Framework/console.h"
+#include "Framework/timer.h"
 
 using namespace std;
-
-void combat(EGAMESTATES GameState, double deltaTime);
-void duration(double elapsed, EGAMESTATES *GameState);
-string randMobText(string *mobText, bool *BoolArray);
-void renderCombat(bool *BoolArray, Console conCommands);
-void processAnsInput();
-void textRender(bool *BoolArray, Console conCommands);
 
 
 // =================THE MOBS=============================
@@ -39,5 +32,25 @@ Text Monster16;
 Text Monster17;
 Text Monster18;
 // =================END OF THE MOBS=======================
+
+enum EGAMESTATES
+{
+	S_SPLASHSCREEN,
+	S_GAME,
+	S_COUNT,
+	S_COMBAT,
+};
+
+
+EGAMESTATES g_eGameState;
+
+
+
+void combat(EGAMESTATES GameState, double deltaTime);
+void duration(double elapsed, EGAMESTATES *GameState);
+void renderCombat(bool *BoolArray, Console conCommands);
+string randMobText(string *mobText, bool *BoolArray);
+void processAnsInput();
+void textRender(bool *BoolArray, Console conCommands);
 
 #endif

@@ -4,20 +4,8 @@
 #include <iostream>
 #include <string>
 #include "Framework/console.h"
+#include "Framework/timer.h"
 
-void getConsole(Console con);
-
-enum EGAMESTATES
-{
-	S_SPLASHSCREEN,
-	S_GAME,
-	S_COUNT,
-	S_COMBAT,
-
-};
-
-Console g_Console(87, 30, "SP1 Framework");
-EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 
 
 

@@ -4,16 +4,43 @@
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextStore.cpp" />
+=======
+    <ClCompile Include="Keys.cpp" />
+    <ClCompile Include="levelgen.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="TextStore.cpp" />
+    <ClCompile Include="TimeFreeze.cpp" />
+    <ClCompile Include="UserAnswer.cpp" />
+>>>>>>> Afiq
     <ClCompile Include="tilemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
+<<<<<<< HEAD
     <ClInclude Include="TextStore.h" />
     <ClInclude Include="tilemanager.h" />
     <ClInclude Include="consoleHolder.h" />
+=======
+    <ClInclude Include="Keys.h" />
+    <ClInclude Include="TextStore.h" />
+    <ClInclude Include="TimeFreeze.h" />
+    <ClInclude Include="UserAnswer.h" />
+    <ClInclude Include="levelgen.h" />
+    <ClInclude Include="tilemanager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="game_over_screen.txt" />
+    <Text Include="main_menu_frame_1.txt" />
+    <Text Include="main_menu_frame_2.txt" />
+    <Text Include="Controls.txt" />
+    <Text Include="pause_screen_1.txt" />
+    <Text Include="pause_screen_2.txt" />
+    <Text Include="pause_screen_3.txt" />
+>>>>>>> Afiq
   </ItemGroup>
 </Project>

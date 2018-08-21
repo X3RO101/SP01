@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <string>
+#include <fstream>
 
 //=============================================================================
 // Slower write to screen functions

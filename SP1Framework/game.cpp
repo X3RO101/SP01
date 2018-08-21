@@ -391,23 +391,23 @@ void renderMap()
 	
 
 
-	if (lvlcleared == 1)
+	if (lvlcleared == 0)
 	{
 		filename += "lvl1.txt";
 	}
-	else if (lvlcleared == 2)
+	else if (lvlcleared == 1)
 	{
 		filename += "lvl2.txt";
 	}
-	else if (lvlcleared == 3)
+	else if (lvlcleared == 2)
 	{
 		filename += "lvl3.txt";
 	}
-	else if (lvlcleared == 4)
+	else if (lvlcleared == 3)
 	{
 		filename += "lvl4.txt";
 	}
-	else if (lvlcleared == 5)
+	else if (lvlcleared == 4)
 	{
 		filename += "lvl5.txt";
 	}

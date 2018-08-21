@@ -12,8 +12,8 @@
 #include "tilemanager.h"
 
 static char map[15][87];
-static int lvlcleared = 1;
-static int changeinlvl = 1;
+static int lvlcleared = 0;
+static int changeinlvl = 0;
 static int keycounter = 0;
 static int keysneeded;
 

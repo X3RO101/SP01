@@ -1,0 +1,7 @@
+87
+5
+                                 CHOOSE DIFFICULTY                                     
+                                                                                       
+                            EASY   - START WITH 3 HEALTH                               
+                            MEDIUM - START WITH 2 HEALTH                               
+                            HARD   - START WITH 1 HEALTH                               

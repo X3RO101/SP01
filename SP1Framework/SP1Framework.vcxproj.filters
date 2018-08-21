@@ -13,6 +13,7 @@
     <ClCompile Include="TimeFreeze.cpp" />
     <ClCompile Include="UserAnswer.cpp" />
     <ClCompile Include="tilemanager.cpp" />
+    <ClCompile Include="aimovement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />

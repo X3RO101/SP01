@@ -12,6 +12,7 @@
 #include "tilemanager.h"
 char map[15][87];
 int lvlcleared = 0;
+int changeinlvl = 0;
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -238,22 +239,25 @@ void renderGame()
 
 void renderMap()
 {
-    //Set up sample colours, and output shadings
-    const WORD colors[] = {
-        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-    };
 
-    COORD c;
-	
+
+
+
+
+	//Set up sample colours, and output shadings
+	const WORD colors[] = {
+		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+	COORD c;
 	colour(colors[0]);
-    
+
 	string rows;
 	string cols;
+	string keys;
 	string filename;
 	int y;
 	int x;
-	
 
 	if (lvlcleared == 0)
 	{
@@ -263,110 +267,105 @@ void renderMap()
 	{
 		filename += "lvl2.txt";
 	}
-
-	ifstream currentlvl;
-	currentlvl.open(filename);
-	getline(currentlvl, cols);
-	getline(currentlvl, rows);
-	y = stoi(rows);
-	x = stoi(cols);
-
-	for (int i = 0; i < y - 1; ++i)
+	else if (lvlcleared == 2)
 	{
-		string currentrow;
-		char currentchar;
-		getline(currentlvl, currentrow);
-		for (int j = 0; j < x - 1; ++j)
-		{
-			currentchar = currentrow[j];
-			c.X = j;
-			c.Y = i;
-			switch (currentchar)
-			{
-			case'#':
-				map[i][j] = (char)219;
-				g_Console.writeToBuffer(c, 219, colors[0]);
-				break;
-			case'k':
-				map[i][j] = 'k';
-				g_Console.writeToBuffer(c, 'k', colors[0]);
-				break;
-			case'o':
-				map[i][j] = 'o';
-				g_Console.writeToBuffer(c, 'o', colors[0]);
-				break;
-			case'm':
-				map[i][j] = 'm';
-				g_Console.writeToBuffer(c, 'm', colors[0]);
-				break;
-			default:
-				break;
+		filename += "lvl3.txt";
+	}
+	else if (lvlcleared == 3)
+	{
+		filename += "lvl4.txt";
+	}
+	else if (lvlcleared == 4)
+	{
+		filename += "lvl5.txt";
+	}
 
+
+	if (lvlcleared == changeinlvl)
+	{
+		ifstream currentlvl;
+		currentlvl.open(filename);
+		getline(currentlvl, cols);
+		getline(currentlvl, rows);
+		//getline(currentlvl, keys);
+
+		y = stoi(rows);
+		x = stoi(cols);
+		//keysneeded = stoi(keys);
+
+
+		for (int i = 0; i < y - 1; ++i)
+		{
+			string currentrow;
+			char currentchar;
+			getline(currentlvl, currentrow);
+			for (int j = 0; j < x - 1; ++j)
+			{
+				currentchar = currentrow[j];
+
+				c.X = j;
+				c.Y = i;
+
+				switch (currentchar)
+				{
+				case'#':
+					map[i][j] = (char)219;
+
+					break;
+				case'k':
+					map[i][j] = 'k';
+					break;
+				case'o':
+					map[i][j] = 'o';
+					break;
+				case'm':
+					map[i][j] = 'm';
+					break;
+				case ' ':
+					map[i][j] = ' ';
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		changeinlvl++;
+		currentlvl.close();
+
+		int xPos;
+		int yPos;
+		int repcount = 0;
+		srand(time(nullptr));
+
+		while (repcount != 3)
+		{
+			xPos = (rand() % 92 + 1) + rand() % 4;
+			yPos = rand() % 15 + 1;
+
+			if (map[yPos][xPos] == ' ')
+			{
+				map[yPos][xPos] = 'm';
+			}
+			else
+			{
+				continue;
+			}
+
+			repcount++;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 15; ++i)
+		{
+			for (int j = 0; j < 87; ++j)
+			{
+				c.X = j;
+				c.Y = i;
+				g_Console.writeToBuffer(c, map[i][j], colors[0]);
 			}
 		}
 	}
-
-
-  
-	/*start here
-	string filename;
-
-	int lvlclear = 0;
-
-	if (lvlclear == 0)
-	{
-		filename = "lvl1.txt";
-	}
-	else if (lvlclear == 1)
-	{
-		filename = "lvl2.txt";
-	}
-
-
-	ifstream currentlvl;
-	currentlvl.open(filename);
-
-	int width = 0;
-	int height = 0;
-	string widthinput, heightinput;
-	getline(currentlvl, widthinput);
-	getline(currentlvl, heightinput);
-	width = stoi(widthinput);
-	height = stoi(heightinput);
-	string result;
-	for (int i = 0; i < height - 1; i++)
-	{
-		string current;
-		char currentchar;
-		getline(currentlvl, current);
-		
-
-		for (int j = 0; j < width - 1; j++)
-		{
-			currentchar = current[j];
-			switch (currentchar)
-			{
-			case '#':
-				g_Console.writeToBuffer(c, 219, colors[i]);
-				break;
-			case 'k':
-				g_Console.writeToBuffer(c, 'k', colors[i]);
-				break;
-			case 'o':
-				g_Console.writeToBuffer(c, 'o', colors[i]);
-				break;
-			case 'x':
-				g_Console.writeToBuffer(c, 'x', colors[i]);
-				break;
-			default:
-				g_Console.writeToBuffer(c, ' ', colors[i]);
-				break;
-			}
-		}
-		g_Console.writeToBuffer(c, '\n', colors[i]);
-	}
-	
-	end here*/
 }
 
 void renderCharacter()

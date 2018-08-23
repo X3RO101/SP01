@@ -40,6 +40,7 @@ char** getarray(void)
 	return map;
 }
 
+
 bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks if player encounters a wall
 {
 	if (array[playerycoord][playerxcoord] == (char)219)//up

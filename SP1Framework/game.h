@@ -1,8 +1,13 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "Framework\timer.h"
+
+#include "tilemanager.h"
+#include "Framework/console.h"
+#include "Framework/timer.h"
+#include "combatRender.h"
 #include <stdio.h>
+
 
 extern CStopWatch g_swTimer;
 extern bool g_bQuitGame;
@@ -25,6 +30,7 @@ enum EKEYS
 // Enumeration for the different screen states
 enum EGAMESTATES
 {
+
     S_SPLASHSCREEN,
 	S_CONTROLS,
     S_GAME,
@@ -69,7 +75,6 @@ void renderToScreen();      // dump the contents of the buffer to the screen, on
 //runs combat functions
 
 
-
 void health();				// health lowers if player takes damage and when player dies, screen goes to game over screen
 void game_over();			// shows the game over screen if the player dies
 void main_menu();			// the basic main menu screen when the player starts the game
@@ -84,4 +89,9 @@ void difficulty_choose();
 void mobmovement(int i);
 void movemobs();
 
+
+// combat rendering/changing of gamestate
+
+void duration(EGAMESTATES * gameState, double dt); // timer for the mob encounters
+void COMBAT();
 #endif // _GAME_H

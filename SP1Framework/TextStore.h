@@ -9,15 +9,11 @@ using namespace std;
 
 struct Text
 {
-	string monsterName;
 	string monsterQn;
-	string ans1;
-	string ans2;
-	string ans3;
 	char correctAns;
 };
 
-void textBank(Text * text, ifstream * mobInfo);
+void textBank(Text text, ifstream * mobInfo);
 
 
 #endif // !TEXT_STORE_H

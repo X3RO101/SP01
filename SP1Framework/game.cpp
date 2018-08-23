@@ -47,7 +47,7 @@ bool difficulty_option = true;
 bool easy = true;
 bool medium = false;
 bool hard = false;
-struct monstatus monster[18];
+struct monstatus monster[3];
 // Game specific variables here
 SGameChar   g_sChar;
 //  MOB Text copy
@@ -84,6 +84,7 @@ string whichText(string *output, bool *boolArray);
 
 EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
+double  g_dBounceTime2;
 
 // Console object
 Console g_Console(87, 30, "                                                             Labyrinthos Libertas");
@@ -100,6 +101,7 @@ void init( void )
     // Set precision for floating point *output
     g_dElapsedTime = 0.0;
     g_dBounceTime = 0.0;
+	g_dBounceTime2 = 0.0;
 
     // sets the initial state for the game
     g_eGameState = S_SPLASHSCREEN;
@@ -591,7 +593,10 @@ void renderMap()
 
 			if (map[(yPos)][(xPos)] == ' ')
 			{
-				map[yPos][xPos] = 'm';
+				//map[yPos][xPos] = 'm';
+				monster[repcount].location.X = xPos;
+				monster[repcount].location.Y = yPos;
+				monster[repcount].alive = true;
 			}
 			else
 			{
@@ -614,6 +619,9 @@ void renderMap()
 		}
 	}
 
+	g_Console.writeToBuffer(monster[0].location, 'M', 0x1F);
+	g_Console.writeToBuffer(monster[1].location, 'M', 0x1F);
+	g_Console.writeToBuffer(monster[2].location, 'M', 0x1F);
 }
 
 void textRender()
@@ -1604,8 +1612,18 @@ void mobmovement(int i)
 
 void movemobs()
 {
-	for (int i = 0; i < 18; ++i)
+	bool bSomethingHappened = false;
+	for (int i = 0; i < 3; ++i)
 	{
+		if (g_dBounceTime2 > g_dElapsedTime)
+			return;
 		mobmovement(i);
+		bSomethingHappened = true;
+	}
+
+	if (bSomethingHappened)
+	{
+		// set the bounce time to some time in the future to prevent accidental triggers
+		g_dBounceTime2 = g_dElapsedTime + 0.125; // 125ms should be enough
 	}
 }

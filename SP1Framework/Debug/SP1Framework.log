@@ -1,3 +1,21 @@
-﻿  game.cpp
+﻿  console.cpp
+  Keys.cpp
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\keys.cpp(15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\keys.cpp(27): warning C4065: switch statement contains 'default' but no 'case' labels
+  TextStore.cpp
+  TimeFreeze.cpp
+  UserAnswer.cpp
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\useranswer.cpp(6): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\useranswer.cpp(10): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\useranswer.cpp(14): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+  combat.cpp
+  game.cpp
 c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(587): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  levelgen.cpp
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\levelgen.cpp(41): warning C4309: 'argument': truncation of constant value
+  main.cpp
+  tilemanager.cpp
+  Generating Code...
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\keys.cpp(17): warning C4700: uninitialized local variable 'doneGiven' used
+  LINK : C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Debug\SP1Framework.exe not found or not built by the last incremental link; performing full link
   SP1Framework.vcxproj -> C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Debug\SP1Framework.exe

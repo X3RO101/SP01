@@ -285,6 +285,8 @@ void moveCharacter()
 		}
 		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
+			
+			//run text for key
 			c.Y = g_sChar.m_cLocation.Y;
 			c.X = g_sChar.m_cLocation.X;
 			//run text for key
@@ -576,6 +578,28 @@ void renderMap()
 		}
 		changeinlvl++;
 		currentlvl.close();
+
+		int xPos;
+		int yPos;
+		int repcount = 0;
+		srand(time(nullptr));
+
+		while (repcount != 3)
+		{
+			xPos = (rand() % 82 + 1) + rand() % 4;
+			yPos = (rand() % 11 + 1) + rand() % 3;
+
+			if (map[(yPos)][(xPos)] == ' ')
+			{
+				map[yPos][xPos] = 'm';
+			}
+			else
+			{
+				continue;
+			}
+
+			repcount++;
+		}
 	}
 	else
 	{
@@ -590,27 +614,6 @@ void renderMap()
 		}
 	}
 
-	int xPos;
-	int yPos;
-	int repcount = 0;
-	srand(time(nullptr));
-
-	while (repcount != 3)
-	{
-		xPos = (rand() % 82 + 1) + rand() % 4;
-		yPos = (rand() % 11 + 1) + rand() % 3;
-
-		if (map[(yPos)][(xPos)] == ' ')
-		{
-			map[yPos][xPos] = 'm';
-		}
-		else
-		{
-			continue;
-		}
-
-		repcount++;
-	}
 }
 
 void textRender()

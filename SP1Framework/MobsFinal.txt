@@ -1,36 +1,18 @@
 Minotaur: What is my true name? 1.Minotaur 2.Asterion 3.Berserker
-2
 Scylla: Who is my counterpart? 1.Charybdis 2.Zeus 3.Medusa
-1
 Hydra: How many heads do I have? 1.One 2.Three 3.As many as I want
-3
 Argus: How many eyes do I have? 1.One 2.A hundred 3.Two
-2
 Chimera: What am I? 1.A dragon! 2.Half-human, half-dog 3.A fusion of different beings
-3
 Ipotane: What am I? 1.Half-human, half-horse 2.Half-human, half-phoenix 3.A potato
-1
 Phoenix: How many lives do I have? 1.As many as you want 2. 1, but you can be reborn after death 3.None. You're immortal
-2
 Charybdis: Where am I from? 1.The sea 2.Olympus 3.The underworld
-1
 Medusa: What can I do? 1.Seduce men and kill them 2.Using your hair to slap others 3.Turn people into stone
-3
 Griffin: What am I? 1.Half-American, half-Singaporean 2.Part-lion, part-eagle 3.A flying cat
-2
 Harpy: What is my nature? 1.Wind 2.Fire 3.Plague
-1
 Werewolf: What is my other name? 1.Man-wolf 2.Lycanthrope 3.Wolf
-2
 Arachne: Who am I? 1.The spider king 2.Just a normal spiderling 3.Mother of spiders
-3
 Cyclops: What describes my race? 1.One-eyed giants 2.Ogres 3.The devil's helpers
-1
 Damsyus: What is my strength? 1.Pure strength 2.Speed 3.Singing
-2
 Cerberus: What is my duty? 1.Guarding Olympus 2.Be Zeus' dog 3.Guarding the gates of the Underworld
-3
 Siren: What do I do? 1.Attract Males on the sea 2.Attract Females on the sea 3.Sing to Poseidon
-1
 Sphinx: What has a voice, but can be 4,2 and 3 footed? 1.Oedipus 2.Humans 3.Genetic engineers
-2

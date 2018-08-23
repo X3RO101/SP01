@@ -1,4 +1,5 @@
-﻿  game.cpp
+﻿  combatRender.cpp
+  game.cpp
 c:\github\.vs\sp01t11\sp1framework\game.cpp(498): warning C4018: '<': signed/unsigned mismatch
 c:\github\.vs\sp01t11\sp1framework\game.cpp(508): warning C4309: '=': truncation of constant value
 c:\github\.vs\sp01t11\sp1framework\game.cpp(943): warning C4309: '=': truncation of constant value
@@ -23,4 +24,6 @@ c:\github\.vs\sp01t11\sp1framework\game.cpp(1037): warning C4309: '=': truncatio
 c:\github\.vs\sp01t11\sp1framework\game.cpp(1040): warning C4309: '=': truncation of constant value
 c:\github\.vs\sp01t11\sp1framework\game.cpp(1043): warning C4309: '=': truncation of constant value
 c:\github\.vs\sp01t11\sp1framework\game.cpp(1391): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  main.cpp
+  Generating Code...
   SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe

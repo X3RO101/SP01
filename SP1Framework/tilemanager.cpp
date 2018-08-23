@@ -1,4 +1,5 @@
 #include "tilemanager.h"
+#include "game.h"
 
 char **map;
 
@@ -40,6 +41,7 @@ char** getarray(void)
 	return map;
 }
 
+
 bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks if player encounters a wall
 {
 	if (array[playerycoord][playerxcoord] == (char)219)//up
@@ -52,15 +54,107 @@ bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks 
 	}
 }	
 
-bool touchmonster(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a monster
+bool touchmonster(struct SGameChar g_sChar, struct monstatus monster[])//checks if player encounters a monster
 {
-	if (array[playerycoord][playerxcoord] == 'M')
+	/*
+	if (array[playerycoord][playerxcoord] == 'm')
 	{
 		return true;
 	}
 	else
 	{
 		return false;
+	}*/
+
+	if (g_sChar.m_cLocation.X == monster[0].location.X && g_sChar.m_cLocation.Y == monster[0].location.Y)
+	{
+		if (monster[0].alive == true)
+		{
+			return true;
+		}
+	}
+	else if (g_sChar.m_cLocation.X == monster[1].location.X && g_sChar.m_cLocation.Y == monster[1].location.Y)
+	{
+		if (monster[1].alive == true)
+		{
+			return true;
+		}
+	}
+	else if (g_sChar.m_cLocation.X == monster[2].location.X && g_sChar.m_cLocation.Y == monster[2].location.Y)
+	{
+		if (monster[2].alive == true)
+		{
+			return true;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool monstercollides(int i, struct monstatus monster[])
+{
+	if (i == 0)
+	{
+		if (monster[3].location.X == monster[1].location.X && monster[3].location.Y == monster[1].location.Y)
+		{
+			return true;
+		}
+		else if (monster[3].location.X == monster[2].location.X && monster[3].location.Y == monster[2].location.Y)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else if (i == 1)
+	{
+		if (monster[3].location.X == monster[0].location.X && monster[3].location.Y == monster[0].location.Y)
+		{
+			return true;
+		}
+		else if (monster[3].location.X == monster[2].location.X && monster[3].location.Y == monster[2].location.Y)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else if (i == 2)
+	{
+		if (monster[3].location.X == monster[0].location.X && monster[3].location.Y == monster[0].location.Y)
+		{
+			return true;
+		}
+		else if (monster[3].location.X == monster[1].location.X && monster[3].location.Y == monster[1].location.Y)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
+int monsterslain(struct SGameChar g_sChar, struct monstatus monster[])
+{
+	if (g_sChar.m_cLocation.X == monster[0].location.X && g_sChar.m_cLocation.Y == monster[0].location.Y)
+	{
+		return 0;
+	}
+	else if (g_sChar.m_cLocation.X == monster[1].location.X && g_sChar.m_cLocation.Y == monster[1].location.Y)
+	{
+		return 1;
+	}
+	else if (g_sChar.m_cLocation.X == monster[2].location.X && g_sChar.m_cLocation.Y == monster[2].location.Y)
+	{
+		return 2;
 	}
 }
 
@@ -88,3 +182,14 @@ bool touchend(char array[15][87], int playerycoord, int playerxcoord)//checks if
 	}
 }
 
+bool touchplayer(char array[15][87], int coordy, int coordx)
+{
+	if (array[coordy][coordx] == 'X')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

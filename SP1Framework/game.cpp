@@ -2,31 +2,56 @@
 //
 //
 #include "game.h"
-#include "Framework\console.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <fstream>
 #include <string>
 #include <stdio.h>
-
-using namespace std;
-#include "collision.h"
-#include "TextStore.h"
-#include "tilemanager.h"
-#include "Keys.h"
 #include <ctime>
 #include <random>
 
-int lvlcleared = 1;
-int changeinlvl = 1;
+using namespace std;
 
 char map[15][87];
-
-
-void textRender();
+// for mobs
 bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
-bool kArray[10]; // bool array for random DUMMY KEYs so they dont spawn twice (number inside [] tbd)
+int mobAnsvvers[18] = { 2, 1, 3, 2, 3, 1, 2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2 }; // ansvvers for the mobs
+ifstream initMobs("MobsFinal.txt");
+Text mob1;
+Text mob2;
+Text mob3;
+Text mob4;
+Text mob5;
+Text mob6;
+Text mob7;
+Text mob8;
+Text mob9;
+Text mob10;
+Text mob11;
+Text mob12;
+Text mob13;
+Text mob14;
+Text mob15;
+Text mob16;
+Text mob17;
+Text mob18;
+
+string continueRender;
+char correct;
+int ansPasser; // for the answer checker
+
+int g = 0;
+int h = 0;
+//important
+double totalTime = 0;
+bool moveAllow = true;
+int cAns; // the correct ans is copied into here
+int playerinput; // the input for the ans
+//important
+
+int lvlcleared = 1;
+int changeinlvl = 1;
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -47,47 +72,18 @@ bool difficulty_option = true;
 bool easy = true;
 bool medium = false;
 bool hard = false;
-struct monstatus monster[3];
+struct monstatus monster[4];
 // Game specific variables here
-SGameChar   g_sChar;
-//  MOB Text copy
-Text Monster1;
-Text Monster2;
-Text Monster3;
-Text Monster4;
-Text Monster5;
-Text Monster6;
-Text Monster7;
-Text Monster8;
-Text Monster9;
-Text Monster10;
-Text Monster11;
-Text Monster12;
-Text Monster13;
-Text Monster14;
-Text Monster15;
-Text Monster16;
-Text Monster17;
-Text Monster18;
-ifstream mobInfo("MobsFinal.txt");
-// MOB Text copy
-// KEY TEXT
-ifstream CorrectPass("CorrectPasswords.txt");
-Key L1K1;
-// KEY TEXT
-// DUMMY KEYS
-ifstream DummyFile("DummyKeys.txt");
-Key Dummy1;
-// DUMMY KEYS
-string texty;
-string whichText(string *output, bool *boolArray);
+SGameChar g_sChar;
 
-EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 double  g_dBounceTime2;
 
 // Console object
+EGAMESTATES g_eGameState;
+
 Console g_Console(87, 30, "                                                             Labyrinthos Libertas");
+
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -98,6 +94,32 @@ Console g_Console(87, 30, "                                                     
 //--------------------------------------------------------------
 void init( void )
 {
+	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
+	{
+		bArray[i] = true;
+	}
+	//initialise all the mob info
+	initMobText(&mob1, &initMobs);
+	initMobText(&mob2, &initMobs);
+	initMobText(&mob3, &initMobs);
+	initMobText(&mob4, &initMobs);
+	initMobText(&mob5, &initMobs);
+	initMobText(&mob6, &initMobs);
+	initMobText(&mob7, &initMobs);
+	initMobText(&mob8, &initMobs);
+	initMobText(&mob9, &initMobs);
+	initMobText(&mob10, &initMobs);
+	initMobText(&mob11, &initMobs);
+	initMobText(&mob12, &initMobs);
+	initMobText(&mob13, &initMobs);
+	initMobText(&mob14, &initMobs);
+	initMobText(&mob15, &initMobs);
+	initMobText(&mob16, &initMobs);
+	initMobText(&mob17, &initMobs);
+	initMobText(&mob18, &initMobs);
+	// initialise answers for mobs
+	
+
     // Set precision for floating point *output
     g_dElapsedTime = 0.0;
     g_dBounceTime = 0.0;
@@ -111,33 +133,7 @@ void init( void )
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
-	textBank(&Monster1, &mobInfo);
-	textBank(&Monster2, &mobInfo);
-	textBank(&Monster3, &mobInfo);
-	textBank(&Monster4, &mobInfo);
-	textBank(&Monster5, &mobInfo);
-	textBank(&Monster6, &mobInfo);
-	textBank(&Monster7, &mobInfo);
-	textBank(&Monster8, &mobInfo);
-	textBank(&Monster9, &mobInfo);
-	textBank(&Monster10, &mobInfo);
-	textBank(&Monster11, &mobInfo);
-	textBank(&Monster12, &mobInfo);
-	textBank(&Monster13, &mobInfo);
-	textBank(&Monster14, &mobInfo);
-	textBank(&Monster15, &mobInfo);
-	textBank(&Monster16, &mobInfo);
-	textBank(&Monster17, &mobInfo);
-	textBank(&Monster18, &mobInfo);      
-	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
-	{
-		bArray[i] = true;
-	}
 
-	for (int i = 0; i < sizeof(kArray); i++)  // same goes for the keys
-	{
-		kArray[i] = true;
-	}
 }
 
 //--------------------------------------------------------------
@@ -203,7 +199,15 @@ void update(double dt)
     {
 	case S_SPLASHSCREEN: main_menu_option(); // game logic for the splash screen
             break;
-        case S_GAME: gameplay(); // gameplay logic when we are in the game
+		case S_COMBAT:
+			duration(&g_eGameState, dt);
+			inputAns();
+			checkAns();
+			ansWrong();
+			gameplay();
+			break;
+        case S_GAME: totalTime = 0; // resets the combat timer
+			gameplay(); // gameplay logic when we are in the game
             break;
 		case S_DEATH: 
 			break;
@@ -233,6 +237,9 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
+		case S_COMBAT: renderGame();
+			COMBAT();
+			break;
 		case S_CONTROLS: control_screen();
 			break;
 		case S_DEATH: game_over();
@@ -254,13 +261,18 @@ void splashScreenWait()    // waits for time to pass in splash screen
 
 void gameplay()            // gameplay logic
 {
+    processUserInput();// checks if you should change states or do something else with the game, e.g. pause, exit
+	if (g_eGameState == S_GAME)
+	{
+		moveCharacter();    // moves the character, collision detection, physics, etc
+	}                   // sound can be played here too.
     processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
-    moveCharacter();    // moves the character, collision detection, physics, etc
                         // sound can be played here too.
 	health();
 	scoresystem();
 	movemobs();
 }
+
 
 void moveCharacter()
 {
@@ -271,136 +283,153 @@ void moveCharacter()
 		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
 	};
 
-    bool bSomethingHappened = false;
-    if (g_dBounceTime > g_dElapsedTime)
-        return;
+	bool bSomethingHappened = false;
+	if (g_dBounceTime > g_dElapsedTime)
+		return;
 
-    // Updating the location of the character based on the key press
-    // providing a beep sound whenver we shift the character
-    if ((g_abKeyPressed[K_UP] ) && (collision(map, (g_sChar.m_cLocation.Y - 1) , g_sChar.m_cLocation.X) != true))
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+	// Updating the location of the character based on the key press
+	// providing a beep sound whenver we shift the character
+	if (moveAllow)
+	{
+		if ((g_abKeyPressed[K_UP]) && (collision(map, (g_sChar.m_cLocation.Y - 1), g_sChar.m_cLocation.X) != true))
 		{
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			
-			//run text for key
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			++keycount;
-			killmob = true;
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-		}
-        bSomethingHappened = true;
-		
-    }
-   if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
-    {
-	   g_Console.writeToBuffer(c, "Hello", colors[0]);
-       // Beep(1440, 30);
-        g_sChar.m_cLocation.X--;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			++keycount;
-			killmob = true;
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-		}
-        bSomethingHappened = true;
-    }
-    if ((g_abKeyPressed[K_DOWN] ) && (collision(map, (g_sChar.m_cLocation.Y + 1) , g_sChar.m_cLocation.X) != true))
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y++;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			++keycount;
-			killmob = true;
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-			killmob = true;
-		}
-        bSomethingHappened = true;
-    }
-    if ((g_abKeyPressed[K_RIGHT] ) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.X++;
-		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for monster
-		}
-		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			c.Y = g_sChar.m_cLocation.Y;
-			c.X = g_sChar.m_cLocation.X;
-			//run text for key
-			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			++keycount;
-			killmob = true;
-		}
-		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
-		{
-			//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-			lvlcleared++;
-			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-			g_sChar.m_cLocation.Y = 5;
-			keycount = 0;
-		}
-        bSomethingHappened = true;
-    }
-    if (g_abKeyPressed[K_SPACE])
-    {
-        g_sChar.m_bActive = !g_sChar.m_bActive;
-        bSomethingHappened = true;
-    }
+			//Beep(1440, 30);
+			g_sChar.m_cLocation.Y--;
+			if (touchmonster(g_sChar, monster) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
 
-    if (bSomethingHappened)
-    {
-        // set the bounce time to some time in the future to prevent accidental triggers
-        g_dBounceTime = g_dElapsedTime + 0.015; // 125ms should be enough
-    }
+				//run text for key
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				++keycount;
+				killmob = true;
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+
+		}
+		if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
+		{
+			// Beep(1440, 30);
+			g_sChar.m_cLocation.X--;
+			if (touchmonster(g_sChar, monster) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				++keycount;
+				killmob = true;
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+		}
+		if ((g_abKeyPressed[K_DOWN]) && (collision(map, (g_sChar.m_cLocation.Y + 1), g_sChar.m_cLocation.X) != true))
+		{
+			//Beep(1440, 30);
+			g_sChar.m_cLocation.Y++;
+
+			if (touchmonster(g_sChar, monster) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				++keycount;
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+
+		}
+		if ((g_abKeyPressed[K_RIGHT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
+		{
+			//Beep(1440, 30);
+			g_sChar.m_cLocation.X++;
+			if (touchmonster(g_sChar, monster) == true)
+			{
+				moveAllow = false;
+				g_eGameState = S_COMBAT;
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+			}
+			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				c.Y = g_sChar.m_cLocation.Y;
+				c.X = g_sChar.m_cLocation.X;
+				//run text for key
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+				keycount++;
+			}
+			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
+			{
+				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+				lvlcleared++;
+				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+				g_sChar.m_cLocation.Y = 5;
+				keycount = 0;
+			}
+			bSomethingHappened = true;
+		}
+	}
+	if (g_abKeyPressed[K_SPACE])
+	{
+
+		c.Y = g_sChar.m_cLocation.Y;
+		c.X = g_sChar.m_cLocation.X;
+		//run text for key
+		map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
+		killmob = true;
+
+		g_sChar.m_bActive = !g_sChar.m_bActive;
+		bSomethingHappened = true;
+	}
+
+	if (bSomethingHappened)
+	{
+		// set the bounce time to some time in the future to prevent accidental triggers
+		g_dBounceTime = g_dElapsedTime + 0.015; // 125ms should be enough
+	}
+
 }
 void processUserInput()
 {
@@ -420,7 +449,6 @@ void renderGame()
 {
     renderMap();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
-	textRender();
 }
 
 void renderMap()
@@ -430,6 +458,8 @@ void renderMap()
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
+    COORD c;
+	colour(colors[0]);
 
 
  /*   for (int i = 0; i < 12; ++i)
@@ -498,7 +528,6 @@ void renderMap()
 	}
 	
 	colour(colors[0]);
-    COORD c;
 	string rows;
 	string cols;
 	string filename;
@@ -552,7 +581,6 @@ void renderMap()
 				{
 				case'#':
 					map[i][j] = (char)219;
-
 				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'k':
@@ -589,7 +617,7 @@ void renderMap()
 
 			if (map[(yPos)][(xPos)] == ' ')
 			{
-				//map[yPos][xPos] = 'm';
+				// map[yPos][xPos] = 'm';
 				monster[repcount].location.X = xPos;
 				monster[repcount].location.Y = yPos;
 				monster[repcount].alive = true;
@@ -610,88 +638,26 @@ void renderMap()
 			{
 				c.X = j;
 				c.Y = i;
-				g_Console.writeToBuffer(c, map[i][j], 0x1F);
+				if (map[i][j] != 'm')
+				{
+					g_Console.writeToBuffer(c, map[i][j], 0x1F);
+				}
 			}
 		}
 	}
-
-	g_Console.writeToBuffer(monster[0].location, 'M', 0x1F);
-	g_Console.writeToBuffer(monster[1].location, 'M', 0x1F);
-	g_Console.writeToBuffer(monster[2].location, 'M', 0x1F);
-}
-
-void textRender()
-{
-	const WORD colors[] = {
-		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	};
-
-	COORD Text;
-	Text.X = 0;
-	Text.Y = 17;
-	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), 0x1F);
-
-	/*start here
 	
-	filename;
-
-	int lvlclear = 0;
-
-	if (lvlclear == 0)
+	if (monster[0].alive == true)
 	{
-		filename = "lvl1.txt";
+		g_Console.writeToBuffer(monster[0].location, 'm', 0x1F);
 	}
-	else if (lvlclear == 1)
+	if (monster[1].alive == true)
 	{
-		filename = "lvl2.txt";
+		g_Console.writeToBuffer(monster[1].location, 'm', 0x1F);
 	}
-
-
-	ifstream currentlvl;
-	currentlvl.open(filename);
-
-	int width = 0;
-	int height = 0;
-	string widthinput, heightinput;
-	getline(currentlvl, widthinput);
-	getline(currentlvl, heightinput);
-	width = stoi(widthinput);
-	height = stoi(heightinput);
-	string result;
-	for (int i = 0; i < height - 1; i++)
+	if (monster[2].alive == true)
 	{
-		string current;
-		char currentchar;
-		getline(currentlvl, current);
-		
-
-		for (int j = 0; j < width - 1; j++)
-		{
-			currentchar = current[j];
-			switch (currentchar)
-			{
-			case '#':
-				g_Console.writeToBuffer(c, 219, colors[i]);
-				break;
-			case 'k':
-				g_Console.writeToBuffer(c, 'k', colors[i]);
-				break;
-			case 'o':
-				g_Console.writeToBuffer(c, 'o', colors[i]);
-				break;
-			case 'x':
-				g_Console.writeToBuffer(c, 'x', colors[i]);
-				break;
-			default:
-				g_Console.writeToBuffer(c, ' ', colors[i]);
-				break;
-			}
-		}
-		g_Console.writeToBuffer(c, '\n', colors[i]);
+		g_Console.writeToBuffer(monster[2].location, 'm', 0x1F);
 	}
-	
-	end here*/
 }
 
 void renderCharacter()
@@ -770,6 +736,8 @@ void pause_screen()
 	}
 
 	COORD b;
+	b.Y = 0;
+	b.X = 0;
 	char currentchar2 = 62;
 
 	if (pause_1 == true)
@@ -943,7 +911,7 @@ void game_over()
 		{
 			currentchar = currentrow[j];
 
-			c.X = j;
+			c.X = j + 1;
 			c.Y = i + 1;
 
 			switch (currentchar)
@@ -1274,228 +1242,6 @@ void pause_select()
 	}
 }
 
-string whichText(string *output, bool *BoolArray)
-{
-	srand((unsigned int)time(nullptr));
-	bool done = true;
-	while (done)
-	{
-		int a = rand() % 18 + 1;
-		if (bArray[a - 1])
-		{
-			switch (a)
-			{
-			case 1:
-			{
-				*output += Monster1.monsterName;
-				*output += ' ';
-				*output += Monster1.monsterQn;
-				*output += ' ';
-				*output += Monster1.ans1;
-				*output += ' ';
-				*output += Monster1.ans2;
-				*output += ' ';
-				*output += Monster1.ans3;
-
-			}
-			break;
-			case 2:
-				*output += Monster2.monsterName;
-				*output += ' ';
-				*output += Monster2.monsterQn;
-				*output += ' ';
-				*output += Monster2.ans1;
-				*output += ' ';
-				*output += Monster2.ans2;
-				*output += ' ';
-				*output += Monster2.ans3;
-				break;
-			case 3:
-				*output += Monster3.monsterName;
-				*output += ' ';
-				*output += Monster3.monsterQn;
-				*output += ' ';
-				*output += Monster3.ans1;
-				*output += ' ';
-				*output += Monster3.ans2;
-				*output += ' ';
-				*output += Monster3.ans3;
-				break;
-			case 4:
-				*output += Monster4.monsterName;
-				*output += ' ';
-				*output += Monster4.monsterQn;
-				*output += ' ';
-				*output += Monster4.ans1;
-				*output += ' ';
-				*output += Monster4.ans2;
-				*output += ' ';
-				*output += Monster4.ans3;
-				break;
-			case 5:
-				*output += Monster5.monsterName;
-				*output += ' ';
-				*output += Monster5.monsterQn;
-				*output += ' ';
-				*output += Monster5.ans1;
-				*output += ' ';
-				*output += Monster5.ans2;
-				*output += ' ';
-				*output += Monster5.ans3;
-				break;
-			case 6:
-				*output += Monster6.monsterName;
-				*output += ' ';
-				*output += Monster6.monsterQn;
-				*output += ' ';
-				*output += Monster6.ans1;
-				*output += ' ';
-				*output += Monster6.ans2;
-				*output += ' ';
-				*output += Monster6.ans3;
-				break;
-			case 7:
-				*output += Monster7.monsterName;
-				*output += ' ';
-				*output += Monster7.monsterQn;
-				*output += ' ';
-				*output += Monster7.ans1;
-				*output += ' ';
-				*output += Monster7.ans2;
-				*output += ' ';
-				*output += Monster7.ans3;
-				break;
-			case 8:
-				*output += Monster8.monsterName;
-				*output += ' ';
-				*output += Monster8.monsterQn;
-				*output += ' ';
-				*output += Monster8.ans1;
-				*output += ' ';
-				*output += Monster8.ans2;
-				*output += ' ';
-				*output += Monster8.ans3;
-				break;
-			case 9:
-				*output += Monster9.monsterName;
-				*output += ' ';
-				*output += Monster9.monsterQn;
-				*output += ' ';
-				*output += Monster9.ans1;
-				*output += ' ';
-				*output += Monster9.ans2;
-				*output += ' ';
-				*output += Monster9.ans3;
-				break;
-			case 10:
-				*output += Monster10.monsterName;
-				*output += ' ';
-				*output += Monster10.monsterQn;
-				*output += ' ';
-				*output += Monster10.ans1;
-				*output += ' ';
-				*output += Monster10.ans2;
-				*output += ' ';
-				*output += Monster10.ans3;
-				break;
-			case 11:
-				*output += Monster11.monsterName;
-				*output += ' ';
-				*output += Monster11.monsterQn;
-				*output += ' ';
-				*output += Monster11.ans1;
-				*output += ' ';
-				*output += Monster11.ans2;
-				*output += ' ';
-				*output += Monster11.ans3;
-				break;
-			case 12:
-				*output += Monster12.monsterName;
-				*output += ' ';
-				*output += Monster12.monsterQn;
-				*output += ' ';
-				*output += Monster12.ans1;
-				*output += ' ';
-				*output += Monster12.ans2;
-				*output += ' ';
-				*output += Monster12.ans3;
-				break;
-			case 13:
-				*output += Monster13.monsterName;
-				*output += ' ';
-				*output += Monster13.monsterQn;
-				*output += ' ';
-				*output += Monster13.ans1;
-				*output += ' ';
-				*output += Monster13.ans2;
-				*output += ' ';
-				*output += Monster13.ans3;
-				break;
-			case 14:
-				*output += Monster14.monsterName;
-				*output += ' ';
-				*output += Monster14.monsterQn;
-				*output += ' ';
-				*output += Monster14.ans1;
-				*output += ' ';
-				*output += Monster14.ans2;
-				*output += ' ';
-				*output += Monster14.ans3;
-				break;
-			case 15:
-				*output += Monster15.monsterName;
-				*output += ' ';
-				*output += Monster15.monsterQn;
-				*output += ' ';
-				*output += Monster15.ans1;
-				*output += ' ';
-				*output += Monster15.ans2;
-				*output += ' ';
-				*output += Monster15.ans3;
-				break;
-			case 16:
-				*output += Monster16.monsterName;
-				*output += ' ';
-				*output += Monster16.monsterQn;
-				*output += ' ';
-				*output += Monster16.ans1;
-				*output += ' ';
-				*output += Monster16.ans2;
-				*output += ' ';
-				*output += Monster16.ans3;
-				break;
-			case 17:
-				*output += Monster17.monsterName;
-				*output += ' ';
-				*output += Monster17.monsterQn;
-				*output += ' ';
-				*output += Monster17.ans1;
-				*output += ' ';
-				*output += Monster17.ans2;
-				*output += ' ';
-				*output += Monster17.ans3;
-				break;
-			case 18:
-				*output += Monster18.monsterName;
-				*output += ' ';
-				*output += Monster18.monsterQn;
-				*output += ' ';
-				*output += Monster18.ans1;
-				*output += ' ';
-				*output += Monster18.ans2;
-				*output += ' ';
-				*output += Monster18.ans3;
-				break;
-			default:
-				break;
-			}
-
-			bArray[a - 1] = false;
-		}
-		done = false;
-	}
-	return *output;
-}
 
 /*
 what happens when the player runs into an entity?
@@ -1508,12 +1254,181 @@ after finish clean textbox
 */
 
 
+//COMBAT RENDERING STUFF and changing of gamestate
+void duration(EGAMESTATES * gameState, double dt) // timer for the combat
+{
+	totalTime += dt;
+	if (totalTime > 10.0)
+	{
+		h = 0;
+		isdead = true;
+		moveAllow = true;
+		*gameState = S_GAME;
+	}
+}
 
-//when enter combat
-//gamestate change to combat
-//frame freeze
-//run function for anser input
-//take in user input
+void inputAns()
+{
+	if (g_abKeyPressed[K_1])
+	{
+		playerinput = 1;
+	}
+	if (g_abKeyPressed[K_2])
+	{
+		playerinput = 2;
+	}
+	if (g_abKeyPressed[K_3])
+	{
+		playerinput = 3;
+	}
+}
+
+void checkAns()
+{
+	int i;
+	cAns = mobAnsvvers[ansPasser - 1];
+	if (playerinput == cAns)
+	{
+		i = monsterslain(g_sChar, monster);
+		monster[i].alive = false;
+		h = 0;
+		playerinput = 0;
+		cAns = 0;
+		ansPasser = 0;
+		moveAllow = true;
+		g_eGameState = S_GAME;
+	}
+}
+
+void ansWrong()
+{
+	if (playerinput == 1 || playerinput == 2 || playerinput == 3)
+	{
+		if (playerinput != cAns)
+		{
+			h = 0;
+			healthpoints--;
+			playerinput = 0;
+			moveAllow = true;
+			g_eGameState = S_GAME;
+		}
+	}
+}
+
+void COMBAT() // runs when gamestate is in combat
+{
+
+	if (h == g)
+	{
+		textPicker(); // ansPasser is for the array for answers
+	}
+	spamPrint(); // continuously prints the same line of text for the duration of combat
+}
+
+
+void spamPrint()
+{
+	const WORD colors[] = {
+		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+
+	COORD textCoord;
+	textCoord.X = 0;
+	textCoord.Y = 18;
+
+
+	g_Console.writeToBuffer(textCoord, continueRender, colors[0]);
+}
+
+
+void textPicker() // randomly picks a mob text to print
+{
+	srand(time(nullptr));
+	ansPasser = rand() % 18 + 1;
+	if (bArray[ansPasser - 1])
+	{
+		switch (ansPasser)
+		{
+		case 1:
+			continueRender = mob1.monsterQn;
+			h++;
+			break;
+		case 2:
+			continueRender = mob2.monsterQn;
+			h++;
+			break;
+		case 3:
+			continueRender = mob3.monsterQn;
+			h++;
+			break;
+		case 4:
+			continueRender = mob4.monsterQn;
+			h++;
+			break;
+		case 5:
+			continueRender = mob5.monsterQn;
+			h++;
+			break;
+		case 6:
+			continueRender = mob6.monsterQn;
+			h++;
+			break;
+		case 7:
+			continueRender = mob7.monsterQn;
+			h++;
+			break;
+		case 8:
+			continueRender = mob8.monsterQn;
+			h++;
+			break;
+		case 9:
+			continueRender = mob9.monsterQn;
+			h++;
+			break;
+		case 10:
+			continueRender = mob10.monsterQn;
+			h++;
+			break;
+		case 11:
+			continueRender = mob11.monsterQn;
+			h++;
+			break;
+		case 12:
+			continueRender = mob12.monsterQn;
+			h++;
+			break;
+		case 13:
+			continueRender = mob13.monsterQn;
+			h++;
+			break;
+		case 14:
+			continueRender = mob14.monsterQn;
+			h++;
+			break;
+		case 15:
+			continueRender = mob15.monsterQn;
+			h++;
+			break;
+		case 16:
+			continueRender = mob16.monsterQn;
+			h++;
+			break;
+		case 17:
+			continueRender = mob17.monsterQn;
+			h++;
+			break;
+		case 18:
+			continueRender = mob18.monsterQn;
+			h++;
+			break;
+		default:
+			continueRender = "test";
+			break;
+		}
+		bArray[ansPasser - 1] = false;
+	}
+}
 
 void mobmovement(int i)
 {
@@ -1523,18 +1438,40 @@ void mobmovement(int i)
 		{
 			if ((collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true) )
 			{
-				if (!touchmonster(map, monster[i].location.Y, (monster[i].location.X - 1)))
+				monster[3].location.X = monster[i].location.X - 1;
+				monster[3].location.Y = monster[i].location.Y;
+				if (monstercollides(i, monster) != true)
 				{
 					monster[i].location.X--;
+					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					{
+						g_eGameState = S_COMBAT;
+					}
 				}
 			}
 			else if(monster[i].location.Y > g_sChar.m_cLocation.Y)
 			{
 				if ((collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true) )
 				{
+					/*
 					if (!touchmonster(map, (monster[i].location.Y - 1), monster[i].location.X))
 					{
 						monster[i].location.Y--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
+					*/
+					monster[3].location.X = monster[i].location.X;
+					monster[3].location.Y = monster[i].location.Y - 1;
+					if(monstercollides(i, monster) != true)
+					{
+						monster[i].location.Y--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
 					}
 				}
 			}
@@ -1542,9 +1479,25 @@ void mobmovement(int i)
 			{
 				if ((collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true) )
 				{
+					/*
 					if (!touchmonster(map, (monster[i].location.Y + 1), monster[i].location.X))
 					{
 						monster[i].location.Y++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
+					*/
+					monster[3].location.X = monster[i].location.X;
+					monster[3].location.Y = monster[i].location.Y + 1;
+					if (monstercollides(i, monster) != true)
+					{
+						monster[i].location.Y++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
 					}
 				}
 			}
@@ -1553,18 +1506,50 @@ void mobmovement(int i)
 		{
 			if ((collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true))
 			{
+				/*
 				if (!touchmonster(map, monster[i].location.Y, (monster[i].location.X + 1)))
 				{
 					monster[i].location.X++;
+					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					{
+						g_eGameState = S_COMBAT;
+					}
+				}
+				*/
+				monster[3].location.X = monster[i].location.X + 1;
+				monster[3].location.Y = monster[i].location.Y;
+				if (monstercollides(i, monster) != true)
+				{
+					monster[i].location.X++;
+					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					{
+						g_eGameState = S_COMBAT;
+					}
 				}
 			}
 			else if (monster[i].location.Y > g_sChar.m_cLocation.Y)
 			{
 				if ((collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true) )
 				{
+					/*
 					if (!touchmonster(map, (monster[i].location.Y - 1), monster[i].location.X))
 					{
 						monster[i].location.Y--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
+					*/
+					monster[3].location.X = monster[i].location.X;
+					monster[3].location.Y = monster[i].location.Y - 1;
+					if (monstercollides(i, monster) != true)
+					{
+						monster[i].location.Y--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
 					}
 				}
 			}
@@ -1572,9 +1557,25 @@ void mobmovement(int i)
 			{
 				if ((collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true) )
 				{
+					/*
 					if (!touchmonster(map, (monster[i].location.Y + 1), monster[i].location.X))
 					{
 						monster[i].location.Y++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
+					*/
+					monster[3].location.X = monster[i].location.X;
+					monster[3].location.Y = monster[i].location.Y + 1;
+					if (monstercollides(i, monster) != true)
+					{
+						monster[i].location.Y++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
 					}
 				}
 			}
@@ -1583,18 +1584,50 @@ void mobmovement(int i)
 		{
 			if ((collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true))
 			{
+				/*
 				if (!touchmonster(map, (monster[i].location.Y + 1), monster[i].location.X))
 				{
 					monster[i].location.Y++;
+					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					{
+						g_eGameState = S_COMBAT;
+					}
+				}
+				*/
+				monster[3].location.X = monster[i].location.X;
+				monster[3].location.Y = monster[i].location.Y + 1;
+				if (monstercollides(i, monster) != true)
+				{
+					monster[i].location.Y++;
+					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					{
+						g_eGameState = S_COMBAT;
+					}
 				}
 			}
 			else if (monster[i].location.X > g_sChar.m_cLocation.X)
 			{
 				if ((collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true))
 				{
+					/*
 					if (!touchmonster(map, monster[i].location.Y, (monster[i].location.X - 1)))
 					{
 						monster[i].location.X--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
+					*/
+					monster[3].location.X = monster[i].location.X - 1;
+					monster[3].location.Y = monster[i].location.Y;
+					if (monstercollides(i, monster) != true)
+					{
+						monster[i].location.X--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
 					}
 				}
 			}
@@ -1602,9 +1635,25 @@ void mobmovement(int i)
 			{
 				if (((collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true)))
 				{
+					/*
 					if (!touchmonster(map, monster[i].location.Y, (monster[i].location.X + 1)))
 					{
 						monster[i].location.X++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
+					*/
+					monster[3].location.X = monster[i].location.X + 1;
+					monster[3].location.Y = monster[i].location.Y;
+					if (monstercollides(i, monster) != true)
+					{
+						monster[i].location.X++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
 					}
 				}
 			}
@@ -1613,28 +1662,77 @@ void mobmovement(int i)
 		{
 			if ((collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true) )
 			{
+				/*
 				if (!touchmonster(map, (monster[i].location.Y - 1), monster[i].location.X))
 				{
 					monster[i].location.Y--;
+					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					{
+						g_eGameState = S_COMBAT;
+					}
+				}
+				*/
+				monster[3].location.X = monster[i].location.X;
+				monster[3].location.Y = monster[i].location.Y - 1;
+				if (monstercollides(i, monster) != true)
+				{
+					monster[i].location.Y--;
+					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					{
+						g_eGameState = S_COMBAT;
+					}
 				}
 			}
 			else if (monster[i].location.X > g_sChar.m_cLocation.X)
 			{
 				if ((collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true) )
 				{
+					/*
 					if(!touchmonster(map, monster[i].location.Y, (monster[i].location.X - 1)))
-					monster[i].location.X--;
+					{
+						monster[i].location.X--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
+					*/
+					monster[3].location.X = monster[i].location.X - 1;
+					monster[3].location.Y = monster[i].location.Y;
+					if (monstercollides(i, monster) != true)
+					{
+						monster[i].location.X--;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
 				}
 			}
 			else if (monster[i].location.Y < g_sChar.m_cLocation.Y) 
 			{
 				if((collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true))
 				{
+					/*
 					if(!touchmonster(map, monster[i].location.Y, (monster[i].location.X + 1)))
 					{
 						monster[i].location.X++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
 					}
-					
+					*/
+					monster[3].location.X = monster[i].location.X + 1;
+					monster[3].location.Y = monster[i].location.Y;
+					if (monstercollides(i, monster) != true)
+					{
+						monster[i].location.X++;
+						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						{
+							g_eGameState = S_COMBAT;
+						}
+					}
 				}
 			}
 		}
@@ -1658,3 +1756,4 @@ void movemobs()
 		g_dBounceTime2 = g_dElapsedTime + 0.125; // 125ms should be enough
 	}
 }
+//END OF COMBAT RENDERING

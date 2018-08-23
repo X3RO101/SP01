@@ -5,7 +5,6 @@
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TextStore.cpp" />
     <ClCompile Include="tilemanager.cpp" />
     <ClCompile Include="combatRender.cpp" />
   </ItemGroup>
@@ -14,7 +13,6 @@
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="TextStore.h" />
     <ClInclude Include="tilemanager.h" />
     <ClInclude Include="combatRender.h" />
   </ItemGroup>

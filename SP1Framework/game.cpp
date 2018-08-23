@@ -1251,27 +1251,23 @@ void ansChecker(int passer, string str)
 {
 	int input;
 	char correct;
-	correct = str[passer];
+	correct = str[passer -1];
 	if (g_abKeyPressed[K_1])
 	{
-		input = 49;
+		input = 0x31;
 	}
 	if (g_abKeyPressed[K_2])
 	{
-		input = 50;
+		input = 0x32;
 	}
 	if (g_abKeyPressed[K_3])
 	{
-		input = 51;
+		input = 0x32;
 	}
 
 	if (input == correct)
 	{
 		g_eGameState = S_GAME;
-	}
-	else
-	{
-		g_eGameState = S_SPLASHSCREEN;
 	}
 }
 

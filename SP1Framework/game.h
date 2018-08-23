@@ -42,6 +42,13 @@ struct SGameChar
     bool  m_bActive;
 };
 
+// struct for monsters in the game
+struct monstatus
+{
+	COORD location;
+	bool alive;
+};
+
 void init        ( void );      // initialize your variables, allocate memory, etc
 void getInput    ( void );      // get input from player
 void update      ( double dt ); // update the game and the state of the game
@@ -53,7 +60,6 @@ void gameplay();            // gameplay logic
 void moveCharacter();       // moves the character, collision detection, physics, etc
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void clearScreen();         // clears the current screen and draw from scratch 
-void renderSplashScreen();  // renders the splash screen
 void renderGame();          // renders the game stuff
 void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
@@ -73,5 +79,9 @@ void control_screen();		// screen that shows the controls
 void control_screen_back();	// function to go back to main menu
 void pause_select();		// 
 void pause_screen();		// 
+void difficulty_screen();	//
+void difficulty_choose();
+void mobmovement(int i);
+void movemobs();
 
 #endif // _GAME_H

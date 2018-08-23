@@ -32,21 +32,22 @@ double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
 
-bool isdead = false;				// bool when player loses to the mob once
-bool killmob = false;				// bool for when player kills the mob
+int keycount = 0;
 int healthpoints = 3;				// number of lives player has
 int score = 0;						// player score
+bool isdead = false;				// bool when player loses to the mob once
+bool killmob = false;				// bool for when player kills the mob
 bool main_menu_1 = true;			// to check if player is choosing the start option
 bool main_menu_2 = false;			// to check if player is choosing the controls option
 bool main_menu_3 = false;
 bool pause_1 = true;				// to check if player is choosing continue
 bool pause_2 = false;				// to check if player is choosing to go to main menu
 bool pause_3 = false;				// to check if player is choosing to exit game
-int keycount = 0;
 bool difficulty_option = true;
-bool difficulty1 = true;
-bool difficulty2 = false;
-
+bool easy = true;
+bool medium = false;
+bool hard = false;
+struct monstatus monster[18];
 // Game specific variables here
 SGameChar   g_sChar;
 //  MOB Text copy
@@ -208,7 +209,7 @@ void update(double dt)
 			break;
 		case S_PAUSE: pause_select();
 			break;
-		case S_DIFFICULTY:
+		case S_DIFFICULTY: difficulty_choose();
 			break;
 		//case S_COMBAT :
     }
@@ -226,7 +227,7 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
-	case S_SPLASHSCREEN: renderSplashScreen();
+	case S_SPLASHSCREEN: main_menu();
             break;
         case S_GAME: renderGame();
             break;
@@ -236,7 +237,7 @@ void render()
 			break;
 		case S_PAUSE: pause_screen();
 			break;
-		case S_DIFFICULTY:
+		case S_DIFFICULTY: difficulty_screen();
 			break;
     }
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
@@ -256,6 +257,7 @@ void gameplay()            // gameplay logic
                         // sound can be played here too.
 	health();
 	scoresystem();
+	movemobs();
 }
 
 void moveCharacter()
@@ -283,11 +285,14 @@ void moveCharacter()
 		}
 		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
+			
+			//run text for key
 			c.Y = g_sChar.m_cLocation.Y;
 			c.X = g_sChar.m_cLocation.X;
 			//run text for key
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 			++keycount;
+			killmob = true;
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
@@ -315,9 +320,8 @@ void moveCharacter()
 			c.X = g_sChar.m_cLocation.X;
 			//run text for key
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			keycount++;
-
-			
+			++keycount;
+			killmob = true;
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
@@ -343,7 +347,8 @@ void moveCharacter()
 			c.X = g_sChar.m_cLocation.X;
 			//run text for key
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			keycount++;
+			++keycount;
+			killmob = true;
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
@@ -352,6 +357,7 @@ void moveCharacter()
 			g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
 			g_sChar.m_cLocation.Y = 5;
 			keycount = 0;
+			killmob = true;
 		}
         bSomethingHappened = true;
     }
@@ -369,7 +375,8 @@ void moveCharacter()
 			c.X = g_sChar.m_cLocation.X;
 			//run text for key
 			map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-			keycount++;
+			++keycount;
+			killmob = true;
 		}
 		else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
@@ -407,23 +414,6 @@ void clearScreen()
     g_Console.clearBuffer(0x1F);
 }
 
-void renderSplashScreen()  // renders the splash screen
-{
-	main_menu();
-/*
-    COORD c = g_Console.getConsoleSize();
-    c.Y /= 3;
-    c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "Labyrinthos Libertas", 0x03); //Title of the game here
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);//color to change to if space bar is pressed
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);//quit
-*/
-}
-
 void renderGame()
 {
     renderMap();        // renders the map to the buffer first
@@ -456,7 +446,7 @@ void renderMap()
 	a.Y = 15;
 	for (int i = 0; i < 9; ++i)
 	{
-		g_Console.writeToBuffer(a, healthtext[i], 0x1A);
+		g_Console.writeToBuffer(a, healthtext[i], 0x1F);
 		a.X++;
 	}
 	for (int i = 0; i < healthpoints; ++i)
@@ -467,6 +457,7 @@ void renderMap()
 		a.X++;
 	}
 
+	/*
 	a.X = 1;
 	a.Y = 16;
 	string pointstext = "Score : ";
@@ -482,21 +473,23 @@ void renderMap()
 	{
 		g_Console.writeToBuffer(a, scorestr[i], 0x1A);
 		a.X++;
-	} 
-
+	} */
+	
 	a.X = 18;
 	a.Y = 15;
 	string keystext = "Keys : ";
-	char currentchar2;
-	currentchar2 = 235;
+/*	ostringstream str2;
+	string keystr = str2.str();
+	str2 << keycount; */
+	unsigned char currentchar2 = 235;
 	for (int i = 0; i < 7; ++i)
 	{
-		g_Console.writeToBuffer(a, keystext[i], 0x1A);
+		g_Console.writeToBuffer(a, keystext[i], 0x1F);
 		a.X++;
 	}
-	for (int i = 0; i < keycount; ++i)
+	for (int i = 0; i < keycount /*keystr.length()*/; ++i)
 	{
-		g_Console.writeToBuffer(a, currentchar2, 0x1A);
+		g_Console.writeToBuffer(a, currentchar2, 0x1F);
 		a.X++;
 		g_Console.writeToBuffer(a, ' ', 0x1F);
 		a.X++;
@@ -585,6 +578,28 @@ void renderMap()
 		}
 		changeinlvl++;
 		currentlvl.close();
+
+		int xPos;
+		int yPos;
+		int repcount = 0;
+		srand(time(nullptr));
+
+		while (repcount != 3)
+		{
+			xPos = (rand() % 82 + 1) + rand() % 4;
+			yPos = (rand() % 11 + 1) + rand() % 3;
+
+			if (map[(yPos)][(xPos)] == ' ')
+			{
+				map[yPos][xPos] = 'm';
+			}
+			else
+			{
+				continue;
+			}
+
+			repcount++;
+		}
 	}
 	else
 	{
@@ -594,10 +609,11 @@ void renderMap()
 			{
 				c.X = j;
 				c.Y = i;
-				g_Console.writeToBuffer(c, map[i][j], colors[0]);
+				g_Console.writeToBuffer(c, map[i][j], 0x1F);
 			}
 		}
 	}
+
 }
 
 void textRender()
@@ -610,7 +626,7 @@ void textRender()
 	COORD Text;
 	Text.X = 0;
 	Text.Y = 17;
-	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
+	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), 0x1F);
 
 	/*start here
 	
@@ -711,395 +727,283 @@ void renderToScreen()
 
 void pause_screen()
 {
-	COORD x;
-	char currentchar;
-	string pause_screen_1[10];
-	string pause_screen_2[10];
-	string pause_screen_3[10];
+	COORD c;
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
 
-	pause_screen_1[0] = "                      ________________________________________                         ";
-	pause_screen_1[1] = "                     /                                        1                        ";
-	pause_screen_1[2] = "                    |                                          |                       ";
-	pause_screen_1[3] = "                    |                 PAUSE                    |                       ";
-	pause_screen_1[4] = "                    |                                          |                       ";
-	pause_screen_1[5] = "                    |              2 Continue                  |                       ";
-	pause_screen_1[6] = "                    |                Main Menu                 |                       ";
-	pause_screen_1[7] = "                    |                Exit Game                 |                       ";
-	pause_screen_1[8] = "                    |                                          |                       ";
-	pause_screen_1[9] = "                     1________________________________________/                        ";
+	filename += "pause_screen.txt";
 
-	pause_screen_2[0] = "                      ________________________________________                         ";
-	pause_screen_2[1] = "                     /                                        1                        ";
-	pause_screen_2[2] = "                    |                                          |                       ";
-	pause_screen_2[3] = "                    |                 PAUSE                    |                       ";
-	pause_screen_2[4] = "                    |                                          |                       ";
-	pause_screen_2[5] = "                    |                Continue                  |                       ";
-	pause_screen_2[6] = "                    |              2 Main Menu                 |                       ";
-	pause_screen_2[7] = "                    |                Exit Game                 |                       ";
-	pause_screen_2[8] = "                    |                                          |                       ";
-	pause_screen_2[9] = "                     1________________________________________/                        ";
+	ifstream pausescreen;
+	pausescreen.open(filename);
+	getline(pausescreen, cols);
+	getline(pausescreen, rows);
+	y = stoi(rows);
+	x = stoi(cols);
 
-	pause_screen_3[0] = "                      ________________________________________                         ";
-	pause_screen_3[1] = "                     /                                        1                        ";
-	pause_screen_3[2] = "                    |                                          |                       ";
-	pause_screen_3[3] = "                    |                 PAUSE                    |                       ";
-	pause_screen_3[4] = "                    |                                          |                       ";
-	pause_screen_3[5] = "                    |                Continue                  |                       ";
-	pause_screen_3[6] = "                    |                Main Menu                 |                       ";
-	pause_screen_3[7] = "                    |              2 Exit Game                 |                       ";
-	pause_screen_3[8] = "                    |                                          |                       ";
-	pause_screen_3[9] = "                     1________________________________________/                        ";
-
-	if (pause_1 == true)
+	for (int i = 0; i < y; ++i)
 	{
-		for (int i = 0; i < 10; ++i)
+		string currentrow;
+		char currentchar;
+		getline(pausescreen, currentrow);
+		for (int j = 0; j < x; ++j)
 		{
-			for (int a = 0; a < 87; ++a)
-			{
-				x.X = a;
-				x.Y = i + 1;
-				currentchar = pause_screen_1[i][a];
-				switch (currentchar)
-				{
-				case('1'):
-					currentchar = 92;
-					break;
-				case('2'):
-					currentchar = 62;
-					break;
-				}
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-		}
-	}
-	if (pause_2 == true)
-	{
-		for (int i = 0; i < 10; ++i)
-		{
-			for (int a = 0; a < 87; ++a)
-			{
-				x.X = a;
-				x.Y = i + 1;
-				currentchar = pause_screen_2[i][a];
-				switch (currentchar)
-				{
-				case('1'):
-					currentchar = 92;
-					break;
-				case('2'):
-					currentchar = 62;
-					break;
-				}
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-		}
-	}
-	if (pause_3 == true)
-	{
-		for (int i = 0; i < 10; ++i)
-		{
-			for (int a = 0; a < 87; ++a)
-			{
-				x.X = a;
-				x.Y = i + 1;
-				currentchar = pause_screen_3[i][a];
-				switch (currentchar)
-				{
-				case('1'):
-					currentchar = 92;
-					break;
-				case('2'):
-					currentchar = 62;
-					break;
-				}
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-		}
-	}
+			currentchar = currentrow[j];
 
-}
+			c.X = j;
+			c.Y = i + 1;
 
-void control_screen()
-{
-	COORD x;
-	char currentchar;
-	string controlscreen[15];
-
-	controlscreen[0] = "                                                                                         ";
-	controlscreen[1] = "                                                                                         ";
-	controlscreen[2] = "                                                                                         ";
-	controlscreen[3] = "                                   MOVING UP = UP ARROW KEY                              ";
-	controlscreen[4] = "                                 MOVING DOWN = DOWN ARROW KEY                            ";
-	controlscreen[5] = "                                 MOVING LEFT = LEFT ARROW KEY                            ";
-	controlscreen[6] = "                                MOVING RIGHT = RIGHT ARROW KEY                           ";
-	controlscreen[7] = "                                   Selecting = SPACE KEY                                 ";
-	controlscreen[8] = "                                                                                         ";
-	controlscreen[9] = "                                    GAMEPLAY legend:                                     ";
-	controlscreen[10] = "                                         K - KEY                                         ";
-	controlscreen[11] = "                                       M - MONSTERS                                      ";
-	controlscreen[12] = "                                       O - Endpoint                                      ";
-	controlscreen[13] = "                                                                                         ";
-	controlscreen[14] = "  GO BACK - SPACE KEY                                                                    ";
-	for (int i = 0; i < 15; ++i)
-	{
-		for (int a = 0; a < 87; ++a)
-		{
-			x.X = a;
-			x.Y = i + 1;
-			currentchar = controlscreen[i][a];
-			g_Console.writeToBuffer(x, currentchar, 0x1A);
-		}
-	}
-}
-
-void main_menu()
-{
-	string main_menu_frame1[15];
-	string main_menu_frame2[15];
-	string main_menu_frame3[15];
-	char currentchar;
-	string difficulty_line_1, difficulty_line_2;
-
-	main_menu_frame1[0] = "112     111112 1111112 112   1121111112 1121112   112111111112112  112 1111112 11111112";
-	main_menu_frame1[1] = "113    11755112117551124112 11761175511211311112  113455117556113  11311755511211755556";
-	main_menu_frame1[2] = "113    1111111311111176 4111176 11111176113117112 113   113   11111113113   11311111112";
-	main_menu_frame1[3] = "113    1175511311755112  41176  117551121131134112113   113   11755113113   11345555113";
-	main_menu_frame1[4] = "1111112113  11311111176   113   113  113113113 411113   113   113  11341111117611111113";
-	main_menu_frame1[5] = "4555556456  4564555556    456   456  456456456  45556   456   456  456 4555556 45555556";
-	main_menu_frame1[6] = "             112     1121111112 111111121111112 111111112 111112 11111112              ";
-	main_menu_frame1[7] = "             113     1131175511211755556117551124551175561175511211755556              ";
-	main_menu_frame1[8] = "             113     11311111176111112  11111176   113   1111111311111112              ";
-	main_menu_frame1[9] = "             113     11311755112117556  11755112   113   1175511345555113              ";
-	main_menu_frame1[10] = "             111111121131111117611111112113  113   113   113  11311111113              ";
-	main_menu_frame1[11] = "             455555564564555556 45555556456  456   456   456  45645555556              ";
-	main_menu_frame1[12] = "                                                                                       ";
-	main_menu_frame1[13] = "                                        8 Start                                        ";
-	main_menu_frame1[14] = "                                        Controls                                       ";
-
-	main_menu_frame2[0] = "112     111112 1111112 112   1121111112 1121112   112111111112112  112 1111112 11111112";
-	main_menu_frame2[1] = "113    11755112117551124112 11761175511211311112  113455117556113  11311755511211755556";
-	main_menu_frame2[2] = "113    1111111311111176 4111176 11111176113117112 113   113   11111113113   11311111112";
-	main_menu_frame2[3] = "113    1175511311755112  41176  117551121131134112113   113   11755113113   11345555113";
-	main_menu_frame2[4] = "1111112113  11311111176   113   113  113113113 411113   113   113  11341111117611111113";
-	main_menu_frame2[5] = "4555556456  4564555556    456   456  456456456  45556   456   456  456 4555556 45555556";
-	main_menu_frame2[6] = "             112     1121111112 111111121111112 111111112 111112 11111112              ";
-	main_menu_frame2[7] = "             113     1131175511211755556117551124551175561175511211755556              ";
-	main_menu_frame2[8] = "             113     11311111176111112  11111176   113   1111111311111112              ";
-	main_menu_frame2[9] = "             113     11311755112117556  11755112   113   1175511345555113              ";
-	main_menu_frame2[10] = "             111111121131111117611111112113  113   113   113  11311111113              ";
-	main_menu_frame2[11] = "             455555564564555556 45555556456  456   456   456  45645555556              ";
-	main_menu_frame2[12] = "                                                                                       ";
-	main_menu_frame2[13] = "                                          Start                                        ";
-	main_menu_frame2[14] = "                                      8 Controls                                       ";
-
-	main_menu_frame3[0] = "112     111112 1111112 112   1121111112 1121112   112111111112112  112 1111112 11111112";
-	main_menu_frame3[1] = "113    11755112117551124112 11761175511211311112  113455117556113  11311755511211755556";
-	main_menu_frame3[2] = "113    1111111311111176 4111176 11111176113117112 113   113   11111113113   11311111112";
-	main_menu_frame3[3] = "113    1175511311755112  41176  117551121131134112113   113   11755113113   11345555113";
-	main_menu_frame3[4] = "1111112113  11311111176   113   113  113113113 411113   113   113  11341111117611111113";
-	main_menu_frame3[5] = "4555556456  4564555556    456   456  456456456  45556   456   456  456 4555556 45555556";
-	main_menu_frame3[6] = "             112     1121111112 111111121111112 111111112 111112 11111112              ";
-	main_menu_frame3[7] = "             113     1131175511211755556117551124551175561175511211755556              ";
-	main_menu_frame3[8] = "             113     11311111176111112  11111176   113   1111111311111112              ";
-	main_menu_frame3[9] = "             113     11311755112117556  11755112   113   1175511345555113              ";
-	main_menu_frame3[10] = "             111111121131111117611111112113  113   113   113  11311111113              ";
-	main_menu_frame3[11] = "             455555564564555556 45555556456  456   456   456  45645555556              ";
-	main_menu_frame3[12] = "                                                                                       ";
-	main_menu_frame3[13] = "                                          Start                                        ";
-	main_menu_frame3[14] = "                                        Controls                                       ";
-
-	difficulty_line_1 = "                                       Difficulty                                      ";
-	difficulty_line_2 = "                                     8 Difficulty                                      ";
-
-	COORD x;
-
-	if (main_menu_1 == true)
-	{
-		for (int i = 0; i < 15; ++i)
-		{
-			for (int a = 0; a < 87; ++a)
-			{
-				x.X = a;
-				x.Y = i + 1;
-				currentchar = main_menu_frame1[i][a];
-				switch (currentchar)
-				{
-				case('1'):
-					currentchar = 219;
-					break;
-				case('2'):
-					currentchar = 187;
-					break;
-				case('3'):
-					currentchar = 186;
-					break;
-				case('4'):
-					currentchar = 200;
-					break;
-				case('5'):
-					currentchar = 205;
-					break;
-				case('6'):
-					currentchar = 188;
-					break;
-				case('7'):
-					currentchar = 201;
-					break;
-				case('8'):
-					currentchar = 62;
-					break;
-				}
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-
-		}
-	}
-	if (main_menu_2 == true)
-	{
-		for (int i = 0; i < 15; ++i)
-		{
-			for (int a = 0; a < 87; ++a)
-			{
-				x.X = a;
-				x.Y = i + 1;
-				currentchar = main_menu_frame2[i][a];
-				switch (currentchar)
-				{
-				case('1'):
-					currentchar = 219;
-					break;
-				case('2'):
-					currentchar = 187;
-					break;
-				case('3'):
-					currentchar = 186;
-					break;
-				case('4'):
-					currentchar = 200;
-					break;
-				case('5'):
-					currentchar = 205;
-					break;
-				case('6'):
-					currentchar = 188;
-					break;
-				case('7'):
-					currentchar = 201;
-					break;
-				case('8'):
-					currentchar = 62;
-					break;
-				}
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-
-		}
-	}
-	if (main_menu_3 == true)
-	{
-		for (int i = 0; i < 15; ++i)
-		{
-			for (int a = 0; a < 87; ++a)
-			{
-				x.X = a;
-				x.Y = i + 1;
-				currentchar = main_menu_frame3[i][a];
-				switch (currentchar)
-				{
-				case('1'):
-					currentchar = 219;
-					break;
-				case('2'):
-					currentchar = 187;
-					break;
-				case('3'):
-					currentchar = 186;
-					break;
-				case('4'):
-					currentchar = 200;
-					break;
-				case('5'):
-					currentchar = 205;
-					break;
-				case('6'):
-					currentchar = 188;
-					break;
-				case('7'):
-					currentchar = 201;
-					break;
-				case('8'):
-					currentchar = 62;
-					break;
-				}
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-
-		}
-	}
-
-	if (difficulty_option == true)
-	{
-		x.Y = 16;
-		if (difficulty1 == true)
-		{
-			for (int i = 0; i < 87; ++i)
-			{
-				x.X = i;
-				currentchar = difficulty_line_1[i];
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-		}
-		if (difficulty2 == true)
-		{
-			for (int i = 0; i < 87; ++i)
-			{
-				x.X = i;
-				currentchar = difficulty_line_2[i];
-				switch (currentchar)
-				{
-				case('8'):
-					currentchar = 62;
-					break;
-				}
-				g_Console.writeToBuffer(x, currentchar, 0x1A);
-			}
-		}
-	}
-}
-
-void game_over()
-{
-	//set a name to a string variable
-	//ifstream file(note: file should be in the same folder as the err solution)
-	//file.open(filename)
-	//use the writeToBuffer (check the framework)
-
-	char currentchar;
-	COORD x;
-	string gameoverscreen[6];
-	gameoverscreen[0] = "  _______     ___     .___  ___. _______      ______  ____    ____ _______ .______  ";
-	gameoverscreen[1] = " /  _____|   /   1    |   1/   ||   ____|    /  __  1 1   1  /   /|   ____||   _  1 ";
-	gameoverscreen[2] = "|  |  __    /  ^  1   |  1  /  ||  |__      |  |  |  | 1   1/   / |  |__   |  |_)  |";
-	gameoverscreen[3] = "|  | |_ |  /  /_1  1  |  |1/|  ||   __|     |  |  |  |  1      /  |   __|  |      / ";
-	gameoverscreen[4] = "|  |__| | /  _____  1 |  |  |  ||  |____    |  `--'  |   1    /   |  |____ |  |1  1 ";
-	gameoverscreen[5] = " 1______|/__/     1__1|__|  |__||_______|    1______/     1__/    |_______||__| `._|";
-
-	for (int i = 0; i < 6; ++i)
-	{
-		for (int a = 0; a < 84; ++a)
-		{
-			x.X = a + 2;
-			x.Y = i + 10;
-			currentchar = gameoverscreen[i][a];
 			switch (currentchar)
 			{
 			case('1'):
 				currentchar = 92;
 				break;
 			}
-			g_Console.writeToBuffer(x, currentchar, 0x1A);
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
 		}
 	}
+
+	COORD b;
+	char currentchar2 = 62;
+
+	if (pause_1 == true)
+	{
+		b.Y = 6;
+		b.X = 35;
+	}
+	if (pause_2 == true)
+	{
+		b.Y = 7;
+		b.X = 35;
+	}
+	if (pause_3 == true)
+	{
+		b.Y = 8;
+		b.X = 35;
+	}
+
+	g_Console.writeToBuffer(b, currentchar2, 0x1F);
+}
+
+void control_screen()
+{
+	COORD c;
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
+
+	filename += "Controls.txt";
+
+	ifstream controlsmenu;
+	controlsmenu.open(filename);
+	getline(controlsmenu, cols);
+	getline(controlsmenu, rows);
+	y = stoi(rows);
+	x = stoi(cols);
+
+	for (int i = 0; i < y; ++i)
+	{
+		string currentrow;
+		char currentchar;
+		getline(controlsmenu, currentrow);
+		for (int j = 0; j < x; ++j)
+		{
+			currentchar = currentrow[j];
+
+			c.X = j;
+			c.Y = i;
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
+		}
+	}
+}
+
+void main_menu()
+{
+	COORD c;
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
+
+	filename += "main_menu_frame.txt";
+
+	ifstream mainmenu;
+	mainmenu.open(filename);
+	getline(mainmenu, cols);
+	getline(mainmenu, rows);
+	y = stoi(rows);
+	x = stoi(cols);
+
+	for (int i = 0; i < y; ++i)
+	{
+		string currentrow;
+		unsigned char currentchar;
+		getline(mainmenu, currentrow);
+		for (int j = 0; j < x; ++j)
+		{
+			currentchar = currentrow[j];
+
+			c.X = j;
+			c.Y = i + 1;
+
+			switch (currentchar)
+			{
+			case('1'):
+				currentchar = 219;
+				break;
+			case('2'):
+				currentchar = 187;
+				break;
+			case('3'):
+				currentchar = 186;
+				break;
+			case('4'):
+				currentchar = 200;
+				break;
+			case('5'):
+				currentchar = 205;
+				break;
+			case('6'):
+				currentchar = 188;
+				break;
+			case('7'):
+				currentchar = 201;
+				break;
+			}
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
+		}
+	}
+	mainmenu.close();
+
+	string difficultystr = "                                       Difficulty                                      ";
+	
+	if (difficulty_option == true)
+	{
+		c.Y = 16;
+		for (int i = 0; i < 87; ++i)
+		{
+			c.X = i;
+			g_Console.writeToBuffer(c, difficultystr[i], 0x1F);
+		}
+	}
+	char currentchar2 = 62;
+	COORD b;
+	if (main_menu_1 == true)
+	{
+		b.Y = 14;
+		b.X = 39;
+	}
+	if (main_menu_2 == true)
+	{
+		b.Y = 15;
+		b.X = 38;
+	}
+	if (main_menu_3 == true)
+	{
+		b.Y = 16;
+		b.X = 37;
+	}
+
+	g_Console.writeToBuffer(b, currentchar2, 0x1F);
+}
+
+void game_over()
+{
+	COORD c;
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
+
+	filename += "game_over_screen.txt";
+
+	ifstream gameover;
+	gameover.open(filename);
+	getline(gameover, cols);
+	getline(gameover, rows);
+	y = stoi(rows);
+	x = stoi(cols);
+
+	for (int i = 0; i < y; ++i)
+	{
+		string currentrow;
+		char currentchar;
+		getline(gameover, currentrow);
+		for (int j = 0; j < x; ++j)
+		{
+			currentchar = currentrow[j];
+
+			c.X = j;
+			c.Y = i + 1;
+
+			switch (currentchar)
+			{
+			case('1'):
+				currentchar = 92;
+				break;
+			}
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
+		}
+	}
+	gameover.close();
+}
+
+void difficulty_screen()
+{
+	COORD c;
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
+
+	filename += "difficulty.txt";
+
+	ifstream difficulty;
+	difficulty.open(filename);
+	getline(difficulty, cols);
+	getline(difficulty, rows);
+	y = stoi(rows);
+	x = stoi(cols);
+
+	for (int i = 0; i < y; ++i)
+	{
+		string currentrow;
+		char currentchar;
+		getline(difficulty, currentrow);
+		for (int j = 0; j < x; ++j)
+		{
+			currentchar = currentrow[j];
+
+			c.X = j;
+			c.Y = i + 5;
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
+		}
+	}
+	difficulty.close();
+	COORD b;
+	char currentchar2 = 62;
+	b.X = 26;
+	if (easy == true)
+	{
+		b.Y = 7;
+	}
+	else if (medium == true)
+	{
+		b.Y = 8;
+	}
+	else if (hard == true)
+	{
+		b.Y = 9;
+	}
+
+	g_Console.writeToBuffer(b, currentchar2, 0x1F);
 }
 
 void main_menu_option()
@@ -1138,27 +1042,27 @@ void main_menu_option()
 			g_eGameState = S_CONTROLS;
 			bSomethingHappened = true;
 		}
-		if (g_abKeyPressed[K_DOWN])
+		if (difficulty_option == true)
 		{
-			if (difficulty_option == true)
+			if (g_abKeyPressed[K_DOWN])
 			{
 				main_menu_2 = false;
 				main_menu_3 = true;
-				difficulty1 = false;
-				difficulty2 = true;
 				bSomethingHappened = true;
 			}
-
 		}
 	}
-	else if (difficulty2 == true && difficulty_option == true)
+	else if (main_menu_3 == true)
 	{
 		if (g_abKeyPressed[K_UP])
 		{
 			main_menu_2 = true;
 			main_menu_3 = false;
-			difficulty1 = true;
-			difficulty2 = false;
+			bSomethingHappened = true;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			g_eGameState = S_DIFFICULTY;
 			bSomethingHappened = true;
 		}
 	}
@@ -1182,6 +1086,86 @@ void control_screen_back()
 	{
 		g_eGameState = S_SPLASHSCREEN;
 		bSomethingHappened = true;
+	}
+
+	if (bSomethingHappened)
+	{
+		// set the bounce time to some time in the future to prevent accidental triggers
+		g_dBounceTime = g_dElapsedTime + 0.125; // 125ms should be enough
+	}
+}
+
+void difficulty_choose()
+{
+	bool bSomethingHappened = false;
+	if (g_dBounceTime > g_dElapsedTime)
+	{
+		return;
+	}
+
+	if (easy == true)
+	{
+		if (g_abKeyPressed[K_DOWN])
+		{
+			easy = false;
+			medium = true;
+			hard = false;
+			bSomethingHappened = true;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			healthpoints = 3;
+			bSomethingHappened = true;
+			difficulty_option = false;
+			main_menu_1 = true;
+			main_menu_3 = false;
+			g_eGameState = S_SPLASHSCREEN;
+		}
+	}
+	else if (medium == true)
+	{
+		if (g_abKeyPressed[K_DOWN])
+		{
+			medium = false;
+			hard = true;
+			easy = false;
+			bSomethingHappened = true;
+		}
+		if (g_abKeyPressed[K_UP])
+		{
+			medium = false; 
+			easy = true;
+			hard = false;
+			bSomethingHappened = true;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			healthpoints = 2;
+			bSomethingHappened = true;
+			difficulty_option = false;
+			main_menu_1 = true;
+			main_menu_3 = false;
+			g_eGameState = S_SPLASHSCREEN;
+		}
+	}
+	else if (hard == true)
+	{
+		if (g_abKeyPressed[K_UP])
+		{
+			medium = true;
+			hard = false;
+			easy = false;
+			bSomethingHappened = true;
+		}
+		if (g_abKeyPressed[K_SPACE])
+		{
+			healthpoints = 1;
+			bSomethingHappened = true;
+			difficulty_option = false;
+			main_menu_1 = true;
+			main_menu_3 = false;
+			g_eGameState = S_SPLASHSCREEN;
+		}
 	}
 
 	if (bSomethingHappened)
@@ -1288,7 +1272,7 @@ void pause_select()
 
 string whichText(string *output, bool *BoolArray)
 {
-	srand(time(nullptr));
+	srand((unsigned int)time(nullptr));
 	bool done = true;
 	while (done)
 	{
@@ -1527,3 +1511,101 @@ after finish clean textbox
 //run function for anser input
 //take in user input
 
+void mobmovement(int i)
+{
+	if(monster[i].alive == true)
+	{
+		if (monster[i].location.X > g_sChar.m_cLocation.X)
+		{
+			if (collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true)
+			{
+				monster[i].location.X--;
+			}
+			else if(monster[i].location.Y > g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true)
+				{
+					monster[i].location.Y--;
+				}
+			}
+			else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true)
+				{
+					monster[i].location.Y++;
+				}
+			}
+		}
+		else if (monster[i].location.X < g_sChar.m_cLocation.X)
+		{
+			if (collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true)
+			{
+				monster[i].location.X++;
+			}
+			else if (monster[i].location.Y > g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true)
+				{
+					monster[i].location.Y--;
+				}
+			}
+			else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true)
+				{
+					monster[i].location.Y++;
+				}
+			}
+		}
+		else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+		{
+			if (collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true)
+			{
+				monster[i].location.Y++;
+			}
+			else if (monster[i].location.X > g_sChar.m_cLocation.X)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true)
+				{
+					monster[i].location.X--;
+				}
+			}
+			else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true)
+				{
+					monster[i].location.X++;
+				}
+			}
+		}
+		else if (monster[i].location.Y > g_sChar.m_cLocation.Y)
+		{
+			if (collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true)
+			{
+				monster[i].location.Y--;
+			}
+			else if (monster[i].location.X > g_sChar.m_cLocation.X)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true)
+				{
+					monster[i].location.X--;
+				}
+			}
+			else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true)
+				{
+					monster[i].location.X++;
+				}
+			}
+		}
+	}
+}
+
+void movemobs()
+{
+	for (int i = 0; i < 18; ++i)
+	{
+		mobmovement(i);
+	}
+}

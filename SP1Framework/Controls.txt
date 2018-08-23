@@ -1,0 +1,17 @@
+87
+15
+                                                                                         
+                                                                                         
+                                                                                         
+                                   MOVING UP = UP ARROW KEY                              
+                                 MOVING DOWN = DOWN ARROW KEY                            
+                                 MOVING LEFT = LEFT ARROW KEY                            
+                                MOVING RIGHT = RIGHT ARROW KEY                           
+                                   Selecting = SPACE KEY                                 
+                                                                                         
+                                    GAMEPLAY LEGEND:                                     
+                                         K - KEY                                         
+                                       M - MONSTERS                                      
+                                       O - Endpoint                                      
+                                                                                         
+  GO BACK - SPACE KEY                                                                    

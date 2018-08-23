@@ -13,7 +13,7 @@
 
 using namespace std;
 
-char map[15][87];
+char map[30][100];
 // for mobs
 bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
 int mobAnsvvers[18] = { 2, 1, 3, 2, 3, 1, 2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2 }; // ansvvers for the mobs
@@ -81,7 +81,7 @@ double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger k
 // Console object
 EGAMESTATES g_eGameState;
 
-Console g_Console(87, 30, "                                                             Labyrinthos Libertas");
+Console g_Console(100, 45, "                                                             Labyrinthos Libertas");
 
 
 //--------------------------------------------------------------
@@ -474,7 +474,7 @@ void renderMap()
 	char currentchar;
 	currentchar = 3;
 	a.X = 1;
-	a.Y = 15;
+	a.Y = 31;
 	for (int i = 0; i < 9; ++i)
 	{
 		g_Console.writeToBuffer(a, healthtext[i], 0x1F);
@@ -507,7 +507,7 @@ void renderMap()
 	} */
 	
 	a.X = 18;
-	a.Y = 15;
+	a.Y = 31;
 	string keystext = "Keys : ";
 /*	ostringstream str2;
 	string keystr = str2.str();
@@ -535,7 +535,7 @@ void renderMap()
 
 	if (lvlcleared == 1)
 	{
-		filename += "lvl1.txt";
+		filename += "testbigmap1.txt"; //"lvl1.txt";
 	}
 	else if (lvlcleared == 2)
 	{
@@ -615,8 +615,8 @@ void renderMap()
 
 		while (repcount != 3)
 		{
-			xPos = (rand() % 82 + 1) + rand() % 4;
-			yPos = (rand() % 11 + 1) + rand() % 3;
+			xPos = (rand() % 101 + 1) + rand() % 4;
+			yPos = (rand() % 31 + 1) + rand() % 3;
 
 			if (map[(yPos)][(xPos)] == ' ')
 			{
@@ -632,9 +632,9 @@ void renderMap()
 	}
 	else
 	{
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 30; ++i)
 		{
-			for (int j = 0; j < 87; ++j)
+			for (int j = 0; j < 100; ++j)
 			{
 				c.X = j;
 				c.Y = i;
@@ -721,8 +721,6 @@ void pause_screen()
 	}
 
 	COORD b;
-	b.Y = 0;
-	b.X = 0;
 	char currentchar2 = 62;
 
 	if (pause_1 == true)
@@ -1317,7 +1315,7 @@ void spamPrint()
 
 	COORD textCoord;
 	textCoord.X = 0;
-	textCoord.Y = 18;
+	textCoord.Y = 35;
 
 
 	g_Console.writeToBuffer(textCoord, continueRender, colors[0]);

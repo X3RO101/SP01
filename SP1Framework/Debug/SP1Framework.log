@@ -1,4 +1,4 @@
 ﻿  game.cpp
 c:\github\.vs\sp01t11\sp1framework\game.cpp(614): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\github\.vs\sp01t11\sp1framework\game.cpp(1329): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\github\.vs\sp01t11\sp1framework\game.cpp(1327): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe

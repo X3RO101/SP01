@@ -4,10 +4,10 @@ char **map;
 
 void arraymaker(string levelgen())
 {
-	char **mapptr = new char*[15];//2d array declared with pointers
-	for (int i = 0; i < 15; ++i)
+	char **mapptr = new char*[30];//2d array declared with pointers
+	for (int i = 0; i < 30; ++i)
 	{
-		mapptr[i] = new char[87];
+		mapptr[i] = new char[100];
 	}
 	
 	
@@ -15,11 +15,11 @@ void arraymaker(string levelgen())
 	int rowcounter = 0;
 	int colcounter = 0;
 	int entercounter = 0;
-	int totaldimen = 1305;
+	int totaldimen = 3000;
 
-	while (rowcounter < 15)
+	while (rowcounter < 30)
 	{
-		while (colcounter < 87)
+		while (colcounter < 100)
 		{
 			while (int i = 0 != totaldimen)
 			{
@@ -41,7 +41,7 @@ char** getarray(void)
 }
 
 
-bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks if player encounters a wall
+bool collision(char array[30][100], int playerycoord, int playerxcoord) //checks if player encounters a wall
 {
 	if (array[playerycoord][playerxcoord] == (char)219)//up
 	{
@@ -53,7 +53,7 @@ bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks 
 	}
 }	
 
-bool touchmonster(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a monster
+bool touchmonster(char array[30][100], int playerycoord, int playerxcoord)//checks if player encounters a monster
 {
 	if (array[playerycoord][playerxcoord] == 'm')
 	{
@@ -65,7 +65,7 @@ bool touchmonster(char array[15][87], int playerycoord, int playerxcoord)//check
 	}
 }
 
-bool touchkey(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a key
+bool touchkey(char array[30][100], int playerycoord, int playerxcoord)//checks if player encounters a key
 {
 	if (array[playerycoord][playerxcoord] == 'k')
 	{
@@ -77,7 +77,7 @@ bool touchkey(char array[15][87], int playerycoord, int playerxcoord)//checks if
 	}
 }
 
-bool touchend(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters the end of the level
+bool touchend(char array[30][100], int playerycoord, int playerxcoord)//checks if player encounters the end of the level
 {
 	if (array[playerycoord][playerxcoord] == 'o')
 	{

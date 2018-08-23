@@ -19,9 +19,10 @@ struct Text
 //functions that render combat text/store and initialise text
 
 void initMobText(Text * mobNo, ifstream* mobFile); // to be used in intialise
-void textPicker(string * input,bool * boolarray, int * passer);
-void spamPrint(string input);
-void ansChecker(int passer, string mobAns);
-void initAns(ifstream * mobans, string * ansStr);
+void textPicker();
+void spamPrint();
+void inputAns();
+void checkAns();
+void ansWrong();
 
 #endif // !COMBAT_H

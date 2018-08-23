@@ -16,8 +16,8 @@ using namespace std;
 char map[15][87];
 // for mobs
 bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
+int mobAnsvvers[18] = { 2, 1, 3, 2, 3, 1, 2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2 }; // ansvvers for the mobs
 ifstream initMobs("MobsFinal.txt");
-ifstream mobAns("mobAns.txt");
 Text mob1;
 Text mob2;
 Text mob3;
@@ -38,8 +38,6 @@ Text mob17;
 Text mob18;
 
 string continueRender;
-string mobAnswers;
-
 char correct;
 int ansPasser; // for the answer checker
 
@@ -47,8 +45,9 @@ int g = 0;
 int h = 0;
 //important
 double totalTime = 0;
-
 bool moveAllow = true;
+int cAns; // the correct ans is copied into here
+int playerinput; // the input for the ans
 //important
 
 int lvlcleared = 1;
@@ -118,7 +117,7 @@ void init( void )
 	initMobText(&mob17, &initMobs);
 	initMobText(&mob18, &initMobs);
 	// initialise answers for mobs
-	initAns(&mobAns, &mobAnswers); 
+	
 
     // Set precision for floating point *output
     g_dElapsedTime = 0.0;
@@ -198,10 +197,14 @@ void update(double dt)
     {
 	case S_SPLASHSCREEN: main_menu_option(); // game logic for the splash screen
             break;
-		case S_COMBAT: gameplay();
+		case S_COMBAT:
 			duration(&g_eGameState, dt);
+			inputAns();
+			checkAns();
+			ansWrong();
+			gameplay();
 			break;
-        case S_GAME: totalTime = 0;
+        case S_GAME: totalTime = 0; // resets the combat timer
 			gameplay(); // gameplay logic when we are in the game
             break;
 		case S_DEATH: 
@@ -262,12 +265,12 @@ void gameplay()            // gameplay logic
 		moveCharacter();    // moves the character, collision detection, physics, etc
 	}                   // sound can be played here too.
     processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
-    moveCharacter();    // moves the character, collision detection, physics, etc
                         // sound can be played here too.
 	health();
 	scoresystem();
 	movemobs();
 }
+
 
 void moveCharacter()
 {
@@ -718,6 +721,8 @@ void pause_screen()
 	}
 
 	COORD b;
+	b.Y = 0;
+	b.X = 0;
 	char currentchar2 = 62;
 
 	if (pause_1 == true)
@@ -1247,27 +1252,48 @@ void duration(EGAMESTATES * gameState, double dt) // timer for the combat
 	}
 }
 
-void ansChecker(int passer, string str)
+void inputAns()
 {
-	int input;
-	char correct;
-	correct = str[passer -1];
 	if (g_abKeyPressed[K_1])
 	{
-		input = 0x31;
+		playerinput = 1;
 	}
 	if (g_abKeyPressed[K_2])
 	{
-		input = 0x32;
+		playerinput = 2;
 	}
 	if (g_abKeyPressed[K_3])
 	{
-		input = 0x32;
+		playerinput = 3;
 	}
+}
 
-	if (input == correct)
+void checkAns()
+{
+	cAns = mobAnsvvers[ansPasser - 1];
+	if (playerinput == cAns)
 	{
+		h = 0;
+		playerinput = 0;
+		cAns = 0;
+		ansPasser = 0;
+		moveAllow = true;
 		g_eGameState = S_GAME;
+	}
+}
+
+void ansWrong()
+{
+	if (playerinput == 1 || playerinput == 2 || playerinput == 3)
+	{
+		if (playerinput != cAns)
+		{
+			h = 0;
+			healthpoints--;
+			playerinput = 0;
+			moveAllow = true;
+			g_eGameState = S_GAME;
+		}
 	}
 }
 
@@ -1276,14 +1302,13 @@ void COMBAT() // runs when gamestate is in combat
 
 	if (h == g)
 	{
-		textPicker(&continueRender, &bArray[18], &ansPasser); // ansPasser is for the array for answers
-		h++;
+		textPicker(); // ansPasser is for the array for answers
 	}
-	spamPrint(continueRender);
+	spamPrint(); // continuously prints the same line of text for the duration of combat
 }
 
 
-void spamPrint(string input)
+void spamPrint()
 {
 	const WORD colors[] = {
 		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
@@ -1295,81 +1320,95 @@ void spamPrint(string input)
 	textCoord.Y = 18;
 
 
-	g_Console.writeToBuffer(textCoord, input, colors[0]);
+	g_Console.writeToBuffer(textCoord, continueRender, colors[0]);
 }
 
-void initAns(ifstream * mobans, string * ansStr)
-{
-	getline(*mobans, *ansStr);
-}
 
-void textPicker(string * continueRender, bool * boolarray, int * passer) // randomly picks a mob text to print
+void textPicker() // randomly picks a mob text to print
 {
 	srand(time(nullptr));
-	*passer = rand() % 18 + 1;
-	if (!boolarray[*passer - 1])
+	ansPasser = rand() % 18 + 1;
+	if (bArray[ansPasser - 1])
 	{
-		switch (*passer)
+		switch (ansPasser)
 		{
 		case 1:
-			*continueRender = mob1.monsterQn;
+			continueRender = mob1.monsterQn;
+			h++;
 			break;
 		case 2:
-			*continueRender = mob2.monsterQn;
+			continueRender = mob2.monsterQn;
+			h++;
 			break;
 		case 3:
-			*continueRender = mob3.monsterQn;
+			continueRender = mob3.monsterQn;
+			h++;
 			break;
 		case 4:
-			*continueRender = mob4.monsterQn;
+			continueRender = mob4.monsterQn;
+			h++;
 			break;
 		case 5:
-			*continueRender = mob5.monsterQn;
+			continueRender = mob5.monsterQn;
+			h++;
 			break;
 		case 6:
-			*continueRender = mob6.monsterQn;
+			continueRender = mob6.monsterQn;
+			h++;
 			break;
 		case 7:
-			*continueRender = mob7.monsterQn;
+			continueRender = mob7.monsterQn;
+			h++;
 			break;
 		case 8:
-			*continueRender = mob8.monsterQn;
+			continueRender = mob8.monsterQn;
+			h++;
 			break;
 		case 9:
-			*continueRender = mob9.monsterQn;
+			continueRender = mob9.monsterQn;
+			h++;
 			break;
 		case 10:
-			*continueRender = mob10.monsterQn;
+			continueRender = mob10.monsterQn;
+			h++;
 			break;
 		case 11:
-			*continueRender = mob11.monsterQn;
+			continueRender = mob11.monsterQn;
+			h++;
 			break;
 		case 12:
-			*continueRender = mob12.monsterQn;
+			continueRender = mob12.monsterQn;
+			h++;
 			break;
 		case 13:
-			*continueRender = mob13.monsterQn;
+			continueRender = mob13.monsterQn;
+			h++;
 			break;
 		case 14:
-			*continueRender = mob14.monsterQn;
+			continueRender = mob14.monsterQn;
+			h++;
 			break;
 		case 15:
-			*continueRender = mob15.monsterQn;
+			continueRender = mob15.monsterQn;
+			h++;
 			break;
 		case 16:
-			*continueRender = mob16.monsterQn;
+			continueRender = mob16.monsterQn;
+			h++;
 			break;
 		case 17:
-			*continueRender = mob17.monsterQn;
+			continueRender = mob17.monsterQn;
+			h++;
 			break;
 		case 18:
-			*continueRender = mob18.monsterQn;
+			continueRender = mob18.monsterQn;
+			h++;
 			break;
 		default:
-			*continueRender = "test";
+			continueRender = "test";
 			break;
 		}
-		boolarray[*passer - 1] = false;
+		bArray[ansPasser - 1] = false;
 	}
 }
 

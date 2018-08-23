@@ -82,5 +82,6 @@ void pause_screen();		//
 void difficulty_screen();	//
 void difficulty_choose();
 void mobmovement(int i);
+void movemobs();
 
 #endif // _GAME_H

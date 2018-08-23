@@ -1,2 +1,11 @@
-﻿  aimovement.cpp
+﻿  TextStore.cpp
+  TimeFreeze.cpp
+  UserAnswer.cpp
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\useranswer.cpp(6): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\useranswer.cpp(10): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\useranswer.cpp(14): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
+  game.cpp
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(596): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  main.cpp
+  Generating Code...
   SP1Framework.vcxproj -> C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Debug\SP1Framework.exe

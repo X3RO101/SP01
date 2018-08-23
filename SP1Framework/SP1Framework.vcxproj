@@ -79,7 +79,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="aimovement.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="combat.cpp" />
     <ClCompile Include="Framework\console.cpp" />

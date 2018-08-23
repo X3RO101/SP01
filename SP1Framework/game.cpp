@@ -257,6 +257,7 @@ void gameplay()            // gameplay logic
                         // sound can be played here too.
 	health();
 	scoresystem();
+	movemobs();
 }
 
 void moveCharacter()
@@ -443,7 +444,7 @@ void renderMap()
 	a.Y = 15;
 	for (int i = 0; i < 9; ++i)
 	{
-		g_Console.writeToBuffer(a, healthtext[i], 0x1A);
+		g_Console.writeToBuffer(a, healthtext[i], 0x1F);
 		a.X++;
 	}
 	for (int i = 0; i < healthpoints; ++i)
@@ -486,9 +487,9 @@ void renderMap()
 	}
 	for (int i = 0; i < keycount /*keystr.length()*/; ++i)
 	{
-		g_Console.writeToBuffer(a, currentchar2, 0x1A);
+		g_Console.writeToBuffer(a, currentchar2, 0x1F);
 		a.X++;
-		g_Console.writeToBuffer(a, ' ', 0x1A);
+		g_Console.writeToBuffer(a, ' ', 0x1F);
 		a.X++;
 	}
 	
@@ -584,9 +585,31 @@ void renderMap()
 			{
 				c.X = j;
 				c.Y = i;
-				g_Console.writeToBuffer(c, map[i][j], colors[0]);
+				g_Console.writeToBuffer(c, map[i][j], 0x1F);
 			}
 		}
+	}
+
+	int xPos;
+	int yPos;
+	int repcount = 0;
+	srand(time(nullptr));
+
+	while (repcount != 3)
+	{
+		xPos = (rand() % 82 + 1) + rand() % 4;
+		yPos = (rand() % 11 + 1) + rand() % 3;
+
+		if (map[(yPos)][(xPos)] == ' ')
+		{
+			map[yPos][xPos] = 'm';
+		}
+		else
+		{
+			continue;
+		}
+
+		repcount++;
 	}
 }
 
@@ -600,7 +623,7 @@ void textRender()
 	COORD Text;
 	Text.X = 0;
 	Text.Y = 17;
-	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
+	g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), 0x1F);
 
 	/*start here
 	
@@ -735,7 +758,7 @@ void pause_screen()
 				currentchar = 92;
 				break;
 			}
-			g_Console.writeToBuffer(c, currentchar, 0x1A);
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
 		}
 	}
 
@@ -758,7 +781,7 @@ void pause_screen()
 		b.X = 35;
 	}
 
-	g_Console.writeToBuffer(b, currentchar2, 0x1A);
+	g_Console.writeToBuffer(b, currentchar2, 0x1F);
 }
 
 void control_screen()
@@ -790,7 +813,7 @@ void control_screen()
 
 			c.X = j;
 			c.Y = i;
-			g_Console.writeToBuffer(c, currentchar, 0x1A);
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
 		}
 	}
 }
@@ -849,7 +872,7 @@ void main_menu()
 				currentchar = 201;
 				break;
 			}
-			g_Console.writeToBuffer(c, currentchar, 0x1A);
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
 		}
 	}
 	mainmenu.close();
@@ -862,7 +885,7 @@ void main_menu()
 		for (int i = 0; i < 87; ++i)
 		{
 			c.X = i;
-			g_Console.writeToBuffer(c, difficultystr[i], 0x1A);
+			g_Console.writeToBuffer(c, difficultystr[i], 0x1F);
 		}
 	}
 	char currentchar2 = 62;
@@ -883,7 +906,7 @@ void main_menu()
 		b.X = 37;
 	}
 
-	g_Console.writeToBuffer(b, currentchar2, 0x1A);
+	g_Console.writeToBuffer(b, currentchar2, 0x1F);
 }
 
 void game_over()
@@ -922,7 +945,7 @@ void game_over()
 				currentchar = 92;
 				break;
 			}
-			g_Console.writeToBuffer(c, currentchar, 0x1A);
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
 		}
 	}
 	gameover.close();
@@ -957,7 +980,7 @@ void difficulty_screen()
 
 			c.X = j;
 			c.Y = i + 5;
-			g_Console.writeToBuffer(c, currentchar, 0x1A);
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
 		}
 	}
 	difficulty.close();
@@ -977,7 +1000,7 @@ void difficulty_screen()
 		b.Y = 9;
 	}
 
-	g_Console.writeToBuffer(b, currentchar2, 0x1A);
+	g_Console.writeToBuffer(b, currentchar2, 0x1F);
 }
 
 void main_menu_option()
@@ -1510,6 +1533,76 @@ void mobmovement(int i)
 				}
 			}
 		}
+		else if (monster[i].location.X < g_sChar.m_cLocation.X)
+		{
+			if (collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true)
+			{
+				monster[i].location.X++;
+			}
+			else if (monster[i].location.Y > g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true)
+				{
+					monster[i].location.Y--;
+				}
+			}
+			else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true)
+				{
+					monster[i].location.Y++;
+				}
+			}
+		}
+		else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+		{
+			if (collision(map, (monster[i].location.Y + 1), monster[i].location.X) != true)
+			{
+				monster[i].location.Y++;
+			}
+			else if (monster[i].location.X > g_sChar.m_cLocation.X)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true)
+				{
+					monster[i].location.X--;
+				}
+			}
+			else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true)
+				{
+					monster[i].location.X++;
+				}
+			}
+		}
+		else if (monster[i].location.Y > g_sChar.m_cLocation.Y)
+		{
+			if (collision(map, (monster[i].location.Y - 1), monster[i].location.X) != true)
+			{
+				monster[i].location.Y--;
+			}
+			else if (monster[i].location.X > g_sChar.m_cLocation.X)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true)
+				{
+					monster[i].location.X--;
+				}
+			}
+			else if (monster[i].location.Y < g_sChar.m_cLocation.Y)
+			{
+				if (collision(map, monster[i].location.Y, (monster[i].location.X + 1)) != true)
+				{
+					monster[i].location.X++;
+				}
+			}
+		}
 	}
+}
 
+void movemobs()
+{
+	for (int i = 0; i < 18; ++i)
+	{
+		mobmovement(i);
+	}
 }

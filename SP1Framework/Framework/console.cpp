@@ -92,6 +92,7 @@ void cls( HANDLE hConsole )
 //--------------------------------------------------------------
 bool isKeyPressed(unsigned short ushKey)
 {
+
     return ((GetAsyncKeyState(ushKey) & 0x8001) != 0);
 }
 

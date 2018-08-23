@@ -40,6 +40,7 @@ Text mob18;
 string continueRender;
 string mobAnswers;
 
+char correct;
 int ansPasser; // for the answer checker
 
 int g = 0;
@@ -293,6 +294,7 @@ void moveCharacter()
 			{
 				moveAllow = false;
 				g_eGameState = S_COMBAT;
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 			}
 			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
@@ -354,6 +356,7 @@ void moveCharacter()
 			{
 				moveAllow = false;
 				g_eGameState = S_COMBAT;
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 			}
 			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
@@ -382,6 +385,7 @@ void moveCharacter()
 			{
 				moveAllow = false;
 				g_eGameState = S_COMBAT;
+				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 			}
 			else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
@@ -1237,14 +1241,15 @@ void duration(EGAMESTATES * gameState, double dt) // timer for the combat
 	if (totalTime > 10.0)
 	{
 		h = 0;
+		isdead = true;
 		moveAllow = true;
 		*gameState = S_GAME;
 	}
 }
 
-bool ansChecker(int passer, string str)
+void ansChecker(int passer, string str)
 {
-	char input = 0;
+	int input;
 	char correct;
 	correct = str[passer];
 	if (g_abKeyPressed[K_1])
@@ -1263,12 +1268,10 @@ bool ansChecker(int passer, string str)
 	if (input == correct)
 	{
 		g_eGameState = S_GAME;
-		return true;
 	}
 	else
 	{
 		g_eGameState = S_SPLASHSCREEN;
-		return false;
 	}
 }
 

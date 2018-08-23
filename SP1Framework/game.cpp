@@ -3,35 +3,28 @@
 //
 #include "game.h"
 
+
 bool bArray[18];
 
 void textRender();
+
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <ctime>
+#include <random>
+
+
+
+
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
 
 // Game specific variables here
 SGameChar   g_sChar;
-ifstream mobInfo("MobsFinal.txt");
-// MOB Text copy
-Text Monster1;
-Text Monster2;
-Text Monster3;
-Text Monster4;
-Text Monster5;
-Text Monster6;
-Text Monster7;
-Text Monster8;
-Text Monster9;
-Text Monster10;
-Text Monster11;
-Text Monster12;
-Text Monster13;
-Text Monster14;
-Text Monster15;
-Text Monster16;
-Text Monster17;
-Text Monster18;
 
 string texty;
 //string whichText(string *output, bool *boolArray);
@@ -48,11 +41,12 @@ bool disablemovement(EGAMESTATES g_eGameState)
 }
 
 EGAMESTATES g_eGameState = S_SPLASHSCREEN;
+
+
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
 // Console object
 Console g_Console(87, 30, "SP1 Framework");
-
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
 //            Initialize variables, allocate memory, load data from file, etc. 
@@ -75,29 +69,18 @@ void init( void )
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
 
-	textBank(&Monster1, &mobInfo);
-	textBank(&Monster2, &mobInfo);
-	textBank(&Monster3, &mobInfo);
-	textBank(&Monster4, &mobInfo);
-	textBank(&Monster5, &mobInfo);
-	textBank(&Monster6, &mobInfo);
-	textBank(&Monster7, &mobInfo);
-	textBank(&Monster8, &mobInfo);
-	textBank(&Monster9, &mobInfo);
-	textBank(&Monster10, &mobInfo);
-	textBank(&Monster11, &mobInfo);
-	textBank(&Monster12, &mobInfo);
-	textBank(&Monster13, &mobInfo);
-	textBank(&Monster14, &mobInfo);
-	textBank(&Monster15, &mobInfo);
-	textBank(&Monster16, &mobInfo);
-	textBank(&Monster17, &mobInfo);
-	textBank(&Monster18, &mobInfo);      
 	for (int i = 0; i < sizeof(bArray); i++)  // for the mobs' text
 	{
 		bArray[i] = true;
 	}
 	
+
+	for (int i = 0; i < sizeof(bArray); i++)  // initialise all the memory to be true for the mobs' text
+	{
+		bArray[i] = true;
+	}
+
+
 }
 
 //--------------------------------------------------------------
@@ -163,10 +146,10 @@ void update(double dt)
     {
         case S_SPLASHSCREEN : splashScreenWait(); // game logic for the splash screen
             break;
+		case S_COMBAT:// combat(g_eGameState, dt);
+			break;
         case S_GAME: gameplay(); // gameplay logic when we are in the game
             break;
-		case S_COMBAT: combat(); //combat phase when player encounters a monster
-			break;
     }
 }
 //--------------------------------------------------------------
@@ -186,6 +169,8 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
+		case S_COMBAT:// renderCombat(&bArray[18] , g_Console);
+			break;
     }
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
@@ -199,9 +184,11 @@ void splashScreenWait()    // waits for time to pass in splash screen
 
 void gameplay()            // gameplay logic
 {
-    processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
-    moveCharacter();    // moves the character, collision detection, physics, etc
-                        // sound can be played here too.
+    processUserInput();// checks if you should change states or do something else with the game, e.g. pause, exit
+	if (g_eGameState == S_GAME)
+	{
+		moveCharacter();    // moves the character, collision detection, physics, etc
+	}                   // sound can be played here too.
 }
 
 void moveCharacter()
@@ -225,6 +212,7 @@ void moveCharacter()
         g_sChar.m_cLocation.Y--;
 		if (touchmonster(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 		{
+			//change gamestate to combat
 			//run text for monster
 		}
 		else if (touchkey(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
@@ -364,23 +352,17 @@ void renderGame()
 {
     renderMap();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
-	textRender();
 }
 
 void renderMap()
 {
-
-    //Set up sample colours, and *output shadings
-
+    //Set up sample colours, and output shadings
     const WORD colors[] = {
         0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
-
     COORD c;
-	
 	colour(colors[0]);
-    
 
 	string rows;
 	string cols;
@@ -388,8 +370,6 @@ void renderMap()
 	string filename;
 	int y;
 	int x;
-	
-
 
 	if (lvlcleared == 0)
 	{
@@ -425,7 +405,6 @@ void renderMap()
 		x = stoi(cols);
 		keysneeded = stoi(keys);
 		
-
 		for (int i = 0; i < y - 1; ++i)
 		{
 			string currentrow;
@@ -434,6 +413,10 @@ void renderMap()
 			for (int j = 0; j < x - 1; ++j)
 			{
 				currentchar = currentrow[j];
+
+				c.X = j;
+				c.Y = i;
+
 				switch (currentchar)
 				{
 				case'#':
@@ -484,9 +467,8 @@ void textRender()
 	Text.X = 0;
 	Text.Y = 18;
 	//g_Console.writeToBuffer(Text, whichText(&texty, &bArray[18]), colors[0]);
-
-	
 }
+
 
 void renderCharacter()
 {
@@ -523,10 +505,6 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
-void combat()
-{
-
-}
 
 string ansChecker(Text * Mob)
 {
@@ -546,228 +524,6 @@ string ansChecker(Text * Mob)
 	return 0;
 }
 
-string whichText(string *output, bool *BoolArray)
-{
-	bool done = true;
-	while (done)
-	{
-		int a = rand() % 18 + 1;
-		if (bArray[a - 1])
-		{
-			switch (a)
-			{
-			case 1:
-			{
-				*output += Monster1.monsterName;
-				*output += ' ';
-				*output += Monster1.monsterQn;
-				*output += ' ';
-				*output += Monster1.ans1;
-				*output += ' ';
-				*output += Monster1.ans2;
-				*output += ' ';
-				*output += Monster1.ans3;
-
-			}
-			break;
-			case 2:
-				*output += Monster2.monsterName;
-				*output += ' ';
-				*output += Monster2.monsterQn;
-				*output += ' ';
-				*output += Monster2.ans1;
-				*output += ' ';
-				*output += Monster2.ans2;
-				*output += ' ';
-				*output += Monster2.ans3;
-				break;
-			case 3:
-				*output += Monster3.monsterName;
-				*output += ' ';
-				*output += Monster3.monsterQn;
-				*output += ' ';
-				*output += Monster3.ans1;
-				*output += ' ';
-				*output += Monster3.ans2;
-				*output += ' ';
-				*output += Monster3.ans3;
-				break;
-			case 4:
-				*output += Monster4.monsterName;
-				*output += ' ';
-				*output += Monster4.monsterQn;
-				*output += ' ';
-				*output += Monster4.ans1;
-				*output += ' ';
-				*output += Monster4.ans2;
-				*output += ' ';
-				*output += Monster4.ans3;
-				break;
-			case 5:
-				*output += Monster5.monsterName;
-				*output += ' ';
-				*output += Monster5.monsterQn;
-				*output += ' ';
-				*output += Monster5.ans1;
-				*output += ' ';
-				*output += Monster5.ans2;
-				*output += ' ';
-				*output += Monster5.ans3;
-				break;
-			case 6:
-				*output += Monster6.monsterName;
-				*output += ' ';
-				*output += Monster6.monsterQn;
-				*output += ' ';
-				*output += Monster6.ans1;
-				*output += ' ';
-				*output += Monster6.ans2;
-				*output += ' ';
-				*output += Monster6.ans3;
-				break;
-			case 7:
-				*output += Monster7.monsterName;
-				*output += ' ';
-				*output += Monster7.monsterQn;
-				*output += ' ';
-				*output += Monster7.ans1;
-				*output += ' ';
-				*output += Monster7.ans2;
-				*output += ' ';
-				*output += Monster7.ans3;
-				break;
-			case 8:
-				*output += Monster8.monsterName;
-				*output += ' ';
-				*output += Monster8.monsterQn;
-				*output += ' ';
-				*output += Monster8.ans1;
-				*output += ' ';
-				*output += Monster8.ans2;
-				*output += ' ';
-				*output += Monster8.ans3;
-				break;
-			case 9:
-				*output += Monster9.monsterName;
-				*output += ' ';
-				*output += Monster9.monsterQn;
-				*output += ' ';
-				*output += Monster9.ans1;
-				*output += ' ';
-				*output += Monster9.ans2;
-				*output += ' ';
-				*output += Monster9.ans3;
-				break;
-			case 10:
-				*output += Monster10.monsterName;
-				*output += ' ';
-				*output += Monster10.monsterQn;
-				*output += ' ';
-				*output += Monster10.ans1;
-				*output += ' ';
-				*output += Monster10.ans2;
-				*output += ' ';
-				*output += Monster10.ans3;
-				break;
-			case 11:
-				*output += Monster11.monsterName;
-				*output += ' ';
-				*output += Monster11.monsterQn;
-				*output += ' ';
-				*output += Monster11.ans1;
-				*output += ' ';
-				*output += Monster11.ans2;
-				*output += ' ';
-				*output += Monster11.ans3;
-				break;
-			case 12:
-				*output += Monster12.monsterName;
-				*output += ' ';
-				*output += Monster12.monsterQn;
-				*output += ' ';
-				*output += Monster12.ans1;
-				*output += ' ';
-				*output += Monster12.ans2;
-				*output += ' ';
-				*output += Monster12.ans3;
-				break;
-			case 13:
-				*output += Monster13.monsterName;
-				*output += ' ';
-				*output += Monster13.monsterQn;
-				*output += ' ';
-				*output += Monster13.ans1;
-				*output += ' ';
-				*output += Monster13.ans2;
-				*output += ' ';
-				*output += Monster13.ans3;
-				break;
-			case 14:
-				*output += Monster14.monsterName;
-				*output += ' ';
-				*output += Monster14.monsterQn;
-				*output += ' ';
-				*output += Monster14.ans1;
-				*output += ' ';
-				*output += Monster14.ans2;
-				*output += ' ';
-				*output += Monster14.ans3;
-				break;
-			case 15:
-				*output += Monster15.monsterName;
-				*output += ' ';
-				*output += Monster15.monsterQn;
-				*output += ' ';
-				*output += Monster15.ans1;
-				*output += ' ';
-				*output += Monster15.ans2;
-				*output += ' ';
-				*output += Monster15.ans3;
-				break;
-			case 16:
-				*output += Monster16.monsterName;
-				*output += ' ';
-				*output += Monster16.monsterQn;
-				*output += ' ';
-				*output += Monster16.ans1;
-				*output += ' ';
-				*output += Monster16.ans2;
-				*output += ' ';
-				*output += Monster16.ans3;
-				break;
-			case 17:
-				*output += Monster17.monsterName;
-				*output += ' ';
-				*output += Monster17.monsterQn;
-				*output += ' ';
-				*output += Monster17.ans1;
-				*output += ' ';
-				*output += Monster17.ans2;
-				*output += ' ';
-				*output += Monster17.ans3;
-				break;
-			case 18:
-				*output += Monster18.monsterName;
-				*output += ' ';
-				*output += Monster18.monsterQn;
-				*output += ' ';
-				*output += Monster18.ans1;
-				*output += ' ';
-				*output += Monster18.ans2;
-				*output += ' ';
-				*output += Monster18.ans3;
-				break;
-			default:
-				break;
-			}
-
-			bArray[a - 1] = false;
-		}
-		done = false;
-	}
-	return *output;
-}
-
 /*
 what happens when the player runs into an entity?
 the game checks which entity they ran into and render the corresponding text
@@ -777,12 +533,3 @@ access text relating to mob1
 render text of mob1
 after finish clean textbox
 */
-
-
-
-//when enter combat
-//gamestate change to combat
-//frame freeze
-//run function for anser input
-//take in user input
-

@@ -1,6 +1,2 @@
-﻿  game.cpp
-d:\github\sp01\sp1framework\game.cpp(534): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
-d:\github\sp01\sp1framework\game.cpp(538): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
-d:\github\sp01\sp1framework\game.cpp(542): warning C4805: '==': unsafe mix of type 'bool' and type 'char' in operation
-  SP1Framework.vcxproj -> D:\GitHub\SP01\Debug\SP1Framework.exe
+﻿  SP1Framework.vcxproj -> D:\GitHub\SP01\Debug\SP1Framework.exe
   SP1Framework.vcxproj -> D:\GitHub\SP01\Debug\SP1Framework.pdb (Full PDB)

@@ -1,6 +1,7 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+
 #include "Framework\timer.h"
 #include "Framework\console.h"
 #include <iostream>
@@ -16,6 +17,7 @@ static int lvlcleared = 0;
 static int changeinlvl = 0;
 static int keycounter = 0;
 static int keysneeded;
+
 
 
 extern CStopWatch g_swTimer;
@@ -39,10 +41,10 @@ enum EKEYS
 // Enumeration for the different screen states
 enum EGAMESTATES
 {
-    S_SPLASHSCREEN,
-    S_GAME,
-    S_COUNT,
-	S_COMBAT
+	S_SPLASHSCREEN,
+	S_GAME,
+	S_COUNT,
+	S_COMBAT,
 };
 
 // struct for the game character
@@ -71,6 +73,7 @@ void renderFramerate();     // renders debug information, frame rate, elapsed ti
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 void combat();
 bool disablemovement(EGAMESTATES g_eGameState);
+
 
 
 

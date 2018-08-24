@@ -38,7 +38,8 @@ enum EGAMESTATES
 	S_DEATH,
 	S_PAUSE,
 	S_COMBAT,
-	S_DIFFICULTY
+	S_DIFFICULTY,
+	S_COMBATAFTERMATH
 };
 
 // struct for the game character

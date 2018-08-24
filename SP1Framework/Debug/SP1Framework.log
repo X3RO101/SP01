@@ -1,9 +1,3 @@
-﻿  game.cpp
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(611): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\game.cpp(1347): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  tilemanager.cpp
-  Generating Code...
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\tilemanager.cpp(94): warning C4715: 'touchmonster': not all control paths return a value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\tilemanager.cpp(159): warning C4715: 'monsterslain': not all control paths return a value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\tilemanager.cpp(143): warning C4715: 'monstercollides': not all control paths return a value
+﻿  main.cpp
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\main.cpp(56): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
   SP1Framework.vcxproj -> C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Debug\SP1Framework.exe

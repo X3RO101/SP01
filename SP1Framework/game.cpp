@@ -40,6 +40,9 @@ Text mob18;
 string continueRender;
 char correct;
 int ansPasser; // for the answer checker
+int CORW = 0;
+double timeForCOrW = 0;
+
 
 int g = 0;
 int h = 0;
@@ -57,9 +60,10 @@ double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
 
-int keycount = 0;
+
 int healthpoints = 3;				// number of lives player has
 int score = 0;						// player score
+int keycount;
 bool isdead = false;				// bool when player loses to the mob once
 bool killmob = false;				// bool for when player kills the mob
 bool main_menu_1 = true;			// to check if player is choosing the start option
@@ -72,7 +76,7 @@ bool difficulty_option = true;
 bool easy = true;
 bool medium = false;
 bool hard = false;
-struct monstatus monster[4];
+struct monstatus monster[7];
 // Game specific variables here
 SGameChar g_sChar;
 
@@ -201,12 +205,15 @@ void update(double dt)
             break;
 		case S_COMBAT:
 			duration(&g_eGameState, dt);
-			inputAns();
-			checkAns();
-			ansWrong();
+			combatlogic();
+			gameplay();
+			break;
+		case S_COMBATAFTERMATH:
+			stopPrintingCOrW(dt);
 			gameplay();
 			break;
         case S_GAME: totalTime = 0; // resets the combat timer
+			timeForCOrW = 0;
 			gameplay(); // gameplay logic when we are in the game
             break;
 		case S_DEATH: 
@@ -237,6 +244,9 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
+		case S_COMBATAFTERMATH: renderGame();
+			printCOrW();
+			break;
 		case S_COMBAT: renderGame();
 			COMBAT();
 			break;
@@ -309,16 +319,22 @@ void moveCharacter()
 				c.X = g_sChar.m_cLocation.X;
 				//run text for key
 				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-				++keycount;
+				keycount--;
 				killmob = true;
 			}
 			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
-				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-				lvlcleared++;
-				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-				g_sChar.m_cLocation.Y = 5;
-				keycount = 0;
+				if (keycount == 0)
+				{
+					//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+					lvlcleared++;
+					g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+					g_sChar.m_cLocation.Y = 5;
+				}
+				else
+				{
+					//print text to say that they need more keys
+				}
 			}
 			bSomethingHappened = true;
 
@@ -339,16 +355,23 @@ void moveCharacter()
 				c.X = g_sChar.m_cLocation.X;
 				//run text for key
 				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-				++keycount;
+				keycount--;
 				killmob = true;
 			}
 			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
-				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-				lvlcleared++;
-				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-				g_sChar.m_cLocation.Y = 5;
-				keycount = 0;
+				if (keycount == 0)
+				{
+					//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+					lvlcleared++;
+					g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+					g_sChar.m_cLocation.Y = 5;
+					keycount = 0;
+				}
+				else
+				{
+					//print text to say that they need more keys
+				}
 			}
 			bSomethingHappened = true;
 		}
@@ -369,15 +392,22 @@ void moveCharacter()
 				c.X = g_sChar.m_cLocation.X;
 				//run text for key
 				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-				++keycount;
+				keycount--;
 			}
 			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
-				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-				lvlcleared++;
-				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-				g_sChar.m_cLocation.Y = 5;
-				keycount = 0;
+				if (keycount == 0)
+				{
+					//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+					lvlcleared++;
+					g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+					g_sChar.m_cLocation.Y = 5;
+					keycount = 0;
+				}
+				else
+				{
+					//print text to say that they need more keys
+				}
 			}
 			bSomethingHappened = true;
 
@@ -398,15 +428,22 @@ void moveCharacter()
 				c.X = g_sChar.m_cLocation.X;
 				//run text for key
 				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-				keycount++;
+				keycount--;
 			}
 			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
-				//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
-				lvlcleared++;
-				g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-				g_sChar.m_cLocation.Y = 5;
-				keycount = 0;
+				if (keycount == 0)
+				{
+					//run text for end door password, if correct, do lvlcleared++ to change lvl on next render, reset pos of player
+					lvlcleared++;
+					g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+					g_sChar.m_cLocation.Y = 5;
+					keycount = 0;
+				}
+				else
+				{
+					//print text to say that they need more keys
+				}
 			}
 			bSomethingHappened = true;
 		}
@@ -455,7 +492,7 @@ void renderMap()
 {
     //Set up sample colours, and output shadings
     const WORD colors[] = {
-        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+        0x06, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
     COORD c;
@@ -509,12 +546,12 @@ void renderMap()
 	
 	a.X = 18;
 	a.Y = 15;
-	string keystext = "Keys : ";
+	string keystext = "Keys to find : ";
 /*	ostringstream str2;
 	string keystr = str2.str();
 	str2 << keycount; */
 	unsigned char currentchar2 = 235;
-	for (int i = 0; i < 7; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		g_Console.writeToBuffer(a, keystext[i], 0x1F);
 		a.X++;
@@ -530,6 +567,7 @@ void renderMap()
 	colour(colors[0]);
 	string rows;
 	string cols;
+	string keys;
 	string filename;
 	int y;
 	int x;
@@ -562,8 +600,10 @@ void renderMap()
 		currentlvl.open(filename);
 		getline(currentlvl, cols);
 		getline(currentlvl, rows);
+		getline(currentlvl, keys);
 		y = stoi(rows);
 		x = stoi(cols);
+		keycount = stoi(keys);
 
 		for (int i = 0; i < y - 1; ++i)
 		{
@@ -608,9 +648,9 @@ void renderMap()
 		int xPos;
 		int yPos;
 		int repcount = 0;
-		srand(time(nullptr));
+		srand((unsigned int)time(nullptr));
 
-		while (repcount != 3)
+		while (repcount != 6)
 		{
 			xPos = (rand() % 82 + 1) + rand() % 4;
 			yPos = (rand() % 11 + 1) + rand() % 3;
@@ -640,23 +680,18 @@ void renderMap()
 				c.Y = i;
 				if (map[i][j] != 'm')
 				{
-					g_Console.writeToBuffer(c, map[i][j], 0x1F);
+					g_Console.writeToBuffer(c, map[i][j], colors[0]);
 				}
 			}
 		}
 	}
 	
-	if (monster[0].alive == true)
+	for (int i = 0; i < 6; i++)
 	{
-		g_Console.writeToBuffer(monster[0].location, 'm', 0x1F);
-	}
-	if (monster[1].alive == true)
-	{
-		g_Console.writeToBuffer(monster[1].location, 'm', 0x1F);
-	}
-	if (monster[2].alive == true)
-	{
-		g_Console.writeToBuffer(monster[2].location, 'm', 0x1F);
+		if (monster[i].alive == true)
+		{
+			g_Console.writeToBuffer(monster[i].location, 'm', 0x1F);
+		}
 	}
 }
 
@@ -1260,10 +1295,11 @@ void duration(EGAMESTATES * gameState, double dt) // timer for the combat
 	totalTime += dt;
 	if (totalTime > 10.0)
 	{
+		CORW = 2;
 		h = 0;
 		isdead = true;
 		moveAllow = true;
-		*gameState = S_GAME;
+		*gameState = S_COMBATAFTERMATH;
 	}
 }
 
@@ -1294,7 +1330,49 @@ void checkAns()
 		h = 0;
 		playerinput = 0;
 		cAns = 0;
+		CORW = 1;
 		ansPasser = 0;
+		moveAllow = true;
+		g_eGameState = S_COMBATAFTERMATH;
+	}
+}
+
+void combatlogic()
+{
+	inputAns();
+	checkAns();
+	ansWrong();
+}
+
+void printCOrW()
+{
+	string incorrect = "Wrong!";
+	string correct = "Correct!";
+	const WORD colors[] = {
+		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+
+	COORD corwCoords;
+	corwCoords.X = 0;
+	corwCoords.Y = 17;
+	if (CORW == 1)
+	{
+		g_Console.writeToBuffer(corwCoords, correct, colors[0]);
+	}
+	if (CORW == 2)
+	{
+		g_Console.writeToBuffer(corwCoords, incorrect, colors[0]);
+	}
+
+}
+
+void stopPrintingCOrW(double dt)
+{
+	timeForCOrW += dt;
+	if (timeForCOrW > 1.0)
+	{
+		CORW = 0;
 		moveAllow = true;
 		g_eGameState = S_GAME;
 	}
@@ -1309,8 +1387,9 @@ void ansWrong()
 			h = 0;
 			healthpoints--;
 			playerinput = 0;
+			CORW = 2;
 			moveAllow = true;
-			g_eGameState = S_GAME;
+			g_eGameState = S_COMBATAFTERMATH;
 		}
 	}
 }
@@ -1344,7 +1423,7 @@ void spamPrint()
 
 void textPicker() // randomly picks a mob text to print
 {
-	srand(time(nullptr));
+	srand((unsigned int)time(nullptr));
 	ansPasser = rand() % 18 + 1;
 	if (bArray[ansPasser - 1])
 	{
@@ -1438,8 +1517,8 @@ void mobmovement(int i)
 		{
 			if ((collision(map, monster[i].location.Y, (monster[i].location.X - 1)) != true) )
 			{
-				monster[3].location.X = monster[i].location.X - 1;
-				monster[3].location.Y = monster[i].location.Y;
+				monster[6].location.X = monster[i].location.X - 1;
+				monster[6].location.Y = monster[i].location.Y;
 				if (monstercollides(i, monster) != true)
 				{
 					monster[i].location.X--;
@@ -1463,8 +1542,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X;
-					monster[3].location.Y = monster[i].location.Y - 1;
+					monster[6].location.X = monster[i].location.X;
+					monster[6].location.Y = monster[i].location.Y - 1;
 					if(monstercollides(i, monster) != true)
 					{
 						monster[i].location.Y--;
@@ -1489,8 +1568,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X;
-					monster[3].location.Y = monster[i].location.Y + 1;
+					monster[6].location.X = monster[i].location.X;
+					monster[6].location.Y = monster[i].location.Y + 1;
 					if (monstercollides(i, monster) != true)
 					{
 						monster[i].location.Y++;
@@ -1516,8 +1595,8 @@ void mobmovement(int i)
 					}
 				}
 				*/
-				monster[3].location.X = monster[i].location.X + 1;
-				monster[3].location.Y = monster[i].location.Y;
+				monster[6].location.X = monster[i].location.X + 1;
+				monster[6].location.Y = monster[i].location.Y;
 				if (monstercollides(i, monster) != true)
 				{
 					monster[i].location.X++;
@@ -1541,8 +1620,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X;
-					monster[3].location.Y = monster[i].location.Y - 1;
+					monster[6].location.X = monster[i].location.X;
+					monster[6].location.Y = monster[i].location.Y - 1;
 					if (monstercollides(i, monster) != true)
 					{
 						monster[i].location.Y--;
@@ -1567,8 +1646,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X;
-					monster[3].location.Y = monster[i].location.Y + 1;
+					monster[6].location.X = monster[i].location.X;
+					monster[6].location.Y = monster[i].location.Y + 1;
 					if (monstercollides(i, monster) != true)
 					{
 						monster[i].location.Y++;
@@ -1594,8 +1673,8 @@ void mobmovement(int i)
 					}
 				}
 				*/
-				monster[3].location.X = monster[i].location.X;
-				monster[3].location.Y = monster[i].location.Y + 1;
+				monster[6].location.X = monster[i].location.X;
+				monster[6].location.Y = monster[i].location.Y + 1;
 				if (monstercollides(i, monster) != true)
 				{
 					monster[i].location.Y++;
@@ -1619,8 +1698,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X - 1;
-					monster[3].location.Y = monster[i].location.Y;
+					monster[6].location.X = monster[i].location.X - 1;
+					monster[6].location.Y = monster[i].location.Y;
 					if (monstercollides(i, monster) != true)
 					{
 						monster[i].location.X--;
@@ -1645,8 +1724,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X + 1;
-					monster[3].location.Y = monster[i].location.Y;
+					monster[6].location.X = monster[i].location.X + 1;
+					monster[6].location.Y = monster[i].location.Y;
 					if (monstercollides(i, monster) != true)
 					{
 						monster[i].location.X++;
@@ -1672,8 +1751,8 @@ void mobmovement(int i)
 					}
 				}
 				*/
-				monster[3].location.X = monster[i].location.X;
-				monster[3].location.Y = monster[i].location.Y - 1;
+				monster[6].location.X = monster[i].location.X;
+				monster[6].location.Y = monster[i].location.Y - 1;
 				if (monstercollides(i, monster) != true)
 				{
 					monster[i].location.Y--;
@@ -1697,8 +1776,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X - 1;
-					monster[3].location.Y = monster[i].location.Y;
+					monster[6].location.X = monster[i].location.X - 1;
+					monster[6].location.Y = monster[i].location.Y;
 					if (monstercollides(i, monster) != true)
 					{
 						monster[i].location.X--;
@@ -1723,8 +1802,8 @@ void mobmovement(int i)
 						}
 					}
 					*/
-					monster[3].location.X = monster[i].location.X + 1;
-					monster[3].location.Y = monster[i].location.Y;
+					monster[6].location.X = monster[i].location.X + 1;
+					monster[6].location.Y = monster[i].location.Y;
 					if (monstercollides(i, monster) != true)
 					{
 						monster[i].location.X++;
@@ -1742,7 +1821,7 @@ void mobmovement(int i)
 void movemobs()
 {
 	bool bSomethingHappened = false;
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 6; ++i)
 	{
 		if (g_dBounceTime2 > g_dElapsedTime)
 			return;

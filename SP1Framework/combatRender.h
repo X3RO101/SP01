@@ -24,5 +24,8 @@ void spamPrint();
 void inputAns();
 void checkAns();
 void ansWrong();
+void combatlogic();
+void printCOrW();
+void stopPrintingCOrW(double dt);
 
 #endif // !COMBAT_H

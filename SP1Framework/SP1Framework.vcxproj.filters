@@ -7,6 +7,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tilemanager.cpp" />
     <ClCompile Include="combatRender.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="consoleHolder.h" />
@@ -15,6 +16,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="tilemanager.h" />
     <ClInclude Include="combatRender.h" />
+    <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game_over_screen.txt" />

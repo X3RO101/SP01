@@ -87,6 +87,27 @@ bool touchmonster(struct SGameChar g_sChar, struct monstatus monster[])//checks 
 			return true;
 		}
 	}
+	else if (g_sChar.m_cLocation.X == monster[3].location.X && g_sChar.m_cLocation.Y == monster[3].location.Y)
+	{
+		if (monster[3].alive == true)
+		{
+			return true;
+		}
+	}
+	else if (g_sChar.m_cLocation.X == monster[4].location.X && g_sChar.m_cLocation.Y == monster[4].location.Y)
+	{
+		if (monster[4].alive == true)
+		{
+			return true;
+		}
+	}
+	else if (g_sChar.m_cLocation.X == monster[5].location.X && g_sChar.m_cLocation.Y == monster[5].location.Y)
+	{
+		if (monster[5].alive == true)
+		{
+			return true;
+		}
+	}
 	else
 	{
 		return false;
@@ -95,51 +116,23 @@ bool touchmonster(struct SGameChar g_sChar, struct monstatus monster[])//checks 
 
 bool monstercollides(int i, struct monstatus monster[])
 {
-	if (i == 0)
+	bool monsterhit = false;
+	for (int a = 0; i < 6; i++)
 	{
-		if (monster[3].location.X == monster[1].location.X && monster[3].location.Y == monster[1].location.Y)
+		if (a != i)
 		{
-			return true;
-		}
-		else if (monster[3].location.X == monster[2].location.X && monster[3].location.Y == monster[2].location.Y)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
+			if (monster[6].location.X == monster[a].location.X && monster[6].location.Y == monster[a].location.Y)
+			{
+				monsterhit = true;
+			}
+			else
+			{
+				continue;
+			}
 		}
 	}
-	else if (i == 1)
-	{
-		if (monster[3].location.X == monster[0].location.X && monster[3].location.Y == monster[0].location.Y)
-		{
-			return true;
-		}
-		else if (monster[3].location.X == monster[2].location.X && monster[3].location.Y == monster[2].location.Y)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	else if (i == 2)
-	{
-		if (monster[3].location.X == monster[0].location.X && monster[3].location.Y == monster[0].location.Y)
-		{
-			return true;
-		}
-		else if (monster[3].location.X == monster[1].location.X && monster[3].location.Y == monster[1].location.Y)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+
+	return monsterhit;
 }
 
 int monsterslain(struct SGameChar g_sChar, struct monstatus monster[])
@@ -155,6 +148,18 @@ int monsterslain(struct SGameChar g_sChar, struct monstatus monster[])
 	else if (g_sChar.m_cLocation.X == monster[2].location.X && g_sChar.m_cLocation.Y == monster[2].location.Y)
 	{
 		return 2;
+	}
+	else if (g_sChar.m_cLocation.X == monster[3].location.X && g_sChar.m_cLocation.Y == monster[3].location.Y)
+	{
+		return 3;
+	}
+	else if (g_sChar.m_cLocation.X == monster[4].location.X && g_sChar.m_cLocation.Y == monster[4].location.Y)
+	{
+		return 4;
+	}
+	else if (g_sChar.m_cLocation.X == monster[5].location.X && g_sChar.m_cLocation.Y == monster[5].location.Y)
+	{
+		return 5;
 	}
 }
 

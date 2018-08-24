@@ -31,14 +31,15 @@ enum EKEYS
 enum EGAMESTATES
 {
 
-    S_SPLASHSCREEN,
+	S_SPLASHSCREEN,
 	S_CONTROLS,
-    S_GAME,
-    S_COUNT,
+	S_GAME,
+	S_COUNT,
 	S_DEATH,
 	S_PAUSE,
 	S_COMBAT,
-	S_DIFFICULTY
+	S_DIFFICULTY,
+	S_COMBATAFTERMATH
 };
 
 // struct for the game character

@@ -40,6 +40,8 @@ Text mob18;
 string continueRender;
 char correct;
 int ansPasser; // for the answer checker
+int CORW = 0;
+double timeForCOrW = 0;
 
 int g = 0;
 int h = 0;
@@ -199,12 +201,15 @@ void update(double dt)
             break;
 		case S_COMBAT:
 			duration(&g_eGameState, dt);
-			inputAns();
-			checkAns();
-			ansWrong();
+			combatlogic();
+			gameplay();
+			break;
+		case S_COMBATAFTERMATH:
+			stopPrintingCOrW(dt);
 			gameplay();
 			break;
         case S_GAME: totalTime = 0; // resets the combat timer
+			timeForCOrW = 0;
 			gameplay(); // gameplay logic when we are in the game
             break;
 		case S_DEATH: 
@@ -235,6 +240,9 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
+		case S_COMBATAFTERMATH:	renderGame();
+			printCOrW();
+			break;
 		case S_COMBAT: renderGame();
 			COMBAT();
 			break;
@@ -1243,10 +1251,11 @@ void duration(EGAMESTATES * gameState, double dt) // timer for the combat
 	totalTime += dt;
 	if (totalTime > 10.0)
 	{
+		CORW = 2;
 		h = 0;
 		isdead = true;
 		moveAllow = true;
-		*gameState = S_GAME;
+		*gameState = S_COMBATAFTERMATH;
 	}
 }
 
@@ -1274,7 +1283,49 @@ void checkAns()
 		h = 0;
 		playerinput = 0;
 		cAns = 0;
+		CORW = 1;
 		ansPasser = 0;
+		moveAllow = true;
+		g_eGameState = S_COMBATAFTERMATH;
+	}
+}
+
+void combatlogic()
+{
+	inputAns();
+	checkAns();
+	ansWrong();
+}
+
+void printCOrW()
+{
+	string incorrect = "Wrong!";
+	string correct = "Correct!";
+	const WORD colors[] = {
+		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+
+	COORD corwCoords;
+	corwCoords.X = 0;
+	corwCoords.Y = 35;
+	// 1 be correct 2 be wrong
+	if (CORW == 1)
+	{
+		g_Console.writeToBuffer(corwCoords, correct, colors[0]);
+	}
+	if (CORW == 2)
+	{
+		g_Console.writeToBuffer(corwCoords, incorrect, colors[0]);
+	}
+}
+
+void stopPrintingCOrW(double dt)
+{
+	timeForCOrW += dt;
+	if (timeForCOrW > 1.0)
+	{
+		CORW = 0;
 		moveAllow = true;
 		g_eGameState = S_GAME;
 	}
@@ -1289,8 +1340,9 @@ void ansWrong()
 			h = 0;
 			healthpoints--;
 			playerinput = 0;
+			CORW = 2;
 			moveAllow = true;
-			g_eGameState = S_GAME;
+			g_eGameState = S_COMBATAFTERMATH;
 		}
 	}
 }

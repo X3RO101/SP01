@@ -116,6 +116,7 @@ bool touchmonster(struct SGameChar g_sChar, struct monstatus monster[])//checks 
 
 bool monstercollides(int i, struct monstatus monster[])
 {
+	/*
 	bool monsterhit = false;
 	for (int a = 0; i < 6; i++)
 	{
@@ -132,6 +133,149 @@ bool monstercollides(int i, struct monstatus monster[])
 		}
 	}
 
+	return monsterhit;
+	*/
+	bool monsterhit = false;
+
+	if (i == 0)
+	{
+		if (monster[6].location.X == monster[1].location.X && monster[6].location.Y == monster[1].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[2].location.X && monster[6].location.Y == monster[2].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[3].location.X && monster[6].location.Y == monster[3].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[4].location.X && monster[6].location.Y == monster[4].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[5].location.X && monster[6].location.Y == monster[5].location.Y)
+		{
+			monsterhit = true;
+		}
+	}
+	else if (i == 1)
+	{
+		if (monster[6].location.X == monster[0].location.X && monster[6].location.Y == monster[0].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[2].location.X && monster[6].location.Y == monster[2].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[3].location.X && monster[6].location.Y == monster[3].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[4].location.X && monster[6].location.Y == monster[4].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[5].location.X && monster[6].location.Y == monster[5].location.Y)
+		{
+			monsterhit = true;
+		}
+	}
+	else if (i == 2)
+	{
+		if (monster[6].location.X == monster[0].location.X && monster[6].location.Y == monster[0].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[1].location.X && monster[6].location.Y == monster[1].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[3].location.X && monster[6].location.Y == monster[3].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[4].location.X && monster[6].location.Y == monster[4].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[5].location.X && monster[6].location.Y == monster[5].location.Y)
+		{
+			monsterhit = true;
+		}
+	}
+	else if (i == 3)
+	{
+		if (monster[6].location.X == monster[0].location.X && monster[6].location.Y == monster[0].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[1].location.X && monster[6].location.Y == monster[1].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[2].location.X && monster[6].location.Y == monster[2].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[4].location.X && monster[6].location.Y == monster[4].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[5].location.X && monster[6].location.Y == monster[5].location.Y)
+		{
+			monsterhit = true;
+		}
+	}
+	else if (i == 4)
+	{
+		if (monster[6].location.X == monster[0].location.X && monster[6].location.Y == monster[0].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[1].location.X && monster[6].location.Y == monster[1].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[2].location.X && monster[6].location.Y == monster[2].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[3].location.X && monster[6].location.Y == monster[3].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[5].location.X && monster[6].location.Y == monster[5].location.Y)
+		{
+			monsterhit = true;
+		}
+	}
+	else if (i == 5)
+	{
+		if (monster[6].location.X == monster[0].location.X && monster[6].location.Y == monster[0].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[1].location.X && monster[6].location.Y == monster[1].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[2].location.X && monster[6].location.Y == monster[2].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[3].location.X && monster[6].location.Y == monster[3].location.Y)
+		{
+			monsterhit = true;
+		}
+		if (monster[6].location.X == monster[4].location.X && monster[6].location.Y == monster[4].location.Y)
+		{
+			monsterhit = true;
+		}
+	}
+	
 	return monsterhit;
 }
 

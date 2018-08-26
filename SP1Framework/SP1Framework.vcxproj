@@ -84,7 +84,7 @@
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="mobmovement.cpp" />
     <ClCompile Include="tilemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +93,7 @@
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="mobmovement.h" />
     <ClInclude Include="tilemanager.h" />
   </ItemGroup>
   <ItemGroup>

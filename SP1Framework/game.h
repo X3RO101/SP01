@@ -6,6 +6,7 @@
 #include "Framework/console.h"
 #include "Framework/timer.h"
 #include "combatRender.h"
+#include "mobmovement.h"
 #include <stdio.h>
 
 
@@ -87,7 +88,7 @@ void pause_select();		//
 void pause_screen();		// 
 void difficulty_screen();	//
 void difficulty_choose();
-void mobmovement(int i);
+void mobmovement(char map[15][87], int i);
 void movemobs();
 
 

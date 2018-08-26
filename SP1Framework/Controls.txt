@@ -1,17 +1,22 @@
 87
-15
-                                                                                         
-                                                                                         
-                                                                                         
-                                   MOVING UP = UP ARROW KEY                              
-                                 MOVING DOWN = DOWN ARROW KEY                            
-                                 MOVING LEFT = LEFT ARROW KEY                            
-                                MOVING RIGHT = RIGHT ARROW KEY                           
-                                   Selecting = SPACE KEY                                 
-                                                                                         
-                                    GAMEPLAY LEGEND:                                     
-                                         K - KEY                                         
-                                       M - MONSTERS                                      
-                                       O - Endpoint                                      
-                                                                                         
-  GO BACK - SPACE KEY                                                                    
+20
+                                                                                       
+                                                                                       
+                                                                                       
+                                   MOVING UP = UP ARROW KEY                            
+                                 MOVING DOWN = DOWN ARROW KEY                          
+                                 MOVING LEFT = LEFT ARROW KEY                          
+                                MOVING RIGHT = RIGHT ARROW KEY                         
+                                   Selecting = SPACE KEY                               
+                                                                                       
+                                    GAMEPLAY LEGEND:                                   
+                                         K - KEY                                       
+                                       M - MONSTERS                                    
+                                       O - Endpoint                                    
+                                                                                       
+                                       HOW TO PLAY                                     
+                                      COLLECT KEYS                                     
+                      FIGHT MONSTERS THROUGH SOLVING RIDDLES/TRIVIA                    
+                                           WIN                                         
+                                                                                       
+  GO BACK - SPACE KEY                                                                  

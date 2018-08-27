@@ -88,7 +88,7 @@ void pause_select();		//
 void pause_screen();		// 
 void difficulty_screen();	//
 void difficulty_choose();
-void mobmovement(char map[15][87], int i);
+void mobmovement(char map[40][101], int i);
 void movemobs();
 
 

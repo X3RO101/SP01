@@ -42,7 +42,7 @@ char** getarray(void)
 }
 
 
-bool collision(char array[15][87], int playerycoord, int playerxcoord) //checks if player encounters a wall
+bool collision(char array[40][101], int playerycoord, int playerxcoord) //checks if player encounters a wall
 {
 	if (array[playerycoord][playerxcoord] == (char)219)//up
 	{
@@ -307,7 +307,7 @@ int monsterslain(struct SGameChar g_sChar, struct monstatus monster[])
 	}
 }
 
-bool touchkey(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters a key
+bool touchkey(char array[40][101], int playerycoord, int playerxcoord)//checks if player encounters a key
 {
 	if (array[playerycoord][playerxcoord] == 'k')
 	{
@@ -319,7 +319,7 @@ bool touchkey(char array[15][87], int playerycoord, int playerxcoord)//checks if
 	}
 }
 
-bool touchend(char array[15][87], int playerycoord, int playerxcoord)//checks if player encounters the end of the level
+bool touchend(char array[40][101], int playerycoord, int playerxcoord)//checks if player encounters the end of the level
 {
 	if (array[playerycoord][playerxcoord] == 'o')
 	{
@@ -331,7 +331,7 @@ bool touchend(char array[15][87], int playerycoord, int playerxcoord)//checks if
 	}
 }
 
-bool touchplayer(char array[15][87], int coordy, int coordx)
+bool touchplayer(char array[40][101], int coordy, int coordx)
 {
 	if (array[coordy][coordx] == 'X')
 	{

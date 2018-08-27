@@ -13,7 +13,7 @@
 
 using namespace std;
 
-char map[15][87];
+char map[40][101];
 // for mobs
 bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
 int mobAnsvvers[18] = { 2, 1, 3, 2, 3, 1, 2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2 }; // ansvvers for the mobs
@@ -86,7 +86,7 @@ double  g_dBounceTime2;
 // Console object
 EGAMESTATES g_eGameState;
 
-Console g_Console(87, 30, "                                                             Labyrinthos Libertas");
+Console g_Console(101, 40, "                                                             Labyrinthos Libertas");
 
 
 //--------------------------------------------------------------
@@ -512,7 +512,7 @@ void renderMap()
 	char currentchar;
 	currentchar = 3;
 	a.X = 1;
-	a.Y = 15;
+	a.Y = 32;
 	for (int i = 0; i < 9; ++i)
 	{
 		g_Console.writeToBuffer(a, healthtext[i], 0x1F);
@@ -545,7 +545,7 @@ void renderMap()
 	} */
 	
 	a.X = 18;
-	a.Y = 15;
+	a.Y = 32;
 	string keystext = "Keys to find : ";
 /*	ostringstream str2;
 	string keystr = str2.str();
@@ -571,7 +571,7 @@ void renderMap()
 	string filename;
 	int y;
 	int x;
-
+	/*
 	if (lvlcleared == 1)
 	{
 		filename += "lvl1.txt";
@@ -591,6 +591,16 @@ void renderMap()
 	else if (lvlcleared == 5)
 	{
 		filename += "lvl5.txt";
+	}*/
+
+	switch (lvlcleared)
+	{
+	case 1:
+		filename += "lvl6.txt";
+		break;
+	case 2:
+		filename += "lvl7.txt";
+		break;
 	}
 
 
@@ -672,9 +682,9 @@ void renderMap()
 	}
 	else
 	{
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 30; ++i)
 		{
-			for (int j = 0; j < 87; ++j)
+			for (int j = 0; j < 101; ++j)
 			{
 				c.X = j;
 				c.Y = i;

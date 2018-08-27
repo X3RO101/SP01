@@ -1,6 +1,6 @@
 #include "mobmovement.h"
 
-void mobmovement(char map[15][87], int i)
+void mobmovement(char map[40][101], int i)
 {
 	if (monster[i].alive == true)
 	{
@@ -10,7 +10,7 @@ void mobmovement(char map[15][87], int i)
 			{
 				monster[6].location.X = monster[i].location.X - 1;
 				monster[6].location.Y = monster[i].location.Y;
-				if (monstercollides(i, monster) != true)
+				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.X--;
 					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -25,7 +25,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X;
 					monster[6].location.Y = monster[i].location.Y - 1;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y--;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -41,7 +41,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X;
 					monster[6].location.Y = monster[i].location.Y + 1;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y++;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -58,7 +58,7 @@ void mobmovement(char map[15][87], int i)
 			{
 				monster[6].location.X = monster[i].location.X + 1;
 				monster[6].location.Y = monster[i].location.Y;
-				if (monstercollides(i, monster) != true)
+				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.X++;
 					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -73,7 +73,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X;
 					monster[6].location.Y = monster[i].location.Y - 1;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y--;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -89,7 +89,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X;
 					monster[6].location.Y = monster[i].location.Y + 1;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y++;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -106,7 +106,7 @@ void mobmovement(char map[15][87], int i)
 			{
 				monster[6].location.X = monster[i].location.X;
 				monster[6].location.Y = monster[i].location.Y + 1;
-				if (monstercollides(i, monster) != true)
+				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.Y++;
 					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -121,7 +121,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X - 1;
 					monster[6].location.Y = monster[i].location.Y;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X--;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -137,7 +137,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X + 1;
 					monster[6].location.Y = monster[i].location.Y;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X++;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -154,7 +154,7 @@ void mobmovement(char map[15][87], int i)
 			{
 				monster[6].location.X = monster[i].location.X;
 				monster[6].location.Y = monster[i].location.Y - 1;
-				if (monstercollides(i, monster) != true)
+				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.Y--;
 					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -169,7 +169,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X - 1;
 					monster[6].location.Y = monster[i].location.Y;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X--;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
@@ -185,7 +185,7 @@ void mobmovement(char map[15][87], int i)
 				{
 					monster[6].location.X = monster[i].location.X + 1;
 					monster[6].location.Y = monster[i].location.Y;
-					if (monstercollides(i, monster) != true)
+					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X++;
 						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))

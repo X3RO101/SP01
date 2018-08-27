@@ -5,10 +5,10 @@ char **map;
 
 void arraymaker(string levelgen())
 {
-	char **mapptr = new char*[15];//2d array declared with pointers
-	for (int i = 0; i < 15; ++i)
+	char **mapptr = new char*[30];//2d array declared with pointers
+	for (int i = 0; i < 30; ++i)
 	{
-		mapptr[i] = new char[87];
+		mapptr[i] = new char[101];
 	}
 	
 	
@@ -16,11 +16,11 @@ void arraymaker(string levelgen())
 	int rowcounter = 0;
 	int colcounter = 0;
 	int entercounter = 0;
-	int totaldimen = 1305;
+	int totaldimen = 3000;
 
-	while (rowcounter < 15)
+	while (rowcounter < 30)
 	{
-		while (colcounter < 87)
+		while (colcounter < 101)
 		{
 			while (int i = 0 != totaldimen)
 			{
@@ -42,7 +42,7 @@ char** getarray(void)
 }
 
 
-bool collision(char array[40][101], int playerycoord, int playerxcoord) //checks if player encounters a wall
+bool collision(char array[30][101], int playerycoord, int playerxcoord) //checks if player encounters a wall
 {
 	if (array[playerycoord][playerxcoord] == (char)219)//up
 	{
@@ -53,6 +53,7 @@ bool collision(char array[40][101], int playerycoord, int playerxcoord) //checks
 		return false;
 	}
 }	
+
 
 bool touchmonster(struct SGameChar g_sChar, struct monstatus monster[])//checks if player encounters a monster
 {
@@ -113,6 +114,7 @@ bool touchmonster(struct SGameChar g_sChar, struct monstatus monster[])//checks 
 		return false;
 	}
 }
+
 
 bool monstercollides(int i, struct monstatus monster[])
 {
@@ -307,7 +309,7 @@ int monsterslain(struct SGameChar g_sChar, struct monstatus monster[])
 	}
 }
 
-bool touchkey(char array[40][101], int playerycoord, int playerxcoord)//checks if player encounters a key
+bool touchkey(char array[30][101], int playerycoord, int playerxcoord)//checks if player encounters a key
 {
 	if (array[playerycoord][playerxcoord] == 'k')
 	{
@@ -319,7 +321,8 @@ bool touchkey(char array[40][101], int playerycoord, int playerxcoord)//checks i
 	}
 }
 
-bool touchend(char array[40][101], int playerycoord, int playerxcoord)//checks if player encounters the end of the level
+
+bool touchend(char array[30][101], int playerycoord, int playerxcoord)//checks if player encounters the end of the level
 {
 	if (array[playerycoord][playerxcoord] == 'o')
 	{
@@ -331,14 +334,14 @@ bool touchend(char array[40][101], int playerycoord, int playerxcoord)//checks i
 	}
 }
 
-bool touchplayer(char array[40][101], int coordy, int coordx)
+bool touchplayer(struct monstatus monster[], struct SGameChar g_sChar, int i)
 {
-	if (array[coordy][coordx] == 'X')
+	bool touches = false;
+
+	if (monster[i].location.X == g_sChar.m_cLocation.X && monster[i].location.Y == g_sChar.m_cLocation.Y)
 	{
-		return true;
+		touches = true;
 	}
-	else
-	{
-		return false;
-	}
+
+	return touches;
 }

@@ -13,7 +13,7 @@ void mobmovement(char map[40][101], int i)
 				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.X--;
-					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					if (touchplayer(monster, g_sChar, i))
 					{
 						g_eGameState = S_COMBAT;
 					}
@@ -28,7 +28,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y--;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}
@@ -44,7 +44,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y++;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}
@@ -61,7 +61,7 @@ void mobmovement(char map[40][101], int i)
 				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.X++;
-					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					if (touchplayer(monster, g_sChar, i))
 					{
 						g_eGameState = S_COMBAT;
 					}
@@ -76,7 +76,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y--;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}
@@ -92,7 +92,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.Y++;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}
@@ -109,7 +109,7 @@ void mobmovement(char map[40][101], int i)
 				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.Y++;
-					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					if (touchplayer(monster, g_sChar, i))
 					{
 						g_eGameState = S_COMBAT;
 					}
@@ -124,7 +124,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X--;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}
@@ -140,7 +140,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X++;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}
@@ -157,7 +157,7 @@ void mobmovement(char map[40][101], int i)
 				if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 				{
 					monster[i].location.Y--;
-					if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+					if (touchplayer(monster, g_sChar, i))
 					{
 						g_eGameState = S_COMBAT;
 					}
@@ -172,7 +172,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X--;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}
@@ -188,7 +188,7 @@ void mobmovement(char map[40][101], int i)
 					if (monstercollides(i, monster) != true && touchend(map, monster[6].location.Y, monster[6].location.X) != true)
 					{
 						monster[i].location.X++;
-						if (touchplayer(map, monster[i].location.Y, monster[i].location.X))
+						if (touchplayer(monster, g_sChar, i))
 						{
 							g_eGameState = S_COMBAT;
 						}

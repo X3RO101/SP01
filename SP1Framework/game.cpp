@@ -13,45 +13,11 @@
 
 using namespace std;
 
-char map[40][101];
 // for mobs
-bool bArray[18]; // bool array for random mob gen so that it doesnt print twice
-int mobAnsvvers[18] = { 2, 1, 3, 2, 3, 1, 2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2 }; // ansvvers for the mobs
-ifstream initMobs("MobsFinal.txt");
-Text mob1;
-Text mob2;
-Text mob3;
-Text mob4;
-Text mob5;
-Text mob6;
-Text mob7;
-Text mob8;
-Text mob9;
-Text mob10;
-Text mob11;
-Text mob12;
-Text mob13;
-Text mob14;
-Text mob15;
-Text mob16;
-Text mob17;
-Text mob18;
+ifstream initMobs("MobsFinalUpdated.txt");
 
-string continueRender;
-char correct;
-int ansPasser; // for the answer checker
-int CORW = 0;
-double timeForCOrW = 0;
-
-
-int g = 0;
-int h = 0;
-//important
-double totalTime = 0;
+char map[30][101];
 bool moveAllow = true;
-int cAns; // the correct ans is copied into here
-int playerinput; // the input for the ans
-//important
 
 int lvlcleared = 1;
 int changeinlvl = 1;
@@ -86,7 +52,7 @@ double  g_dBounceTime2;
 // Console object
 EGAMESTATES g_eGameState;
 
-Console g_Console(101, 40, "                                                             Labyrinthos Libertas");
+Console g_Console(101, 45, "                                                             Labyrinthos Libertas");
 
 
 //--------------------------------------------------------------
@@ -121,6 +87,30 @@ void init( void )
 	initMobText(&mob16, &initMobs);
 	initMobText(&mob17, &initMobs);
 	initMobText(&mob18, &initMobs);
+	initMobText(&mob19, &initMobs);
+	initMobText(&mob20, &initMobs);
+	initMobText(&mob21, &initMobs);
+	initMobText(&mob22, &initMobs);
+	initMobText(&mob23, &initMobs);
+	initMobText(&mob24, &initMobs);
+	initMobText(&mob25, &initMobs);
+	initMobText(&mob26, &initMobs);
+	initMobText(&mob27, &initMobs);
+	initMobText(&mob28, &initMobs);
+	initMobText(&mob29, &initMobs);
+	initMobText(&mob30, &initMobs);
+	initMobText(&mob31, &initMobs);
+	initMobText(&mob32, &initMobs);
+	initMobText(&mob33, &initMobs);
+	initMobText(&mob34, &initMobs);
+	initMobText(&mob35, &initMobs);
+	initMobText(&mob36, &initMobs);
+	initMobText(&mob37, &initMobs);
+	initMobText(&mob38, &initMobs);
+	initMobText(&mob39, &initMobs);
+	initMobText(&mob40, &initMobs);
+	initMobText(&mob41, &initMobs);
+	initMobText(&mob42, &initMobs);
 	// initialise answers for mobs
 	
 
@@ -244,7 +234,7 @@ void render()
             break;
         case S_GAME: renderGame();
             break;
-		case S_COMBATAFTERMATH: renderGame();
+		case S_COMBATAFTERMATH:	renderGame();
 			printCOrW();
 			break;
 		case S_COMBAT: renderGame();
@@ -320,7 +310,6 @@ void moveCharacter()
 				//run text for key
 				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 				keycount--;
-				killmob = true;
 			}
 			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
@@ -356,7 +345,6 @@ void moveCharacter()
 				//run text for key
 				map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
 				keycount--;
-				killmob = true;
 			}
 			else if (touchend(map, g_sChar.m_cLocation.Y, g_sChar.m_cLocation.X) == true)
 			{
@@ -574,11 +562,11 @@ void renderMap()
 	/*
 	if (lvlcleared == 1)
 	{
-		filename += "lvl1.txt";
+		filename += "testbigmap1.txt"; //"lvl1.txt";
 	}
 	else if (lvlcleared == 2)
 	{
-		filename += "lvl2.txt";
+		filename += "testbigmap2.txt";//"lvl2.txt";
 	}
 	else if (lvlcleared == 3)
 	{
@@ -662,8 +650,8 @@ void renderMap()
 
 		while (repcount != 6)
 		{
-			xPos = (rand() % 82 + 1) + rand() % 4;
-			yPos = (rand() % 11 + 1) + rand() % 3;
+			xPos = (rand() % 102 + 1) + rand() % 4;
+			yPos = (rand() % 31 + 1) + rand() % 3;
 
 			if (map[(yPos)][(xPos)] == ' ')
 			{
@@ -781,8 +769,6 @@ void pause_screen()
 	}
 
 	COORD b;
-	b.Y = 0;
-	b.X = 0;
 	char currentchar2 = 62;
 
 	if (pause_1 == true)
@@ -1288,236 +1274,6 @@ void pause_select()
 }
 
 
-/*
-what happens when the player runs into an entity?
-the game checks which entity they ran into and render the corresponding text
-eg: run into mob1
-check that player run into mob1
-access text relating to mob1
-render text of mob1
-after finish clean textbox
-*/
-
-
-//COMBAT RENDERING STUFF and changing of gamestate
-void duration(EGAMESTATES * gameState, double dt) // timer for the combat
-{
-	totalTime += dt;
-	if (totalTime > 10.0)
-	{
-		CORW = 2;
-		h = 0;
-		isdead = true;
-		moveAllow = true;
-		*gameState = S_COMBATAFTERMATH;
-	}
-}
-
-void inputAns()
-{
-	if (g_abKeyPressed[K_1])
-	{
-		playerinput = 1;
-	}
-	if (g_abKeyPressed[K_2])
-	{
-		playerinput = 2;
-	}
-	if (g_abKeyPressed[K_3])
-	{
-		playerinput = 3;
-	}
-}
-
-void checkAns()
-{
-	int i;
-	cAns = mobAnsvvers[ansPasser - 1];
-	if (playerinput == cAns)
-	{
-		i = monsterslain(g_sChar, monster);
-		monster[i].alive = false;
-		h = 0;
-		playerinput = 0;
-		cAns = 0;
-		CORW = 1;
-		ansPasser = 0;
-		moveAllow = true;
-		g_eGameState = S_COMBATAFTERMATH;
-	}
-}
-
-void combatlogic()
-{
-	inputAns();
-	checkAns();
-	ansWrong();
-}
-
-void printCOrW()
-{
-	string incorrect = "Wrong!";
-	string correct = "Correct!";
-	const WORD colors[] = {
-		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	};
-
-	COORD corwCoords;
-	corwCoords.X = 0;
-	corwCoords.Y = 17;
-	if (CORW == 1)
-	{
-		g_Console.writeToBuffer(corwCoords, correct, colors[0]);
-	}
-	if (CORW == 2)
-	{
-		g_Console.writeToBuffer(corwCoords, incorrect, colors[0]);
-	}
-
-}
-
-void stopPrintingCOrW(double dt)
-{
-	timeForCOrW += dt;
-	if (timeForCOrW > 1.0)
-	{
-		CORW = 0;
-		moveAllow = true;
-		g_eGameState = S_GAME;
-	}
-}
-
-void ansWrong()
-{
-	if (playerinput == 1 || playerinput == 2 || playerinput == 3)
-	{
-		if (playerinput != cAns)
-		{
-			h = 0;
-			healthpoints--;
-			playerinput = 0;
-			CORW = 2;
-			moveAllow = true;
-			g_eGameState = S_COMBATAFTERMATH;
-		}
-	}
-}
-
-void COMBAT() // runs when gamestate is in combat
-{
-
-	if (h == g)
-	{
-		textPicker(); // ansPasser is for the array for answers
-	}
-	spamPrint(); // continuously prints the same line of text for the duration of combat
-}
-
-
-void spamPrint()
-{
-	const WORD colors[] = {
-		0x1F, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	};
-
-	COORD textCoord;
-	textCoord.X = 0;
-	textCoord.Y = 18;
-
-
-	g_Console.writeToBuffer(textCoord, continueRender, colors[0]);
-}
-
-
-void textPicker() // randomly picks a mob text to print
-{
-	srand((unsigned int)time(nullptr));
-	ansPasser = rand() % 18 + 1;
-	if (bArray[ansPasser - 1])
-	{
-		switch (ansPasser)
-		{
-		case 1:
-			continueRender = mob1.monsterQn;
-			h++;
-			break;
-		case 2:
-			continueRender = mob2.monsterQn;
-			h++;
-			break;
-		case 3:
-			continueRender = mob3.monsterQn;
-			h++;
-			break;
-		case 4:
-			continueRender = mob4.monsterQn;
-			h++;
-			break;
-		case 5:
-			continueRender = mob5.monsterQn;
-			h++;
-			break;
-		case 6:
-			continueRender = mob6.monsterQn;
-			h++;
-			break;
-		case 7:
-			continueRender = mob7.monsterQn;
-			h++;
-			break;
-		case 8:
-			continueRender = mob8.monsterQn;
-			h++;
-			break;
-		case 9:
-			continueRender = mob9.monsterQn;
-			h++;
-			break;
-		case 10:
-			continueRender = mob10.monsterQn;
-			h++;
-			break;
-		case 11:
-			continueRender = mob11.monsterQn;
-			h++;
-			break;
-		case 12:
-			continueRender = mob12.monsterQn;
-			h++;
-			break;
-		case 13:
-			continueRender = mob13.monsterQn;
-			h++;
-			break;
-		case 14:
-			continueRender = mob14.monsterQn;
-			h++;
-			break;
-		case 15:
-			continueRender = mob15.monsterQn;
-			h++;
-			break;
-		case 16:
-			continueRender = mob16.monsterQn;
-			h++;
-			break;
-		case 17:
-			continueRender = mob17.monsterQn;
-			h++;
-			break;
-		case 18:
-			continueRender = mob18.monsterQn;
-			h++;
-			break;
-		default:
-			continueRender = "test";
-			break;
-		}
-		bArray[ansPasser - 1] = false;
-	}
-}
 
 void movemobs()
 {

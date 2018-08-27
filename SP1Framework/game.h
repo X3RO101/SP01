@@ -8,54 +8,74 @@
 #include "combatRender.h"
 #include "mobmovement.h"
 #include <stdio.h>
+#include "Container.h"
+//combat stuff
+extern string continueRender; // for the spam printing of the question picked
+extern int ansPasser; // used to get the correct answer for the question picked
+extern bool bArray[42]; // so that the same question isn't picked
+extern int mobAnsvvers[42]; // the array containing all the answers
+extern int cAns; // the correct ans is copied into here from the array
+extern int playerinput; // the input for the ans from the player
+extern int g;
+extern int h; // h and g used for the conditions to use the text picker
+extern double totalTime; // used the the timer of the combat state
+extern double timeForCOrW; // used to print correct/wrong for 1 second
+extern int CORW; // used as a checker for the conditions to print correct/wrong
 
 
+extern Text mob1;
+extern Text mob2;
+extern Text mob3;
+extern Text mob4;
+extern Text mob5;
+extern Text mob6;
+extern Text mob7;
+extern Text mob8;
+extern Text mob9;
+extern Text mob10;
+extern Text mob11;
+extern Text mob12;
+extern Text mob13;
+extern Text mob14;
+extern Text mob15;
+extern Text mob16;
+extern Text mob17;
+extern Text mob18;
+extern Text mob19;
+extern Text mob20;
+extern Text mob21;
+extern Text mob22;
+extern Text mob23;
+extern Text mob24;
+extern Text mob25;
+extern Text mob26;
+extern Text mob27;
+extern Text mob28;
+extern Text mob29;
+extern Text mob30;
+extern Text mob31;
+extern Text mob32;
+extern Text mob33;
+extern Text mob34;
+extern Text mob35;
+extern Text mob36;
+extern Text mob37;
+extern Text mob38;
+extern Text mob39;
+extern Text mob40;
+extern Text mob41;
+extern Text mob42;
+
+
+// end of combat stuff
 extern CStopWatch g_swTimer;
 extern bool g_bQuitGame;
 
-// Enumeration to store the control keys that your game will have
-enum EKEYS
-{
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    K_SPACE,
-    K_COUNT,
-	K_1,
-	K_2,
-	K_3
-};
-
-// Enumeration for the different screen states
-enum EGAMESTATES
-{
-
-    S_SPLASHSCREEN,
-	S_CONTROLS,
-    S_GAME,
-    S_COUNT,
-	S_DEATH,
-	S_PAUSE,
-	S_COMBAT,
-	S_DIFFICULTY,
-	S_COMBATAFTERMATH
-};
 
 // struct for the game character
-struct SGameChar
-{
-    COORD m_cLocation;
-    bool  m_bActive;
-};
 
 // struct for monsters in the game
-struct monstatus
-{
-	COORD location;
-	bool alive;
-};
+
 
 void init        ( void );      // initialize your variables, allocate memory, etc
 void getInput    ( void );      // get input from player
@@ -91,9 +111,4 @@ void difficulty_choose();
 void mobmovement(char map[40][101], int i);
 void movemobs();
 
-
-// combat rendering/changing of gamestate
-
-void duration(EGAMESTATES * gameState, double dt); // timer for the mob encounters
-void COMBAT();
 #endif // _GAME_H

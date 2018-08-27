@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="combatRender.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="tilemanager.cpp" />
-    <ClCompile Include="combatRender.cpp" />
     <ClCompile Include="mobmovement.cpp" />
+    <ClCompile Include="tilemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="consoleHolder.h" />
+    <ClInclude Include="combatRender.h" />
+    <ClInclude Include="Container.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="tilemanager.h" />
-    <ClInclude Include="combatRender.h" />
     <ClInclude Include="mobmovement.h" />
+    <ClInclude Include="tilemanager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game_over_screen.txt" />

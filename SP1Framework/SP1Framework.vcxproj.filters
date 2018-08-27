@@ -8,6 +8,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mobmovement.cpp" />
     <ClCompile Include="tilemanager.cpp" />
+    <ClCompile Include="music.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="combatRender.h" />
@@ -17,6 +18,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="mobmovement.h" />
     <ClInclude Include="tilemanager.h" />
+    <ClInclude Include="music.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game_over_screen.txt" />

@@ -25,8 +25,13 @@ int changeinlvl = 1;
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
+/*
+void playmusic(gamemusic.wav, NULL, SND_ASYNC | SND_LOOP)
+{
+	
 
-
+}
+*/
 int healthpoints = 3;				// number of lives player has
 int score = 0;						// player score
 int keycount;
@@ -128,6 +133,9 @@ void init( void )
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(16, 0, L"Consolas");
 
+	MusicInit();
+	MusicPlay("gamemusic", "repeat");
+
 }
 
 //--------------------------------------------------------------
@@ -206,7 +214,7 @@ void update(double dt)
 			timeForCOrW = 0;
 			gameplay(); // gameplay logic when we are in the game
             break;
-		case S_DEATH: 
+		case S_DEATH: game_over_option();
 			break;
 		case S_CONTROLS: control_screen_back();
 			break;
@@ -486,14 +494,6 @@ void renderMap()
     COORD c;
 	colour(colors[0]);
 
-
- /*   for (int i = 0; i < 12; ++i)
-    {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        colour(colors[i]);
-        g_Console.writeToBuffer(c, " °±²Û", colors[i]);
-    } */
 	
 	string healthtext = "Health : ";
 	COORD a;
@@ -514,30 +514,11 @@ void renderMap()
 		a.X++;
 	}
 
-	/*
-	a.X = 1;
-	a.Y = 16;
-	string pointstext = "Score : ";
-	ostringstream str1;
-	str1 << score;
-	string scorestr = str1.str();
-	for (int i = 0; i < 8; ++i)
-	{
-		g_Console.writeToBuffer(a, pointstext[i], 0x1A);
-		a.X++;
-	}
-	for (int i = 0; i < scorestr.length(); ++i)
-	{
-		g_Console.writeToBuffer(a, scorestr[i], 0x1A);
-		a.X++;
-	} */
 	
 	a.X = 18;
 	a.Y = 32;
 	string keystext = "Keys to find : ";
-/*	ostringstream str2;
-	string keystr = str2.str();
-	str2 << keycount; */
+
 	unsigned char currentchar2 = 235;
 	for (int i = 0; i < 15; ++i)
 	{
@@ -559,35 +540,26 @@ void renderMap()
 	string filename;
 	int y;
 	int x;
-	/*
-	if (lvlcleared == 1)
-	{
-		filename += "testbigmap1.txt"; //"lvl1.txt";
-	}
-	else if (lvlcleared == 2)
-	{
-		filename += "testbigmap2.txt";//"lvl2.txt";
-	}
-	else if (lvlcleared == 3)
-	{
-		filename += "lvl3.txt";
-	}
-	else if (lvlcleared == 4)
-	{
-		filename += "lvl4.txt";
-	}
-	else if (lvlcleared == 5)
-	{
-		filename += "lvl5.txt";
-	}*/
 
 	switch (lvlcleared)
 	{
 	case 1:
-		filename += "lvl6.txt";
+		filename += "lvl1.txt";
 		break;
 	case 2:
+		filename += "lvl4.txt";
+		break;
+	case 3:
+		filename += "lvl5.txt";
+		break;
+	case 4:
+		filename += "lvl6.txt";
+		break;
+	case 5:
 		filename += "lvl7.txt";
+		break;
+	case 6:
+		filename += "lvl8.txt";
 		break;
 	}
 
@@ -619,21 +591,16 @@ void renderMap()
 				{
 				case'#':
 					map[i][j] = (char)219;
-				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'k':
 					map[i][j] = 'k';
-				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case'o':
 					map[i][j] = 'o';
-				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);
 					break;
 				case ' ':
-					map[i][j] = ' ';
-				//	g_Console.writeToBuffer(c, map[i][j], colors[0]);			
+					map[i][j] = ' ';	
 					break;				
-
 				default:
 					break;
 
@@ -655,7 +622,6 @@ void renderMap()
 
 			if (map[(yPos)][(xPos)] == ' ')
 			{
-				// map[yPos][xPos] = 'm';
 				monster[repcount].location.X = xPos;
 				monster[repcount].location.Y = yPos;
 				monster[repcount].alive = true;
@@ -676,9 +642,17 @@ void renderMap()
 			{
 				c.X = j;
 				c.Y = i;
-				if (map[i][j] != 'm')
+				if (map[i][j] == ' ')
 				{
-					g_Console.writeToBuffer(c, map[i][j], colors[0]);
+					g_Console.writeToBuffer(c, map[i][j], 0xFF);
+				}
+				if (map[i][j] == 'k')
+				{
+					g_Console.writeToBuffer(c, map[i][j], 0x0E);
+				}
+				if (map[i][j] == 'o')
+				{
+					g_Console.writeToBuffer(c, map[i][j], 0x0B);
 				}
 			}
 		}
@@ -688,7 +662,7 @@ void renderMap()
 	{
 		if (monster[i].alive == true)
 		{
-			g_Console.writeToBuffer(monster[i].location, 'm', 0x1F);
+			g_Console.writeToBuffer(monster[i].location, 'm', 0x0C);
 		}
 	}
 }
@@ -1248,6 +1222,10 @@ void pause_select()
 		{
 			g_eGameState = S_SPLASHSCREEN;
 			bSomethingHappened = true;
+			healthpoints = 3;
+			lvlcleared = 1;
+			changeinlvl = 1;
+			difficulty_option = true;
 		}
 	}
 	else if (pause_3 == true)
@@ -1293,3 +1271,11 @@ void movemobs()
 	}
 }
 //END OF COMBAT RENDERING
+
+void game_over_option()
+{
+	if (g_abKeyPressed[K_SPACE])
+	{
+		g_bQuitGame = true;
+	}
+}

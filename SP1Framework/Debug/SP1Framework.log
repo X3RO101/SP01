@@ -5,6 +5,7 @@ c:\users\muhda\onedrive\documents\github\sp01\sp1framework\combatrender.h(24): w
 c:\users\muhda\onedrive\documents\github\sp01\sp1framework\main.cpp(56): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
   mobmovement.cpp
 c:\users\muhda\onedrive\documents\github\sp01\sp1framework\combatrender.h(24): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
+  music.cpp
   tilemanager.cpp
 c:\users\muhda\onedrive\documents\github\sp01\sp1framework\combatrender.h(24): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
   Generating Code...

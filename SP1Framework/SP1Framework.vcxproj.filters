@@ -15,6 +15,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="tilemanager.h" />
     <ClInclude Include="combatRender.h" />
+    <ClInclude Include="Container.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game_over_screen.txt" />

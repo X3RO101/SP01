@@ -9,11 +9,11 @@
 using namespace std;
 
 void arraymaker(string levelgen());
-bool collision(char array[30][100], int playerycoord, int playerxcoord);
+bool collision(char array[30][101], int playerycoord, int playerxcoord);
 char** getarray(void);
-bool touchmonster(char array[30][100], int playerycoord, int playerxcoord);
-bool touchkey(char array[30][100], int playerycoord, int playerxcoord);
-bool touchend(char array[30][100], int playerycoord, int playerxcoord);
+bool touchmonster(char array[30][101], int playerycoord, int playerxcoord);
+bool touchkey(char array[30][101], int playerycoord, int playerxcoord);
+bool touchend(char array[30][101], int playerycoord, int playerxcoord);
 
 
 #endif

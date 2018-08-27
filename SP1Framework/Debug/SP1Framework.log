@@ -1,4 +1,10 @@
-﻿  game.cpp
-c:\github\.vs\sp01t11\sp1framework\game.cpp(622): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\github\.vs\sp01t11\sp1framework\game.cpp(1378): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+﻿  combatRender.cpp
+c:\github\.vs\sp01t11\sp1framework\combatrender.h(23): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
+c:\github\.vs\sp01t11\sp1framework\combatrender.cpp(168): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  game.cpp
+c:\github\.vs\sp01t11\sp1framework\combatrender.h(23): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
+c:\github\.vs\sp01t11\sp1framework\game.cpp(588): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  main.cpp
+c:\github\.vs\sp01t11\sp1framework\combatrender.h(23): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
+  Generating Code...
   SP1Framework.vcxproj -> C:\GItHub\.vs\SP01T11\Debug\SP1Framework.exe

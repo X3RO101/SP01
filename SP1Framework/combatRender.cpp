@@ -2,8 +2,8 @@
 
 string continueRender;
 int ansPasser; // for the answer checker
-bool bArray[42]; // bool array for random mob gen so that it doesnt print twice
-int mobAnsvvers[42] = { 2, 1, 3, 2, 3, 1, 2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 1, 2, 3, 3, 1, 3, 1, 2, 1, 1, 1, 3, 1, 3, 2, 3, 1, 3, 2, 1, 3, 1, 1, 3}; // all the answers for the mobs
+bool bArray[65]; // bool array for random mob gen so that it doesnt print twice
+int mobAnsvvers[65] = { 2, 1, 3, 2, 3, 1, 2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 1, 2, 3, 3, 1, 3, 1, 2, 1, 1, 1, 3, 1, 3, 2, 3, 1, 3, 2, 1, 3, 1, 1, 3, 1, 1, 3, 2, 1, 2, 3, 1, 3, 3, 1, 2, 2, 1, 3, 1, 1, 3, 3, 1, 2, 1, 1 }; // all the answers for the mobs
 int cAns; // the correct ans is copied into here
 int playerinput; // the input for the ans
 int h = 0;
@@ -54,7 +54,29 @@ Text mob39;
 Text mob40;
 Text mob41;
 Text mob42;
-
+Text mob43;
+Text mob44;
+Text mob45;
+Text mob46;
+Text mob47;
+Text mob48;
+Text mob49;
+Text mob50;
+Text mob51;
+Text mob52;
+Text mob53;
+Text mob54;
+Text mob55;
+Text mob56;
+Text mob57;
+Text mob58;
+Text mob59;
+Text mob60;
+Text mob61;
+Text mob62;
+Text mob63;
+Text mob64;
+Text mob65;
 void initMobText(Text * mobNo, ifstream* mobFile)
 {
 	getline(*mobFile, mobNo->monsterQn); // stores the mob text into the mob object 
@@ -364,6 +386,98 @@ void textPicker() // randomly picks a mob text to print
 			break;
 		case 42:
 			continueRender = mob42.monsterQn;
+			h++;
+			break;
+		case 43:
+			continueRender = mob43.monsterQn;
+			h++;
+			break;
+		case 44:
+			continueRender = mob44.monsterQn;
+			h++;
+			break;
+		case 45:
+			continueRender = mob45.monsterQn;
+			h++;
+			break;
+		case 46:
+			continueRender = mob46.monsterQn;
+			h++;
+			break;
+		case 47:
+			continueRender = mob47.monsterQn;
+			h++;
+			break;
+		case 48:
+			continueRender = mob48.monsterQn;
+			h++;
+			break;
+		case 49:
+			continueRender = mob49.monsterQn;
+			h++;
+			break;
+		case 50:
+			continueRender = mob50.monsterQn;
+			h++;
+			break;
+		case 51:
+			continueRender = mob51.monsterQn;
+			h++;
+			break;
+		case 52:
+			continueRender = mob52.monsterQn;
+			h++;
+			break;
+		case 53:
+			continueRender = mob53.monsterQn;
+			h++;
+			break;
+		case 54:
+			continueRender = mob54.monsterQn;
+			h++;
+			break;
+		case 55:
+			continueRender = mob55.monsterQn;
+			h++;
+			break;
+		case 56:
+			continueRender = mob56.monsterQn;
+			h++;
+			break;
+		case 57:
+			continueRender = mob57.monsterQn;
+			h++;
+			break;
+		case 58:
+			continueRender = mob58.monsterQn;
+			h++;
+			break;
+		case 59:
+			continueRender = mob59.monsterQn;
+			h++;
+			break;
+		case 60:
+			continueRender = mob60.monsterQn;
+			h++;
+			break;
+		case 61:
+			continueRender = mob61.monsterQn;
+			h++;
+			break;
+		case 62:
+			continueRender = mob62.monsterQn;
+			h++;
+			break;
+		case 63:
+			continueRender = mob63.monsterQn;
+			h++;
+			break;
+		case 64:
+			continueRender = mob64.monsterQn;
+			h++;
+			break;
+		case 65:
+			continueRender = mob65.monsterQn;
 			h++;
 			break;
 		default:

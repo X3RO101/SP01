@@ -14,8 +14,8 @@
 //combat stuff
 extern string continueRender; // for the spam printing of the question picked
 extern int ansPasser; // used to get the correct answer for the question picked
-extern bool bArray[42]; // so that the same question isn't picked
-extern int mobAnsvvers[42]; // the array containing all the answers
+extern bool bArray[65]; // so that the same question isn't picked
+extern int mobAnsvvers[65]; // the array containing all the answers
 extern int cAns; // the correct ans is copied into here from the array
 extern int playerinput; // the input for the ans from the player
 extern int g;
@@ -67,6 +67,29 @@ extern Text mob39;
 extern Text mob40;
 extern Text mob41;
 extern Text mob42;
+extern Text mob43;
+extern Text mob44;
+extern Text mob45;
+extern Text mob46;
+extern Text mob47;
+extern Text mob48;
+extern Text mob49;
+extern Text mob50;
+extern Text mob51;
+extern Text mob52;
+extern Text mob53;
+extern Text mob54;
+extern Text mob55;
+extern Text mob56;
+extern Text mob57;
+extern Text mob58;
+extern Text mob59;
+extern Text mob60;
+extern Text mob61;
+extern Text mob62;
+extern Text mob63;
+extern Text mob64;
+extern Text mob65;
 
 
 // end of combat stuff

@@ -116,6 +116,29 @@ void init( void )
 	initMobText(&mob40, &initMobs);
 	initMobText(&mob41, &initMobs);
 	initMobText(&mob42, &initMobs);
+	initMobText(&mob43, &initMobs);
+	initMobText(&mob44, &initMobs);
+	initMobText(&mob45, &initMobs);
+	initMobText(&mob46, &initMobs);
+	initMobText(&mob47, &initMobs);
+	initMobText(&mob48, &initMobs);
+	initMobText(&mob49, &initMobs);
+	initMobText(&mob50, &initMobs);
+	initMobText(&mob51, &initMobs);
+	initMobText(&mob52, &initMobs);
+	initMobText(&mob53, &initMobs);
+	initMobText(&mob54, &initMobs);
+	initMobText(&mob55, &initMobs);
+	initMobText(&mob56, &initMobs);
+	initMobText(&mob57, &initMobs);
+	initMobText(&mob58, &initMobs);
+	initMobText(&mob59, &initMobs);
+	initMobText(&mob60, &initMobs);
+	initMobText(&mob61, &initMobs);
+	initMobText(&mob62, &initMobs);
+	initMobText(&mob63, &initMobs);
+	initMobText(&mob64, &initMobs);
+	initMobText(&mob65, &initMobs);
 	// initialise answers for mobs
 	
 
@@ -514,7 +537,7 @@ void renderMap()
 	switch (lvlcleared)
 	{
 	case 1:
-		filename += "lvl7.txt";
+		filename += "lvl1.txt";
 		break;
 	case 2:
 		filename += "lvl2.txt";
@@ -532,12 +555,21 @@ void renderMap()
 		filename += "lvl6.txt";
 		break;
 	case 7:
+		filename += "lvl7.txt";
+		break;
+	case 8:
+		filename += "lvl8.txt";
+		break;
+	case 9:
+		filename += "lvl9.txt";
+		break;
+	case 10:
 		g_eGameState = S_WIN;
 		break;
 	}
 
 
-	if (lvlcleared == changeinlvl && lvlcleared < 7)
+	if (lvlcleared == changeinlvl && lvlcleared < 10)
 	{
 		ifstream currentlvl;
 		currentlvl.open(filename);

@@ -1,7 +1,12 @@
-﻿  game.cpp
+﻿  combatRender.cpp
+  game.cpp
+  main.cpp
+c:\users\muhda\onedrive\documents\github\sp01\sp1framework\main.cpp(56): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
+  mobmovement.cpp
+  tilemanager.cpp
   Generating code
-  1 of 534 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  150 of 580 functions (25.9%) were compiled, the rest were copied from previous compilation.
+    46 functions were new in current compilation
+    45 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   SP1Framework.vcxproj -> C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Release\SP1Framework.exe

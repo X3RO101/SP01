@@ -21,7 +21,6 @@ extern Console g_Console;
 extern bool moveAllow;
 extern enum EGAMESTATES g_eGameState;
 extern bool isdead;
-extern enum EKEYS;
 extern bool g_abKeyPressed[K_COUNT];
 extern void getInput();
 

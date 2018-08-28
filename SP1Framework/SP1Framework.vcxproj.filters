@@ -1,32 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="combatRender.cpp" />
-    <ClCompile Include="Framework\console.cpp" />
-    <ClCompile Include="Framework\timer.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mobmovement.cpp" />
-    <ClCompile Include="tilemanager.cpp" />
-    <ClCompile Include="music.cpp" />
+    <ClCompile Include="combatRender.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\console.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="mobmovement.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="music.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="tilemanager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\timer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="combatRender.h" />
-    <ClInclude Include="Container.h" />
-    <ClInclude Include="Framework\console.h" />
-    <ClInclude Include="Framework\timer.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="mobmovement.h" />
-    <ClInclude Include="tilemanager.h" />
-    <ClInclude Include="music.h" />
+    <ClInclude Include="Container.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="combatRender.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\console.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="music.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\timer.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="tilemanager.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="mobmovement.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="game_over_screen.txt" />
-    <Text Include="main_menu_frame_1.txt" />
-    <Text Include="main_menu_frame_2.txt" />
-    <Text Include="Controls.txt" />
-    <Text Include="pause_screen_1.txt" />
-    <Text Include="pause_screen_2.txt" />
-    <Text Include="pause_screen_3.txt" />
+    <Filter Include="header">
+      <UniqueIdentifier>{c6269541-a511-4e64-9512-87558fedadaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{f5acd581-5abd-4b4b-a8d2-18f35d5b65e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

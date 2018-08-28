@@ -57,62 +57,55 @@ bool collision(char array[30][101], int playerycoord, int playerxcoord) //checks
 
 bool touchmonster(struct SGameChar g_sChar, struct monstatus monster[])//checks if player encounters a monster
 {
-	/*
-	if (array[playerycoord][playerxcoord] == 'm')
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}*/
-
+	bool montouched = false;
 	if (g_sChar.m_cLocation.X == monster[0].location.X && g_sChar.m_cLocation.Y == monster[0].location.Y)
 	{
 		if (monster[0].alive == true)
 		{
-			return true;
+			montouched = true;
 		}
 	}
 	else if (g_sChar.m_cLocation.X == monster[1].location.X && g_sChar.m_cLocation.Y == monster[1].location.Y)
 	{
 		if (monster[1].alive == true)
 		{
-			return true;
+			montouched = true;
 		}
 	}
 	else if (g_sChar.m_cLocation.X == monster[2].location.X && g_sChar.m_cLocation.Y == monster[2].location.Y)
 	{
 		if (monster[2].alive == true)
 		{
-			return true;
+			montouched = true;
 		}
 	}
 	else if (g_sChar.m_cLocation.X == monster[3].location.X && g_sChar.m_cLocation.Y == monster[3].location.Y)
 	{
 		if (monster[3].alive == true)
 		{
-			return true;
+			montouched = true;
 		}
 	}
 	else if (g_sChar.m_cLocation.X == monster[4].location.X && g_sChar.m_cLocation.Y == monster[4].location.Y)
 	{
 		if (monster[4].alive == true)
 		{
-			return true;
+			montouched = true;
 		}
 	}
 	else if (g_sChar.m_cLocation.X == monster[5].location.X && g_sChar.m_cLocation.Y == monster[5].location.Y)
 	{
 		if (monster[5].alive == true)
 		{
-			return true;
+			montouched = true;
 		}
 	}
 	else
 	{
-		return false;
+		montouched = false;
 	}
+
+	return montouched;
 }
 
 

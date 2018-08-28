@@ -103,16 +103,17 @@ void health();				// health lowers if player takes damage and when player dies, 
 void game_over();			// shows the game over screen if the player dies
 void game_over_option();	// press space to exit
 void main_menu();			// the basic main menu screen when the player starts the game
-void scoresystem();			// function that increases the score when the player kills a mob
 void main_menu_option();	// function that changes between the start button and controls button in the main menu
 void control_screen();		// screen that shows the controls
 void control_screen_back();	// function to go back to main menu
-void pause_select();		// 
-void pause_screen();		// 
-void difficulty_screen();	//
-void difficulty_choose();
-void mobmovement(char map[40][101], int i);
-void movemobs();
+void pause_select();		// function to select options during pause
+void pause_screen();		// prints out the pause screen
+void difficulty_screen();	// prints out difficulty screen
+void difficulty_choose();	// function to select difficulty
+void mobmovement(char map[40][101], int i);	// moves mobs, while detecting wall collision, mob collision, and player collision
+void movemobs();			// function to allow all mobs to move
+void win_screen();			// prints win screen
+void win_options();			// function to exit from the game, since winners don't have to go through all that again
 
 
 #endif // _GAME_H

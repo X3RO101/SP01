@@ -9,7 +9,4 @@
 using namespace std;
 extern enum EGAMESTATES g_eGameState;
 
-
-
-
 #endif

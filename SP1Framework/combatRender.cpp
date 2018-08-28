@@ -192,7 +192,7 @@ void ansWrong()
 
 void textPicker() // randomly picks a mob text to print
 {
-	srand(time(nullptr));
+	srand((unsigned int)time(nullptr));
 	ansPasser = rand() % 42 + 1;
 	if (bArray[ansPasser - 1])
 	{

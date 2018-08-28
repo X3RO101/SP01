@@ -1,14 +1,2 @@
 ﻿  game.cpp
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\combatrender.h(24): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
-  main.cpp
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\combatrender.h(24): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\main.cpp(56): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
-  mobmovement.cpp
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\combatrender.h(24): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
-  music.cpp
-  tilemanager.cpp
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\combatrender.h(24): warning C4091: 'extern ': ignored on left of 'EKEYS' when no variable is declared
-  Generating Code...
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\tilemanager.cpp(116): warning C4715: 'touchmonster': not all control paths return a value
-c:\users\muhda\onedrive\documents\github\sp01\sp1framework\tilemanager.cpp(310): warning C4715: 'monsterslain': not all control paths return a value
   SP1Framework.vcxproj -> C:\Users\muhda\OneDrive\Documents\GitHub\SP01\Debug\SP1Framework.exe

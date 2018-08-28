@@ -98,15 +98,6 @@
     <ClInclude Include="music.h" />
     <ClInclude Include="tilemanager.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="game_over_screen.txt" />
-    <Text Include="main_menu_frame_1.txt" />
-    <Text Include="main_menu_frame_2.txt" />
-    <Text Include="Controls.txt" />
-    <Text Include="pause_screen_1.txt" />
-    <Text Include="pause_screen_2.txt" />
-    <Text Include="pause_screen_3.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

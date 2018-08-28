@@ -57,7 +57,7 @@ double  g_dBounceTime2;
 // Console object
 EGAMESTATES g_eGameState;
 
-Console g_Console(101, 45, "                                                             Labyrinthos Libertas");
+Console g_Console(101, 60, "                                                             Labyrinthos Libertas");
 
 
 //--------------------------------------------------------------
@@ -222,6 +222,8 @@ void update(double dt)
 			break;
 		case S_DIFFICULTY: difficulty_choose();
 			break;
+		case S_WIN: win_options();
+			break;
 		//case S_COMBAT :
     }
 }
@@ -256,6 +258,8 @@ void render()
 			break;
 		case S_DIFFICULTY: difficulty_screen();
 			break;
+		case S_WIN: win_screen();
+			break;
     }
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
@@ -277,7 +281,6 @@ void gameplay()            // gameplay logic
     processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
                         // sound can be played here too.
 	health();
-	scoresystem();
 	movemobs();
 }
 
@@ -301,7 +304,6 @@ void moveCharacter()
 	{
 		if ((g_abKeyPressed[K_UP]) && (collision(map, (g_sChar.m_cLocation.Y - 1), g_sChar.m_cLocation.X) != true))
 		{
-			//Beep(1440, 30);
 			g_sChar.m_cLocation.Y--;
 			if (touchmonster(g_sChar, monster) == true)
 			{
@@ -328,17 +330,12 @@ void moveCharacter()
 					g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
 					g_sChar.m_cLocation.Y = 5;
 				}
-				else
-				{
-					//print text to say that they need more keys
-				}
 			}
 			bSomethingHappened = true;
 
 		}
 		if ((g_abKeyPressed[K_LEFT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X - 1)) != true))//performs movement if keystroke is pressed and if there is no wall in the direction of travel
 		{
-			// Beep(1440, 30);
 			g_sChar.m_cLocation.X--;
 			if (touchmonster(g_sChar, monster) == true)
 			{
@@ -364,16 +361,11 @@ void moveCharacter()
 					g_sChar.m_cLocation.Y = 5;
 					keycount = 0;
 				}
-				else
-				{
-					//print text to say that they need more keys
-				}
 			}
 			bSomethingHappened = true;
 		}
 		if ((g_abKeyPressed[K_DOWN]) && (collision(map, (g_sChar.m_cLocation.Y + 1), g_sChar.m_cLocation.X) != true))
 		{
-			//Beep(1440, 30);
 			g_sChar.m_cLocation.Y++;
 
 			if (touchmonster(g_sChar, monster) == true)
@@ -400,17 +392,12 @@ void moveCharacter()
 					g_sChar.m_cLocation.Y = 5;
 					keycount = 0;
 				}
-				else
-				{
-					//print text to say that they need more keys
-				}
 			}
 			bSomethingHappened = true;
 
 		}
 		if ((g_abKeyPressed[K_RIGHT]) && (collision(map, g_sChar.m_cLocation.Y, (g_sChar.m_cLocation.X + 1)) != true))
 		{
-			//Beep(1440, 30);
 			g_sChar.m_cLocation.X++;
 			if (touchmonster(g_sChar, monster) == true)
 			{
@@ -436,31 +423,15 @@ void moveCharacter()
 					g_sChar.m_cLocation.Y = 5;
 					keycount = 0;
 				}
-				else
-				{
-					//print text to say that they need more keys
-				}
 			}
 			bSomethingHappened = true;
 		}
-	}
-	if (g_abKeyPressed[K_SPACE])
-	{
-
-		c.Y = g_sChar.m_cLocation.Y;
-		c.X = g_sChar.m_cLocation.X;
-		//run text for key
-		map[g_sChar.m_cLocation.Y][g_sChar.m_cLocation.X] = ' ';
-		killmob = true;
-
-		g_sChar.m_bActive = !g_sChar.m_bActive;
-		bSomethingHappened = true;
 	}
 
 	if (bSomethingHappened)
 	{
 		// set the bounce time to some time in the future to prevent accidental triggers
-		g_dBounceTime = g_dElapsedTime + 0.015; // 125ms should be enough
+		g_dBounceTime = g_dElapsedTime + 0.025; // 125ms should be enough
 	}
 
 }
@@ -468,7 +439,6 @@ void processUserInput()
 {
     // quits the game if player hits the escape key
     if (g_abKeyPressed[K_ESCAPE])
-   /*     g_bQuitGame = true; */
 		g_eGameState = S_PAUSE;
 }
 
@@ -544,27 +514,30 @@ void renderMap()
 	switch (lvlcleared)
 	{
 	case 1:
-		filename += "lvl1.txt";
-		break;
-	case 2:
-		filename += "lvl4.txt";
-		break;
-	case 3:
-		filename += "lvl5.txt";
-		break;
-	case 4:
-		filename += "lvl6.txt";
-		break;
-	case 5:
 		filename += "lvl7.txt";
 		break;
+	case 2:
+		filename += "lvl2.txt";
+		break;
+	case 3:
+		filename += "lvl3.txt";
+		break;
+	case 4:
+		filename += "lvl4.txt";
+		break;
+	case 5:
+		filename += "lvl5.txt";
+		break;
 	case 6:
-		filename += "lvl8.txt";
+		filename += "lvl6.txt";
+		break;
+	case 7:
+		g_eGameState = S_WIN;
 		break;
 	}
 
 
-	if (lvlcleared == changeinlvl)
+	if (lvlcleared == changeinlvl && lvlcleared < 7)
 	{
 		ifstream currentlvl;
 		currentlvl.open(filename);
@@ -648,7 +621,7 @@ void renderMap()
 				}
 				if (map[i][j] == 'k')
 				{
-					g_Console.writeToBuffer(c, map[i][j], 0x0E);
+					g_Console.writeToBuffer(c, (char)235, 0x0E);
 				}
 				if (map[i][j] == 'o')
 				{
@@ -662,7 +635,7 @@ void renderMap()
 	{
 		if (monster[i].alive == true)
 		{
-			g_Console.writeToBuffer(monster[i].location, 'm', 0x0C);
+			g_Console.writeToBuffer(monster[i].location, (char)004, 0x0C);
 		}
 	}
 }
@@ -1152,7 +1125,7 @@ void difficulty_choose()
 	}
 }
 
-void health() //Do this in the weekend
+void health()
 {
 	//If the player loses, then bool(isdead) will be true
 	//The player will then lose 1 healthpoint, and then the bool will then return to being false
@@ -1169,17 +1142,7 @@ void health() //Do this in the weekend
 	}
 }
 
-void scoresystem() // Do this in the weekend
-{
-	if (killmob == true) //When a mob is killed, the bool killmob becomes true, then the score increasese by the health the player has left
-	{
-		score++;
-		score += healthpoints;
-		killmob = false;
-	}
-}
-
-void pause_select()
+void pause_select() // allows players to select between going back to the main menu, continuing, or exit the game
 {
 	bool bSomethingHappened = false;
 	if (g_dBounceTime > g_dElapsedTime)
@@ -1253,14 +1216,14 @@ void pause_select()
 
 
 
-void movemobs()
+void movemobs() // moves all mobs
 {
 	bool bSomethingHappened = false;
-	for (int i = 0; i < 6; ++i)
+	for (int i = 0; i < 6; ++i) // to ensure all mobs go through the loop and move
 	{
-		if (g_dBounceTime2 > g_dElapsedTime)
+		if (g_dBounceTime2 > g_dElapsedTime) // ensure that mobs also get bouncetime
 			return;
-		mobmovement(map, i);
+		mobmovement(map, i); // moves the mob
 		bSomethingHappened = true;
 	}
 
@@ -1272,7 +1235,57 @@ void movemobs()
 }
 //END OF COMBAT RENDERING
 
-void game_over_option()
+void game_over_option() // losers cannot go back into the game. go out immediately 
+{
+	if (g_abKeyPressed[K_SPACE])
+	{
+		g_bQuitGame = true;
+	}
+}
+
+void win_screen() // prints out win screen for winners
+{
+	COORD c;
+	string rows;
+	string cols;
+	string filename;
+	int y;
+	int x;
+
+	filename += "win_screen.txt";
+
+	ifstream winscreen;
+	winscreen.open(filename);
+	getline(winscreen, cols);
+	getline(winscreen, rows);
+	y = stoi(rows);
+	x = stoi(cols);
+
+	for (int i = 0; i < y; ++i)
+	{
+		string currentrow;
+		char currentchar;
+		getline(winscreen, currentrow);
+		for (int j = 0; j < x; ++j)
+		{
+			currentchar = currentrow[j];
+
+			c.X = j + 1;
+			c.Y = i + 1;
+
+			switch (currentchar)
+			{
+			case('1'):
+				currentchar = 92;
+				break;
+			}
+			g_Console.writeToBuffer(c, currentchar, 0x1F);
+		}
+	}
+	winscreen.close();
+}
+
+void win_options() // winners don't have to go through all the torture again
 {
 	if (g_abKeyPressed[K_SPACE])
 	{

@@ -1,5 +1,5 @@
 87
-21
+22
                                                                                        
                                                                                        
                                                                                        
@@ -10,13 +10,14 @@
                                    SELECTING = SPACE KEY                               
                                                                                        
                                     GAMEPLAY LEGEND:                                   
-                                         K - KEY                                       
-                                       M - MONSTERS                                    
+                                         1 - KEY                                       
+                                       2 - MONSTERS                                    
                                        O - ENDPOINT                                    
                                                                                        
                                        HOW TO PLAY                                     
                                       COLLECT KEYS                                     
                       FIGHT MONSTERS THROUGH SOLVING RIDDLES/TRIVIA                    
+                               TEN SECONDS TO FIGHT MONSTERS                           
                                            WIN                                         
                          SOLVE QUESTIONS BY PRESSING NUMBER KEYS                       
                                                                                        

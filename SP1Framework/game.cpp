@@ -488,18 +488,18 @@ void renderMap()
 	colour(colors[0]);
 
 	
-	string healthtext = "Health : ";
-	COORD a;
-	char currentchar;
-	currentchar = 3;
+	string healthtext = "Health : ";		//shows health status
+	COORD a;								
+	char currentchar;						
+	currentchar = 3;						// char that represents the health
 	a.X = 1;
 	a.Y = 32;
-	for (int i = 0; i < 9; ++i)
+	for (int i = 0; i < 9; ++i)				// writes out the string for healthtext
 	{
 		g_Console.writeToBuffer(a, healthtext[i], 0x1F);
 		a.X++;
 	}
-	for (int i = 0; i < healthpoints; ++i)
+	for (int i = 0; i < healthpoints; ++i)	// writes out the number of healthpoints the player has
 	{
 		g_Console.writeToBuffer(a, currentchar, 0x1C);
 		a.X++;
@@ -769,7 +769,7 @@ void pause_screen()
 	g_Console.writeToBuffer(b, currentchar2, 0x1F);
 }
 
-void control_screen()
+void control_screen() // prints out control screen
 {
 	COORD c;
 	string rows;
@@ -778,14 +778,14 @@ void control_screen()
 	int y;
 	int x;
 
-	filename += "Controls.txt";
+	filename += "Controls.txt"; // takes in text file for control screen
 
 	ifstream controlsmenu;
-	controlsmenu.open(filename);
-	getline(controlsmenu, cols);
-	getline(controlsmenu, rows);
-	y = stoi(rows);
-	x = stoi(cols);
+	controlsmenu.open(filename);	
+	getline(controlsmenu, cols);	// takes in the number of columns of the control screen
+	getline(controlsmenu, rows);	// takes in the number of rows of the control screen
+	y = stoi(rows);					// changes the rows from a string to integer
+	x = stoi(cols);					// changes the columns from a string to integer
 
 	for (int i = 0; i < y; ++i)
 	{
@@ -795,9 +795,18 @@ void control_screen()
 		for (int j = 0; j < x; ++j)
 		{
 			currentchar = currentrow[j];
-
 			c.X = j;
 			c.Y = i;
+
+			switch (currentchar)
+			{
+			case '1':
+				currentchar = 235;
+				break;
+			case '2':
+				currentchar = 4;
+				break;
+			}
 			g_Console.writeToBuffer(c, currentchar, 0x1F);
 		}
 	}

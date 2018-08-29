@@ -22,7 +22,7 @@ void MusicInit()
 {
 	MLoaded loaded;
 
-	MusicLoad("gamemusic.mp3", "mpegvideo", "gamemusic", "100", &loaded);
+	MusicLoad("gamemusic.mp3", "mpegvideo", "gamemusic", "30", &loaded);
 	LoadedFiles.push_back(loaded);
 }
 bool MusicLoad(string file, string type, string alias, string initialvolume, MLoaded* Returnfile)
